@@ -1,0 +1,54 @@
+.c18-div2 {
+	padding: 0 2rem;
+}
+.c18-p5 {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+.c18-p6 {
+	text-indent: 1rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.02rem;
+}
+.c18-p7 {
+	margin-bottom: 0.5rem;
+}
+.c18-p8 {
+	text-indent: 1rem;
+	margin-top: 0.5rem;
+	margin-bottom: 1.5rem;
+	font-size: 0.9rem;
+	letter-spacing: 0.02rem;
+}
+.c18-p9 {
+	margin-top: 4rem;
+	text-align: right;
+}
+
+.c18-p21 {
+	margin-top: 0;
+	margin-bottom: 0.3rem;
+}
+.c18-p25,
+.c18-p22 {
+	font-size: 0.9rem;
+	margin: 0;
+}
+.c18-p25 {
+	text-indent: -1rem;
+	padding-left: 1rem;
+}
+.c18-p25::before {
+	content: "※";
+}
+.c18-div4-t {
+	border-top: 1px solid #999;
+}
+.c18-div4-b {
+	margin-bottom: 10rem;
+}
+.c18-div4 {
+	border-bottom: 1px solid #999;
+	padding: 1rem 0;
+}

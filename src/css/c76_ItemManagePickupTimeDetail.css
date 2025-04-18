@@ -1,0 +1,127 @@
+.c76-p1 {
+	padding-left: 2em;
+}
+.c76-p3 {
+	padding: 0 2em;
+	margin: 0 0 1em 0;
+	text-align: right;
+}
+
+.c76-p16 {
+	width: calc(100% - 7em);
+	margin: 0.5em 2em;
+	border: 1px solid;
+	border-color: #999;
+	padding: 0.5em 1.5em;
+	border-radius: 0.5em;
+	display: flex;
+	justify-content: space-between;
+}
+.c76-span16 {
+	margin-left: auto;
+}
+.c76-p23 {
+	width: calc(100% - 6em);
+	margin-right: 2em;
+	margin-left: 2em;
+	margin-bottom: 0;
+	border: 1px solid;
+	border-color: #999;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	/* letter-spacing: 0.1em; */
+	word-break: break-all;
+}
+.c76-div12img {
+	width: 100%;
+}
+.c76-div12 {
+	margin: 1.2em 2em 0 2em;
+}
+.c76-p25 {
+	width: 9em;
+	margin: 0 1em 0.5em 2em;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	border: 1px solid #999;
+}
+.c76-div23 {
+	display: flex;
+	align-items: center;
+}
+.c76-p26 {
+	margin-bottom: 2.5em;
+}
+.c76-div28 {
+	margin: 1.5em 0 2.5em 0;
+}
+.c76-div36 {
+	margin: 0 2em 4.5em 2em;
+	border: 1px solid #999;
+	border-radius: 0.5em;
+	overflow: hidden;
+}
+.c76-div37 {
+	background-color: #efefef;
+	margin: 20vh 5em 0 5em;
+	box-shadow: 0px 5px 5px #ccc;
+	padding: 5em 0;
+	text-align: center;
+	border-radius: 0.5em;
+}
+.c76-p37 {
+	text-align: center;
+	margin-bottom: 2.5rem;
+	letter-spacing: 0.1rem;
+	font-size: 1.2em;
+}
+.c76-btn25 {
+	background-color: #fff;
+	width: 9em;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	border: 1px solid #999;
+}
+.c76-div39 {
+	background-color: #404040;
+	padding-bottom: 2em;
+}
+.c76-p38 {
+	color: #fff;
+	text-align: right;
+	margin-right: 2em;
+	padding-top: 2em;
+}
+.c76-p39 {
+	margin: 0 1.5em;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+	border-radius: 0.5em;
+	padding: 0.8em 1em;
+}
+.c76-span5 {
+	font-size: 1.3em;
+	font-weight: 900;
+}
+.c76-div43 {
+	padding: 1em 0;
+	border-bottom: 1px solid #999;
+}
+.c76-div46 {
+	display: flex;
+}
+.c76-p46,
+.c76-p45 {
+	margin: 0;
+	margin-left: 2em;
+}
+.c76-p45 {
+	width: 5em;
+}
+.c76-p9 {
+	margin-top: 3em;
+	text-align: center;
+	color: #ccc;
+}

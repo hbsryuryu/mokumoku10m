@@ -1,0 +1,102 @@
+.c59-div5 {
+	border: 1px solid #999;
+	margin: 1.5em 2em;
+	padding: 1em;
+	border-radius: 0.5em;
+}
+.c59-div8 {
+	display: flex;
+}
+.c59-div12 {
+	width: 6em;
+	height: 6em;
+	margin: 0.3em 1.5em 0 0;
+	border-radius: 0.5em;
+	overflow: hidden;
+}
+.c59-div12img {
+	width: 100%;
+}
+.c59-p3 {
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-bottom: 0.5em;
+}
+.c59-p4 {
+	margin: 0;
+}
+.c59-p23-clr1 {
+	background-color: #ce4849;
+}
+.c59-p23-clr2 {
+	background-color: #19774b;
+}
+.c59-p23-clr3 {
+	background-color: #404040;
+}
+.c59-p23-clr4 {
+	background-color: #999;
+}
+.c59-p23 {
+	text-align: center;
+	width: 12em;
+	padding: 0.5em 0;
+	color: #fff;
+	border-radius: 1em;
+	font-size: 0.7em;
+}
+
+.c59-p7 {
+	margin-left: 1em;
+}
+.c59-p6 {
+	background-color: #efefef;
+	padding: 0.5em 0 0.5em 1em;
+}
+.c59-span7 {
+	padding-left: 4em;
+}
+.c59-span7 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.c59-btn1 {
+	width: 14em;
+	padding: 1em 0;
+	border-radius: 0.5em;
+}
+.c59-div46 {
+	text-align: center;
+	padding: 0.5em 0;
+}
+.c59-p13 {
+	color: #bbb;
+	text-align: center;
+	margin: 1em 0 0.5em 0;
+}
+.c59-div48 {
+	display: flex;
+	padding: 1rem 4rem;
+	justify-content: space-between;
+}
+.c59-div49 {
+	width: 7rem;
+	padding: 0.5rem 0;
+	border-radius: 0.5rem;
+}
+.c59-div49-clr11 {
+	background-color: none;
+	border: 2px solid #ccc;
+}
+.c59-div49-clr12 {
+	background-color: #ecf8fe;
+	border: 2px solid #99cdec;
+}
+
+.c59-lab1 {
+	display: block;
+	text-align: center;
+}
+.c59-p15 {
+	margin: 0.1rem 0 1rem 0;
+}

@@ -1,0 +1,15 @@
+.c4-p1 {
+	font-size: 2em;
+	font-weight: 900;
+	margin: 0 4rem 0 0;
+	/* color: #19774b; */
+}
+.c4-p2 {
+	color: #404040;
+}
+.c4-div1 {
+	padding: 0.5em 2em;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

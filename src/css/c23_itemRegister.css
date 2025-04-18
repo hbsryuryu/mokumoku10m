@@ -1,0 +1,252 @@
+.c23-div5 {
+	width: 100%;
+}
+.c23-div5img {
+	width: calc(100% - 3em);
+	margin: 1.5em 1.5em 0 1.5em;
+}
+.c23-p1 {
+	padding-left: 2em;
+}
+.c23-p3 {
+	padding: 0 2em;
+	margin: 0 0 1em 0;
+	text-align: right;
+}
+.c23-p5 {
+	padding: 0 2em;
+}
+.c23-p6 {
+	padding: 1.5em 2em 1.5em 3em;
+}
+.c23-inp {
+	width: 30em;
+	margin-right: 2em;
+	margin-left: 2em;
+	border-color: #999;
+	border-width: 1px;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	/* letter-spacing: 0.1em; */
+}
+.c23-se2 {
+	width: calc(100% - 4em);
+	margin-right: 2em;
+	margin-left: 2em;
+	margin-bottom: 4em;
+	border-color: #999;
+	border-width: 1px;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	background-color: #fff;
+	/* letter-spacing: 0.1em; */
+}
+
+.c23-p36 {
+	width: calc(100% - 6em);
+	margin-right: 2em;
+	margin-left: 2em;
+	border: 1px solid;
+	border-color: #999;
+	padding: 0.7em 1em;
+	border-radius: 0.5em;
+}
+
+.fileBtn {
+	display: flex;
+	margin-top: 1.5em;
+}
+.itemRegistrate p {
+	margin: 5px 0;
+}
+
+/* 手動resizeなし */
+textarea {
+	resize: none; /* 手動リサイズを禁止 */
+	min-height: 100px; /* 高さの最小値を指定（任意） */
+	width: 14em;
+}
+
+#imageInput::-webkit-file-upload-button,
+.cameraBtn1,
+#imageInput::file-selector-button {
+	width: 6rem;
+	height: 6rem;
+	border: 2px;
+	/* background-color: aqua; */
+	color: transparent;
+	background-size: cover;
+	background-image: url("../img/btnwh1.jpg");
+}
+#imageInput {
+	width: 6rem;
+	margin: 0 auto;
+}
+
+.fileBtn3 {
+	position: absolute;
+	top: 2.3rem;
+	right: 2.3rem;
+}
+#imageInput3::-webkit-file-upload-button,
+#imageInput3::file-selector-button {
+	width: 4rem;
+	height: 4rem;
+	border: 0px solid #000;
+	background-color: #d4d4d4;
+	border-radius: 100%;
+	/* background-color: aqua; */
+	color: transparent;
+	background-size: cover;
+	background-image: url("../img/btnwhmini.svg");
+}
+#imageInput3 {
+	width: 4rem;
+}
+
+.fadeUp {
+	animation-name: fadeUpAnime;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+	opacity: 0;
+}
+
+@keyframes fadeUpAnime {
+	from {
+		opacity: 1;
+		transform: translateY(200px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.modalStyle {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@keyframes slideUp {
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.modalContentStyle {
+	background-color: white;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	animation: slideUp 0.5s ease-out;
+	animation-fill-mode: forwards;
+	transform: translateY(100%);
+}
+.c23-div15 {
+	margin: 1.5em 0;
+	min-height: 10em;
+}
+.c23-p9 {
+	margin: 2em;
+	color: #ccc;
+}
+.c23-p16 {
+	width: calc(100% - 7em);
+	margin: 0.5em 2em;
+	border: 1px solid;
+	border-color: #999;
+	padding: 0.5em 1.5em;
+	border-radius: 0.5em;
+	display: flex;
+	justify-content: space-between;
+}
+.c23-span16 {
+	margin-left: auto;
+}
+.c23-p23 {
+	width: calc(100% - 6em);
+	margin-right: 2em;
+	margin-left: 2em;
+	margin-bottom: 0;
+	border: 1px solid;
+	border-color: #999;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	/* letter-spacing: 0.1em; */
+	word-break: break-all;
+}
+.c23-div12img {
+	width: 100%;
+}
+.c23-div12 {
+	margin: 1.2em 2em 0 2em;
+}
+.c23-p25 {
+	width: 9em;
+	margin: 0 1em 0.5em 2em;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	border: 1px solid #999;
+}
+.c23-div23 {
+	display: flex;
+	align-items: center;
+}
+.c23-p26 {
+	margin-bottom: 2.5em;
+}
+.c23-div28 {
+	margin: 1.5em 0 2.5em 0;
+}
+.c23-div36 {
+	margin: 0 2em 4.5em 2em;
+	border: 1px solid #999;
+	border-radius: 0.5em;
+	overflow: hidden;
+}
+.c23-div37 {
+	background-color: #efefef;
+	margin: 20vh 5em 0 5em;
+	box-shadow: 0px 5px 5px #ccc;
+	padding: 5em 0;
+	text-align: center;
+	border-radius: 0.5em;
+}
+.c23-p37 {
+	text-align: center;
+	margin-bottom: 2.5rem;
+	letter-spacing: 0.1rem;
+	font-size: 1.2em;
+}
+.c23-btn25 {
+	background-color: #fff;
+	width: 9em;
+	padding: 0.5em 1em;
+	border-radius: 0.5em;
+	border: 1px solid #999;
+}
+.c23-div39 {
+	position: relative;
+}
+.c23-div41 {
+	position: absolute;
+	top: 2.3rem;
+	right: 2.3rem;
+	background-color: #ffffff90;
+	padding: 1.2rem;
+	border-radius: 6px;
+	line-height: 0;
+}

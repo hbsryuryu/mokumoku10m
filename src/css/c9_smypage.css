@@ -1,0 +1,139 @@
+.c9-p12 {
+	background-color: #efefef;
+	padding: 0.5em 2em;
+	margin: 0 !important;
+}
+
+.c9-p16 {
+	padding: 1.1em 2em 1.1em 0;
+	margin: 0 0 0 2em !important;
+	position: relative;
+}
+
+.c9-p15,
+.c9-p14,
+.c9-p13 {
+	padding: 1.1em 2em 1.1em 0;
+	border-bottom: 1px solid #999;
+	position: relative;
+}
+.c9-p13 {
+	margin: 0 0 0 2em !important;
+}
+.c9-p15,
+.c9-p14 {
+	border-top: 1px solid #999;
+	margin: 3em 0 0 2em !important;
+}
+.c9-p16::after,
+.c9-p14::after,
+.c9-p13::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 2.25em;
+	width: 0.5em;
+	height: 0.5em;
+	margin: auto;
+	border-top: 2px solid #333;
+	border-right: 2px solid #333;
+	transform: rotate(45deg);
+	box-sizing: border-box;
+}
+.c9-p15::after {
+	content: "v1.0.0";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 4em;
+	width: 1em;
+	height: 1.2em;
+	margin: auto;
+	box-sizing: border-box;
+	color: #ccc;
+}
+.c9-btn1 {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+.c9-div5 {
+	margin: 1rem 0;
+}
+.c9-div8 {
+	margin-top: 2em;
+	margin-bottom: 6em;
+	position: relative;
+}
+.c9-div8img {
+	width: 100%;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+}
+.c9-div9img {
+	width: 8em;
+	border-radius: 100%;
+	position: absolute;
+	bottom: -4em;
+	left: 2em;
+}
+.c9-div12 {
+	margin-top: 2em;
+	margin-bottom: 3em;
+	display: flex;
+	align-items: center;
+	padding: 0 2rem;
+}
+.c9-div12img {
+	width: 8em;
+	border-radius: 100%;
+}
+.c9-div12p1 {
+	font-size: 1.2rem;
+	padding-left: 2.5rem;
+}
+.c9-p23 {
+	padding-left: 2em;
+}
+.c9-div99 {
+	position: relative;
+}
+.c9-inp99 {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.2rem;
+	border-radius: 6px;
+}
+.c9-inp98 {
+	position: absolute;
+	bottom: -4em;
+	left: 9em;
+	border-radius: 6px;
+}
+.c9-inp97 {
+	margin-left: 2em;
+	border-radius: 6px;
+	position: absolute;
+	bottom: 0.5rem;
+	right: 2.3rem;
+}
+#imageInput2::-webkit-file-upload-button,
+#imageInput2::file-selector-button {
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 0px solid #000;
+	background-color: #d4d4d4;
+	border-radius: 100%;
+	/* background-color: aqua; */
+	color: transparent;
+	background-size: cover;
+	background-image: url("../img/btnwhmini.svg");
+}
+#imageInput2 {
+	width: 2.5rem;
+}
+.c9-div10img {
+	width: calc(100% - 4em);
+	margin-left: 2em;
+	border-radius: 0.5em;
+}

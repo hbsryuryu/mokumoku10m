@@ -1,0 +1,9 @@
+Flask
+flask-login
+flask-cors
+PyJWT
+flask-limiter
+stripe
+gunicorn
+azure-cosmos
+cffi

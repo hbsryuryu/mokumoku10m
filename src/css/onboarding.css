@@ -1,0 +1,70 @@
+.slider-container {
+	width: 100%;
+	overflow: hidden;
+	margin: auto;
+	text-align: center;
+}
+
+.slider {
+	position: relative; /* スライダーの位置を相対的に設定 */
+}
+
+.slider-track {
+	display: flex; /* スライドを横に並べる */
+	transition: transform 0.5s ease; /* スライドアニメーションのトランジション */
+}
+
+.slide {
+	min-width: 100%; /* 各スライドの幅を100%に */
+}
+
+.slide img {
+	width: 100%;
+	height: auto;
+	pointer-events: none;
+}
+
+.buttons {
+	margin-top: 10px;
+}
+
+.indicators {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.indicator {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: gray;
+	margin: 0 5px;
+	cursor: pointer;
+}
+
+.indicator.active {
+	background-color: black;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: transparent;
+	z-index: 1;
+	pointer-events: all;
+}
+.btnPlate {
+	border-top-left-radius: 2em;
+	border-top-right-radius: 2em;
+	padding-top: 1em;
+	padding-bottom: 2em;
+	background-color: #fff;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+}

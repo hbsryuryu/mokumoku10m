@@ -1,0 +1,47 @@
+.c86-div1 {
+	display: flex;
+}
+.c86-div2 {
+	border: 1px solid #999;
+	margin: 1rem 1.5rem;
+	border-radius: 0.5rem;
+	padding-bottom: 1.5rem;
+	background-color: #fff;
+}
+.c86-p4,
+.c86-p1 {
+	margin: 0;
+}
+.c86-div3 {
+	width: 8rem;
+	min-width: 8rem;
+	padding: 0 1rem;
+}
+.c86-div3img {
+	width: 8rem;
+	min-width: 8rem;
+	border-radius: 0.5rem;
+}
+.c86-p2 {
+	display: flex;
+}
+.c86-div4 {
+	display: flex;
+	margin-bottom: 0.5rem;
+	overflow-wrap: anywhere;
+	padding-right: 1rem;
+}
+.c86-p4 {
+	width: 6rem;
+	min-width: 6rem;
+}
+.c86-p5 {
+	margin-left: 1rem;
+	padding: 0.3rem 0;
+	border-radius: 0.7rem;
+	background-color: #ce4849;
+	width: 11rem;
+	text-align: center;
+	font-size: 0.7rem;
+	color: #fff;
+}

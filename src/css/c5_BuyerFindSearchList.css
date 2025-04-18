@@ -1,0 +1,96 @@
+.mapPositionPInput {
+	width: 70vw;
+	max-width: 200px;
+	margin: 20px auto 0 auto;
+	position: relative;
+}
+.mapPositionPInput::after {
+	position: absolute;
+	display: inline-block;
+	top: 0.4em;
+	right: 0em;
+	content: "";
+	width: 1em;
+	height: 1em;
+	background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M416%20208c0%2045.9-14.9%2088.3-40%20122.7L502.6%20457.4c12.5%2012.5%2012.5%2032.8%200%2045.3s-32.8%2012.5-45.3%200L330.7%20376c-34.4%2025.2-76.8%2040-122.7%2040C93.1%20416%200%20322.9%200%20208S93.1%200%20208%200S416%2093.1%20416%20208zM208%20352a144%20144%200%201%200%200-288%20144%20144%200%201%200%200%20288z%22/%3E%3C/svg%3E")
+		no-repeat center center / auto 100%;
+}
+.mapPositionInput {
+	padding: 5px 2.2em 5px 5px;
+	margin-left: -2.2em;
+	border-radius: 5px;
+	border: 1px solid #888;
+	/* iphoneとUI共通化 */
+	width: 100%;
+}
+.c5-itemdiv1 {
+	margin: 0 0.5em;
+	display: flex;
+	flex-wrap: wrap;
+}
+.c5-itemdiv2 {
+	width: 50%;
+}
+.c5-itemdiv3 {
+	margin: 0 8px 16px 8px;
+	border-radius: 1em;
+	background-color: #f3f3f3;
+	overflow: hidden;
+}
+.c5-itemdiv3img {
+	width: 100%;
+}
+.c5-p1over {
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	max-height: 1.5em;
+}
+.c5-itemdiv4 {
+	padding: 0 1.5em 0 1em;
+}
+.c5-itemdiv6 {
+	display: flex;
+	padding: 0 1em;
+	background-color: #dcdcdc;
+}
+.c5-itemdiv7 {
+	width: 3em;
+	padding-top: 0.4em;
+	margin-top: auto;
+	margin-bottom: auto;
+	padding-right: 0.5em;
+}
+.c5-itemdiv7img {
+	width: 2.5em;
+	height: 2.5em;
+	border-radius: 100%;
+}
+.c5-itemdiv8 {
+	width: 100%;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.c5-div9 {
+	display: flex;
+	justify-content: space-between;
+}
+.c5-p3 {
+	/* text-align: right; */
+}
+.c5-p4 {
+	background-color: #ddd;
+	padding: 0.1rem 1rem;
+	border-radius: 2rem;
+}
+.c5-p8 {
+	font-size: 0.6em;
+	margin: 0;
+}
+.c5-p9 {
+	font-size: 0.8em;
+	margin: 0;
+}

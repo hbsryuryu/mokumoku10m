@@ -1,0 +1,115 @@
+.mapPosition {
+	width: 100%;
+	min-height: 20vh;
+	height: calc(100vh - 150px);
+	max-height: calc(100vh - 150px);
+}
+.mapPositionPInputM {
+	z-index: 10;
+	height: 0;
+	width: 70vw;
+	max-width: 200px;
+	margin: 0 auto;
+	position: relative;
+	top: 2em;
+}
+.mapPositionPInputM::after {
+	position: absolute;
+	display: inline-block;
+	top: 0.4em;
+	right: 0em;
+	content: "";
+	width: 1em;
+	height: 1em;
+	background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M416%20208c0%2045.9-14.9%2088.3-40%20122.7L502.6%20457.4c12.5%2012.5%2012.5%2032.8%200%2045.3s-32.8%2012.5-45.3%200L330.7%20376c-34.4%2025.2-76.8%2040-122.7%2040C93.1%20416%200%20322.9%200%20208S93.1%200%20208%200S416%2093.1%20416%20208zM208%20352a144%20144%200%201%200%200-288%20144%20144%200%201%200%200%20288z%22/%3E%3C/svg%3E")
+		no-repeat center center / auto 100%;
+}
+.mapPositionInputM {
+	padding: 5px 2.2em 5px 5px;
+	margin-left: -2.2em;
+	border-radius: 5px;
+	border: 1px solid #888;
+	/* iphoneとUI共通化 */
+	width: 100%;
+}
+.c84-div1 {
+	border-top-left-radius: 1.5em;
+	border-top-right-radius: 1.5em;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	background-color: #fff;
+	transition: 1s height;
+	min-height: 2em;
+	padding-bottom: 70px;
+}
+
+.c84-p1 {
+	font-weight: bold;
+	font-size: 1.5em;
+	margin: 1.5rem 1.5rem 1.5rem 2rem;
+}
+.c84-div8 {
+	margin: 0 1rem 0 17em;
+}
+.c84-p2 {
+	margin: 0;
+}
+.c84-p3 {
+	font-weight: bold;
+	font-size: 1.2em;
+	margin: 0 0 1em 0;
+}
+.c84-div12,
+.c84-div3 {
+	position: relative;
+}
+.c84-div4 {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 9em;
+	width: 13em;
+	overflow: hidden;
+	border-radius: 0.5em;
+	margin-left: 2em;
+}
+.c84-div4img1 {
+	width: 100%;
+}
+
+.c84-p5 {
+	margin: 0 1em 0 6.5em;
+}
+.c84-p6 {
+	margin: 1.5rem 1rem 0 6.5rem;
+	font-size: 0.8em;
+	color: #999;
+}
+.c84-div5 {
+	border-radius: 100%;
+	overflow: hidden;
+	width: 5em;
+	height: 5em;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.c84-div5img2 {
+	width: 100%;
+}
+.c84-div12:after {
+	position: absolute;
+	bottom: -0.9em;
+	left: 4rem;
+	content: "G";
+	padding: 0 0.3em;
+	color: #806000;
+	background-color: #fbf5bd;
+	border-radius: 100%;
+	border: 2px solid #806000;
+}
+.c8-lab1 {
+	font-family: Roboto Condensed !important;
+}
