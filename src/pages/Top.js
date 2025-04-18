@@ -3,7 +3,7 @@ import { MyContext } from "../provider/MyContext";
 import { useNavigate } from "react-router-dom";
 import { myUrl } from "../route/MainRoute.js";
 
-//css群
+//css群!!!
 import "../css/splash.css";
 
 //api群
