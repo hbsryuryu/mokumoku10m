@@ -66,6 +66,7 @@ str_urls = """
 		<Route path="/userpublic" element={<UserPublic />} />
 		<Route path="/suppliertransfer" element={<SupplierTransfer />} />
 		<Route path="*" element={<Page404 />} />
+		<Route path="/purchase" element={<Purchase />} />
 	</Routes>
 </BrowserRouter>
 """

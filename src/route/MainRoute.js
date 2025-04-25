@@ -26,6 +26,7 @@ import Privacy from "../pages/Privacy";
 import Tokushoho from "../pages/Tokushoho";
 import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
+import Purchase from "../pages/Purchase";
 
 // url変数化ここで一括管轄
 // import { myUrl } from "../route/MainRoute.js";
@@ -89,6 +90,7 @@ export const MainRoute = () => {
 				<Route path="/userpublic" element={<UserPublic />} />
 				<Route path="/suppliertransfer" element={<SupplierTransfer />} />
 				<Route path="*" element={<Page404 />} />
+				<Route path="/purchase" element={<Purchase />} />
 			</Routes>
 		</BrowserRouter>
 	);
