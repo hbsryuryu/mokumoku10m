@@ -27,6 +27,7 @@ import Tokushoho from "../pages/Tokushoho";
 import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
 import Purchase from "../pages/Purchase";
+import ProductRegister from "../pages/ProductRegister";
 
 // url変数化ここで一括管轄
 // import { myUrl } from "../route/MainRoute.js";
@@ -55,6 +56,7 @@ const url_array = {
 	tokush: "/tokushoho",
 	user_pub: "/userpublic",
 	s_trans: "/suppliertransfer",
+	p_r: "/product-register",
 };
 export function myUrl(url_key) {
 	return url_array[url_key] || "/"; // デフォルト値を設定
@@ -89,6 +91,7 @@ export const MainRoute = () => {
 				<Route path="/tokushoho" element={<Tokushoho />} />
 				<Route path="/userpublic" element={<UserPublic />} />
 				<Route path="/suppliertransfer" element={<SupplierTransfer />} />
+				<Route path="/product-register" element={<ProductRegister />} />
 				<Route path="*" element={<Page404 />} />
 				<Route path="/purchase" element={<Purchase />} />
 			</Routes>
