@@ -26,6 +26,7 @@ import Privacy from "../pages/Privacy";
 import Tokushoho from "../pages/Tokushoho";
 import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
+import Purchase from "../pages/Purchase";
 import ProductRegister from "../pages/ProductRegister";
 
 // url変数化ここで一括管轄
@@ -92,6 +93,7 @@ export const MainRoute = () => {
 				<Route path="/suppliertransfer" element={<SupplierTransfer />} />
 				<Route path="/product-register" element={<ProductRegister />} />
 				<Route path="*" element={<Page404 />} />
+				<Route path="/purchase" element={<Purchase />} />
 			</Routes>
 		</BrowserRouter>
 	);
