@@ -1,5 +1,12 @@
 import React from "react";
 
+const data = {
+	id: 16516,
+	name: "高菜",
+	current_price: 1000,
+	buyout_price: 15000,
+};
+
 export const ProductRegister = () => {
 	const [pageState, setPageState] = useState(0);
 	const [formData, setFormData] = useState({
