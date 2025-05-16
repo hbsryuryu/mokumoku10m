@@ -3,10 +3,10 @@ import { MyContext } from "../provider/MyContext";
 import { useNavigate } from "react-router-dom";
 import { myUrl } from "../route/MainRoute.js";
 
-//css群
+//css群!!!
 import "../css/splash.css";
 
-//api群
+//api群!!!
 import { getCookie } from "../js/function_cookie";
 
 // 再レンダリングによる上書を防止
