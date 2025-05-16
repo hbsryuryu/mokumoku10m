@@ -28,10 +28,7 @@ import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
 import Purchase from "../pages/Purchase";
 import ProductRegister from "../pages/ProductRegister";
-
-
-import ProductRegister from "../pages/ProductRegister";
-import ProductInfo from "../pages/productInfo";
+import ProductInfo from "../pages/ProductInfo";
 
 // url変数化ここで一括管轄
 // import { myUrl } from "../route/MainRoute.js";
@@ -61,8 +58,7 @@ const url_array = {
 	user_pub: "/userpublic",
 	s_trans: "/suppliertransfer",
 	p_r: "/product-register",
-	p_i: "/product-Info"
-
+	p_i: "/product-Info",
 };
 export function myUrl(url_key) {
 	return url_array[url_key] || "/"; // デフォルト値を設定
