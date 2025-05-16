@@ -26,6 +26,9 @@ import Privacy from "../pages/Privacy";
 import Tokushoho from "../pages/Tokushoho";
 import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
+import Purchase from "../pages/Purchase";
+import ProductRegister from "../pages/ProductRegister";
+
 
 import ProductRegister from "../pages/ProductRegister";
 import ProductInfo from "../pages/productInfo";
@@ -59,6 +62,7 @@ const url_array = {
 	s_trans: "/suppliertransfer",
 	p_r: "/product-register",
 	p_i: "/product-Info"
+
 };
 export function myUrl(url_key) {
 	return url_array[url_key] || "/"; // デフォルト値を設定
@@ -96,6 +100,7 @@ export const MainRoute = () => {
 				<Route path="/product-register" element={<ProductRegister />} />
 				<Route path="/product-info" element={<ProductInfo />} />
 				<Route path="*" element={<Page404 />} />
+				<Route path="/purchase" element={<Purchase />} />
 			</Routes>
 		</BrowserRouter>
 	);

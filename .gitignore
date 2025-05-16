@@ -27,6 +27,7 @@ __pycache__
 src参考
 src初期化
 バッチpackgejsonからライブラリインストール.bat
+ライブラリインストール.bat
 ビルド.bat
 起動fastapi.bat
 起動react3002.bat
