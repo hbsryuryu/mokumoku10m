@@ -1,5 +1,12 @@
 import React from "react";
 
+const data = {
+	id: 16516,
+	name: "高菜",
+	current_price: 1000,
+	buyout_price: 15000,
+};
+
 export const ProductRegister = () => {
 	const [pageState, setPageState] = useState(0);
 	const [formData, setFormData] = useState({
@@ -22,12 +29,17 @@ export const ProductRegister = () => {
 		<>
 			<p>出品ページ</p>
 			<p>ここ画像</p>
+			<input type="file" name="test" id="test" />
 			<p>
 				<label for="input1">商品名</label>
 				<input type="text" id="input1" />
 			</p>
 			<p>
-				<label for="input2">価格</label>
+				<label for="input2">現在価格</label>
+				<input type="text" id="input2" />
+			</p>
+			<p>
+				<label for="input2">即決価格</label>
 				<input type="text" id="input2" />
 			</p>
 			<button type="button">登録</button>
