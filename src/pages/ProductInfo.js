@@ -21,7 +21,8 @@ export const ProductInfo = () => {
     return (
         <>
             <p>商品ページ</p>
-        </>
+            <p>商品在庫</p>
+        </p>
     );
 };
 
