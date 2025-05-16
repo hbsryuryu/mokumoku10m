@@ -29,6 +29,7 @@ import SupplierTransfer from "../pages/SupplierTransfer";
 import Purchase from "../pages/Purchase";
 import ProductRegister from "../pages/ProductRegister";
 
+
 // url変数化ここで一括管轄
 // import { myUrl } from "../route/MainRoute.js";
 const url_array = {
