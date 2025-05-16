@@ -28,10 +28,7 @@ import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
 import Purchase from "../pages/Purchase";
 import ProductRegister from "../pages/ProductRegister";
-
-
-import ProductRegister from "../pages/ProductRegister";
-import ProductInfo from "../pages/productInfo";
+import ProductInfo from "../pages/ProductInfo";
 
 // url変数化ここで一括管轄
 // import { myUrl } from "../route/MainRoute.js";

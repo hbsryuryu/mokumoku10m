@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 export const ProductRegister = () => {
 	const [pageState, setPageState] = useState(0);
