@@ -28,8 +28,8 @@ export const ProductInfo = () => {
                     <table border="1">
                     <thead>
                         <tr>
-                        <th>Product Name</th>
-                        <th>Stock Quantity</th>
+                        <th>商品名</th>
+                        <th>在庫数</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,8 +47,8 @@ export const ProductInfo = () => {
                     <table border="1">
                     <thead>
                         <tr>
-                        <th>Product Name</th>
-                        <th>Stock Quantity</th>
+                        <th>商品名</th>
+                        <th>在庫数</th>
                         </tr>
                     </thead>
                     <tbody>
