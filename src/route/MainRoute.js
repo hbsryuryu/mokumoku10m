@@ -28,9 +28,6 @@ import UserPublic from "../pages/UserPublic";
 import SupplierTransfer from "../pages/SupplierTransfer";
 import Purchase from "../pages/Purchase";
 import ProductRegister from "../pages/ProductRegister";
-
-
-import ProductRegister from "../pages/ProductRegister";
 import ProductInfo from "../pages/productInfo";
 
 // url変数化ここで一括管轄
