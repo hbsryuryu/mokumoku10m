@@ -1,6 +1,7 @@
 # MVP スコープ
 
 > 出典: AGENTS.md 2.1 / 2.2。受け入れ条件は今後追記する。
+> 現在の静的プロトタイプで確認できる範囲と受け入れ条件は [`prototype-requirements.md`](prototype-requirements.md) を参照。
 
 ## MVP に含める機能
 

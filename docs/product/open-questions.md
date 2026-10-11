@@ -10,5 +10,6 @@
 | 4 | キャンセル・返品・返金・未払い・配送事故への対応 | TBD | TBD | 未着手 | |
 | 5 | 禁止商品・年齢制限・通報・アカウント停止の基準 | TBD | TBD | 未着手 | |
 | 6 | 終了時の延長有無、自動入札、同額入札の扱い | TBD | TBD | 未着手 | |
-| 7 | インフラ（クラウド・監視・メール送信事業者） | TBD | TBD | 未着手 | |
+| 7 | インフラ（クラウド・監視・メール送信事業者） | TBD | TBD | 未着手 | [ADR-0003](../architecture/adr/0003-production-stack-pending.md) |
 | 8 | バックエンドフレームワーク（Hono / FastAPI） | TBD | TBD | 検討中 | [ADR-0001](../architecture/adr/0001-backend-framework.md) |
+| 9 | 初回入札の最低額（開始価格以上か、開始価格＋増分以上か）。デモ実装と `auction-rules.md` で食い違いあり | TBD | TBD | 未着手 | |
