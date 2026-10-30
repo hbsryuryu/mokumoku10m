@@ -5,7 +5,7 @@
 | エンティティ | 概要 |
 |---|---|
 | `User` | 公開プロフィール、ステータス、権限 |
-| `AuthIdentity` | 認証プロバイダーと外部subject。MVPではGoogle OIDCの `sub` を一意キーにする（[ADR-0004](ADR-0004-google-only-authentication.md)） |
+| `AuthIdentity` | 認証 ID・認証プロバイダー（Google の `sub` を `(provider, provider_subject)` で一意に保存。[AUTH-001](auth-001-google-login-design.md)） |
 | `Listing` | 出品商品と公開状態 |
 | `ListingImage` | 画像の参照、表示順 |
 | `Category` | 商品カテゴリ |
@@ -18,6 +18,7 @@
 | `Notification` | 通知先、種類、既読状態 |
 | `Report` | 通報対象、理由、審査結果 |
 | `AuditLog` | 管理操作・重要な状態変化の記録 |
+| `Session` | ログインセッション（ID のハッシュ値、有効期限、無効化日時。[AUTH-001](auth-001-google-login-design.md)） |
 
 ## 共通ルール
 
