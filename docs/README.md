@@ -19,12 +19,14 @@
 ### product
 - [MVPスコープ](product/mvp-scope.md)：本番MVPの機能範囲
 - [プロトタイプ要件と受け入れ条件](product/prototype-requirements.md)：現在の静的プロトタイプの範囲
+- [AUTH-001: Google ログイン（要件）](product/auth-001-google-login.md)：提案中
 - [オークション業務ルール](product/auction-rules.md)
 - [画面一覧](product/screens.md)
 - [未決事項](product/open-questions.md)
 
 ### architecture
 - [全体構成](architecture/overview.md)、[ドメインモデル](architecture/domain-model.md)
+- [AUTH-001: Google ログイン（設計）](architecture/auth-001-google-login-design.md)：提案中
 - ADR（[テンプレート](architecture/adr/template.md)）
 
 | 番号 | タイトル | 状態 |
