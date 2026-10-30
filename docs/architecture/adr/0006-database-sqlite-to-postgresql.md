@@ -4,6 +4,7 @@
 - 日付: 2026-10-31
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
 - 関連: [ADR-0001](0001-backend-framework.md)（FastAPI）、[ADR-0003](0003-production-stack-pending.md)（本番スタック保留）、[ADR-0004](0004-auction-operating-rules.md)（入札の直列化）、[`../overview.md`](../overview.md)
+- 入札書込みの論理契約: [入札・終了処理のトランザクション仕様](../designs/auction-bid-transaction.md)
 
 ## 背景
 
