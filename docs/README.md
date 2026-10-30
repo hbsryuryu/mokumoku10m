@@ -31,7 +31,7 @@
 
 | 番号 | タイトル | 状態 |
 |---|---|---|
-| [ADR-0001](architecture/adr/0001-backend-framework.md) | バックエンドフレームワーク（Hono / FastAPI） | 提案中 |
+| [ADR-0001](architecture/adr/0001-backend-framework.md) | バックエンドフレームワーク（FastAPI。Hono はサブ候補） | 採用 |
 | [ADR-0002](architecture/adr/0002-prototype-scope.md) | 最初の成果物を静的フロントエンドにする | 採用（プロトタイプ範囲） |
 | [ADR-0003](architecture/adr/0003-production-stack-pending.md) | 本番技術スタックと未決プロダクト事項を保留する | 提案 |
 

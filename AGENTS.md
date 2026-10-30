@@ -66,9 +66,9 @@
 |---|---|---|
 | フロントエンド | Next.js + TypeScript | SEO、アクセシビリティ、レスポンシブ設計 |
 | UI | Tailwind CSS + コンポーネントライブラリ | 再利用可能なデザインシステム |
-| バックエンド | TypeScript + Node.js（モジュラーモノリス） | 初期はマイクロサービス化しない |
+| バックエンド | Python + FastAPI（モジュラーモノリス）。Hono はサブ候補（`docs/architecture/adr/0001-backend-framework.md`） | 初期はマイクロサービス化しない |
 | データベース | PostgreSQL | 正規化、トランザクション、制約を活用 |
-| ORM / Migration | Prisma または Drizzle | 移行ファイルをコード管理 |
+| ORM / Migration | SQLAlchemy + Alembic、SQLModel 等（FastAPI 採用に伴い再選定） | 移行ファイルをコード管理 |
 | キャッシュ・ジョブ | Redis + ワーカー（必要時） | 通知、期限処理、レート制限 |
 | 画像保存 | S3互換オブジェクトストレージ | 署名付きアップロード、変換、検査 |
 | 検索 | 当初はPostgreSQL全文検索 | 規模に応じて検索基盤を分離 |

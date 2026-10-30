@@ -4,7 +4,7 @@
 - 状態: 提案中（チーム確認待ち）
 - 要件: [`../product/auth-001-google-login.md`](../product/auth-001-google-login.md)
 - 作成日: 2026-10-30
-- 前提: バックエンドのフレームワークは未決（[ADR-0001](adr/0001-backend-framework.md)：Hono / FastAPI）。以下は、どちらにも当てはまる形で書いている。
+- 前提: バックエンドは FastAPI（[ADR-0001](adr/0001-backend-framework.md)。Hono はサブ候補）。設計自体はフレームワークに依存しない形で書いている。
 - Google 側の仕様は、末尾の「付録：Google 側の仕様（2026-10-30 確認）」を参照。
 
 ## 方式
@@ -97,12 +97,12 @@ AGENTS.md 4章の `User` / `AuthIdentity` を具体化し、`Session` を追加�
 - エラー画面に、内部の詳細（例外メッセージやトークンの中身）を出さない
 - 環境変数：`GOOGLE_CLIENT_ID`、`GOOGLE_CLIENT_SECRET`、`GOOGLE_REDIRECT_URI`。リダイレクト URI は環境ごと（local / staging / production）に Google Cloud Console へ登録する
 
-## ライブラリ候補（ADR-0001 の決定後に選定）
+## ライブラリ候補
 
 | バックエンド | 候補 | 備考 |
 |---|---|---|
-| Hono | `@hono/oauth-providers`、Auth.js（`@hono/auth-js`）、`arctic` | 未検証。導入時に保守状況とライセンスを確認する（AGENTS.md 11章 7） |
-| FastAPI | Authlib | 未検証。`iss` の確認を忘れないこと |
+| **FastAPI（採用）** | Authlib | 未検証。導入時に保守状況とライセンスを確認する（AGENTS.md 11章 7）。`google-auth` の `verify_oauth2_token` を使う場合は `iss` を自前で確認する |
+| Hono（サブ候補） | `@hono/oauth-providers`、Auth.js（`@hono/auth-js`）、`arctic` | 未検証。Hono を採用する場合のみ検討 |
 
 ## 現在の静的プロトタイプへの影響
 

@@ -6,13 +6,13 @@
 |---|---|---|
 | フロントエンド | Next.js + TypeScript | TBD |
 | UI | Tailwind CSS + コンポーネントライブラリ | TBD |
-| バックエンド | TypeScript + Node.js（モジュラーモノリス）。Hono を候補、FastAPI を拡張として検討 | [ADR-0001](adr/0001-backend-framework.md)（検討中） |
+| バックエンド | Python + FastAPI（モジュラーモノリス）。Hono はサブ候補 | **FastAPI に決定**（[ADR-0001](adr/0001-backend-framework.md)） |
 | データベース | PostgreSQL | TBD |
-| ORM / Migration | Prisma または Drizzle | TBD |
-| キャッシュ・ジョブ | Redis + ワーカー（必要時） | TBD |
+| ORM / Migration | SQLAlchemy + Alembic、SQLModel 等（FastAPI 採用に伴い Prisma / Drizzle から変更） | TBD |
+| キャッシュ・ジョブ | Redis + Python のワーカー（必要時） | TBD |
 | 画像保存 | S3 互換オブジェクトストレージ | TBD |
 | 検索 | 当初は PostgreSQL 全文検索 | TBD |
-| 認証 | 実績のある認証基盤／ライブラリ | Google 認証（OIDC）。ライブラリは ADR-0001 の決定後に選定（[AUTH-001](auth-001-google-login-design.md)） |
+| 認証 | 実績のある認証基盤／ライブラリ | Google 認証（OIDC）。ライブラリは Python 向け（候補: Authlib）から選定（[AUTH-001](auth-001-google-login-design.md)） |
 | デプロイ | マネージド環境（staging / production 分離） | TBD |
 
 ## 構成図
