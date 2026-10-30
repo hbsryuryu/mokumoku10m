@@ -27,7 +27,7 @@
 
 | 判断 | 状態 | 決定前に必要な検討 |
 |---|---|---|
-| API / Web / DB技術 | API は決定済み（FastAPI、[ADR-0001](0001-backend-framework.md)）。Web・DB は未決 | チーム能力、競合制御、運用費用 |
+| API / Web / DB技術 | API は決定済み（FastAPI、[ADR-0001](0001-backend-framework.md)）。DB は決定済み（SQLite3 → PostgreSQL、[ADR-0006](0006-database-sqlite-to-postgresql.md)）。Web は未決 | チーム能力、競合制御、運用費用 |
 | 認証基盤・セッション管理 | 基準は決定済み、製品は未決 | [ADR-0005](0005-google-only-authentication.md)。Google OIDCのみ。認証サービス/ライブラリとセッション運用を選定 |
 | 画像保管・変換 | 未決 | 形式・サイズ検査、EXIF、アクセス制御 |
 | クラウド・監視 | 未決 | 環境分離、ログ、アラート、バックアップ |

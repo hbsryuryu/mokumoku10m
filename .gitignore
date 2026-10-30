@@ -34,3 +34,8 @@ src初期化
 env.bat
 startup.txt
 .env
+
+# SQLite3 database files (ADR-0006)
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
