@@ -37,6 +37,7 @@
 | [ADR-0003](architecture/adr/0003-production-stack-pending.md) | 本番技術スタックと未決プロダクト事項を保留する | 提案 |
 | [ADR-0004](architecture/adr/0004-auction-operating-rules.md) | MVPオークションの入札・終了・出品変更ルール | 採用 |
 | [ADR-0005](architecture/adr/0005-google-only-authentication.md) | Google認証に一本化する | 採用 |
+| [ADR-0006](architecture/adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | 採用（ORM は合意待ち） |
 
 ### その他
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
