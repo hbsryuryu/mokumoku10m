@@ -9,9 +9,9 @@
 | 3 | 本人確認（KYC）が必要な条件と出品制限 | TBD | TBD | 未着手 | |
 | 4 | キャンセル・返品・返金・未払い・配送事故への対応 | TBD | TBD | 未着手 | |
 | 5 | 禁止商品・年齢制限・通報・アカウント停止の基準 | TBD | TBD | 未着手 | |
-| 6 | 終了時の延長有無、自動入札、同額入札の扱い | TBD | TBD | 未着手 | |
+| 6 | 終了時の延長有無、自動入札、同額入札の扱い | — | 2026-10-30 | 決定（MVP）：延長なし・自動入札は対象外・同額は先に受付確定した入札を優先 | [ADR-0004](../architecture/adr/0004-auction-operating-rules.md) |
 | 7 | インフラ（クラウド・監視・メール送信事業者） | TBD | TBD | 未着手 | [ADR-0003](../architecture/adr/0003-production-stack-pending.md) |
 | 8 | バックエンドフレームワーク（Hono / FastAPI） | hbsryuryu | 2026-10-31 | 決定：FastAPI（Hono はサブ候補） | [ADR-0001](../architecture/adr/0001-backend-framework.md) |
-| 9 | 初回入札の最低額（開始価格以上か、開始価格＋増分以上か）。デモ実装と `auction-rules.md` で食い違いあり | TBD | TBD | 未着手 | |
+| 9 | 初回入札の最低額（開始価格以上か、開始価格＋増分以上か） | — | 2026-10-30 | 決定：開始価格以上（2件目以降は価格帯別の増分）。※ `app.js` のデモはまだ「開始価格＋増分」で未対応 | [ADR-0004](../architecture/adr/0004-auction-operating-rules.md) |
 | 10 | AUTH-001 の未決：Google 以外のログイン手段の追加、セッション有効期限、Google の氏名・写真の扱い、退会時のデータ | TBD | TBD | 未着手 | [AUTH-001](auth-001-google-login.md) |
-| 11 | AGENTS.md 2.1 #1「メール認証を含む会員登録」を Google 認証に合わせて修正するか | TBD | TBD | 未着手 | |
+| 11 | AGENTS.md 2.1 #1「メール認証を含む会員登録」を Google 認証に合わせて修正するか | — | 2026-10-30 | 解決：PR #27 で AGENTS.md を Google OIDC に修正済み | [ADR-0005](../architecture/adr/0005-google-only-authentication.md) |

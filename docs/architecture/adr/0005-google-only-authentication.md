@@ -1,9 +1,10 @@
-# ADR-0004: Google認証に一本化する
+# ADR-0005: Google認証に一本化する
 
 - 状態: 採用（MVPの認証要件）
 - 日付: 2026-10-30
+- 備考: 当初 `docs/architecture/ADR-0004-google-only-authentication.md` として追加。ADR の置き場所を `adr/` に統一し、番号を連番にするため ADR-0005 に振り直し（内容は変更なし）
 - 決定者: プロダクトオーナーの依頼に基づき仕様化
-- 関連: [`オークションサイト仕様書`](../product/auction-site-spec.md)、[`セキュリティ方針`](../security/security-and-privacy.md)、[`API設計案`](../api/openapi.md)
+- 関連: [`オークションサイト仕様書`](../../product/auction-site-spec.md)、[`セキュリティ方針`](../../security/security-and-privacy.md)、[`API設計案`](../../api/openapi.md)
 
 ## 背景
 
