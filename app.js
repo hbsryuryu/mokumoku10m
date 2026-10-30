@@ -183,9 +183,7 @@
 
   document.querySelector('#login-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    document.querySelector('#login-dialog').close();
-    event.currentTarget.reset();
-    showToast('デモで続行しました。認証機能は未接続です');
+    showToast('Google認証は未接続です。ログインできません');
   });
   document.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => document.getElementById(button.dataset.close).close()));
   document.querySelector('#sell-open').addEventListener('click', () => document.querySelector('#sell-dialog').showModal());
