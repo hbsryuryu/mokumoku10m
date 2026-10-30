@@ -43,7 +43,7 @@
 ### その他
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)
-- [ローカル運用手順](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
+- [ローカル開発手順（バックエンド API）](runbooks/local-backend.md)、[ローカル運用手順（静的デモ）](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
 
 ## 書き方ルール
 
