@@ -20,9 +20,9 @@
 - [画面一覧](product/screens.md)
 - [未決事項](product/open-questions.md)
 - [全体構成](architecture/overview.md)、[ドメインモデル](architecture/domain-model.md)
-- [ADR-0001: バックエンドフレームワーク](architecture/adr/0001-backend-framework.md)（提案中）
-- [ADR-0001: 静的フロントエンドプロトタイプ](architecture/ADR-0001-prototype-scope.md)（採用、プロトタイプ範囲）
-- [ADR-0002: 本番技術選定の保留](architecture/ADR-0002-production-stack-pending.md)（提案）
+- [ADR-0001: 静的フロントエンドプロトタイプ](architecture/adr/0001-prototype-scope.md)（採用、プロトタイプ範囲）
+- [ADR-0002: 本番技術選定の保留](architecture/adr/0002-production-stack-pending.md)（提案）
+- [ADR-0003: バックエンドフレームワーク](architecture/adr/0003-backend-framework.md)（提案中）
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)、[初期セキュリティ方針](security/policy.md)
 - [ローカル運用手順](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
@@ -33,4 +33,5 @@
 - 未確定の内容は「未決」「TBD」「将来案」と明記し、確定仕様として実装しません。
 - 全体方針は [`../AGENTS.md`](../AGENTS.md) を参照します。設計判断は `architecture/adr/` に記録します。
 - 要件とルールは `product/`、API・セキュリティ・運用の補足は各ディレクトリの文書を参照します。
-- 現行プロトタイプの範囲は採用状態のADR-0001（静的フロントエンド）とREADMEに記載しています。バックエンド候補のADR-0001は別の採番系列で既存提案として保持し、未採用です。
+- ADRはフロント・バックを区別せず、リポジトリ全体で `adr/NNNN-タイトル.md` の連番にします（ファイル名の番号と見出しの番号を一致させる）。
+- 現行プロトタイプの範囲は採用状態のADR-0001（静的フロントエンド）とREADMEに記載しています。バックエンド候補のADR-0003は提案中で、未採用です。

@@ -6,7 +6,7 @@
 |---|---|---|
 | フロントエンド | Next.js + TypeScript | TBD |
 | UI | Tailwind CSS + コンポーネントライブラリ | TBD |
-| バックエンド | TypeScript + Node.js（モジュラーモノリス）。Hono を候補、FastAPI を拡張として検討 | [ADR-0001](adr/0001-backend-framework.md)（検討中） |
+| バックエンド | TypeScript + Node.js（モジュラーモノリス）。Hono を候補、FastAPI を拡張として検討 | [ADR-0003](adr/0003-backend-framework.md)（検討中） |
 | データベース | PostgreSQL | TBD |
 | ORM / Migration | Prisma または Drizzle | TBD |
 | キャッシュ・ジョブ | Redis + ワーカー（必要時） | TBD |

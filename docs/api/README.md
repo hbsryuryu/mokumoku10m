@@ -1,6 +1,6 @@
 # API 仕様
 
-OpenAPI 定義をここに置く予定。バックエンドフレームワーク決定（[ADR-0001](../architecture/adr/0001-backend-framework.md)）後に作成する。
+OpenAPI 定義をここに置く予定。バックエンドフレームワーク決定（[ADR-0003](../architecture/adr/0003-backend-framework.md)）後に作成する。
 
 ## 共通方針（AGENTS.md 8章）
 

@@ -9,6 +9,6 @@
 | 3 | 本人確認（KYC）が必要な条件と出品制限 | TBD | TBD | 未着手 | |
 | 4 | キャンセル・返品・返金・未払い・配送事故への対応 | TBD | TBD | 未着手 | |
 | 5 | 禁止商品・年齢制限・通報・アカウント停止の基準 | TBD | TBD | 未着手 | |
-| 6 | 終了時の延長有無、自動入札、同額入札の扱い | TBD | TBD | 未着手 | |
+| 6 | 同額入札の扱い（MVPは終了時の延長・自動入札を行わない。導入可否はMVP後に再検討） | TBD | TBD | 一部決定 | |
 | 7 | インフラ（クラウド・監視・メール送信事業者） | TBD | TBD | 未着手 | |
-| 8 | バックエンドフレームワーク（Hono / FastAPI） | TBD | TBD | 検討中 | [ADR-0001](../architecture/adr/0001-backend-framework.md) |
+| 8 | バックエンドフレームワーク（Hono / FastAPI） | TBD | TBD | 検討中 | [ADR-0003](../architecture/adr/0003-backend-framework.md) |
