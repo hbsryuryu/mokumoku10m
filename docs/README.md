@@ -27,6 +27,7 @@
 
 ### architecture
 - [全体構成](architecture/overview.md)、[ドメインモデル](architecture/domain-model.md)
+- [入札・終了処理のトランザクション仕様](architecture/designs/auction-bid-transaction.md)
 - [AUTH-001: Google ログイン（設計）](architecture/auth-001-google-login-design.md)：提案中
 - ADR（[テンプレート](architecture/adr/template.md)）
 
