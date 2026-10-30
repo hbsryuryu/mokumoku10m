@@ -1,12 +1,14 @@
 # MVP スコープ
 
-> 出典: AGENTS.md 2.1 / 2.2。受け入れ条件は今後追記する。
+> 出典: AGENTS.md 2.1 / 2.2。認証方式は [ADR-0004](../architecture/ADR-0004-google-only-authentication.md) によりGoogle OIDCのみとする。
+>
+> オークションの最低増分、同額入札、終了境界、公開後の編集・取り下げ条件は [ADR-0003](../architecture/ADR-0003-auction-operating-rules.md) を参照。
 
 ## MVP に含める機能
 
 | # | 機能 | 受け入れ条件 | 担当 |
 |---|---|---|---|
-| 1 | 会員登録・ログイン・アカウント管理（メール認証含む） | TBD | TBD |
+| 1 | Google OIDCによる会員登録・ログイン・ログアウト・アカウント管理 | ADR-0004。初回Google認証で会員作成。Google `sub` で識別し、`email_verified` を検証 | TBD |
 | 2 | 出品（タイトル、説明、カテゴリ、商品状態、画像、開始価格、終了日時、配送条件） | TBD | TBD |
 | 3 | 商品一覧・詳細・検索・フィルター・並び替え | TBD | TBD |
 | 4 | 競り上がり形式の通常オークション | TBD | TBD |

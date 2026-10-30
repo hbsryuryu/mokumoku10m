@@ -1,6 +1,6 @@
 # API設計案（未実装）
 
-この文書は将来のサーバーAPIのリソース境界と振る舞いを示す案です。現在のプロトタイプにHTTP APIはありません。技術スタック・認証方式・ページネーション等の採用時にOpenAPI定義へ具体化してください。
+この文書は将来のサーバーAPIのリソース境界と振る舞いを示す案です。現在のプロトタイプにHTTP APIはありません。Google OIDCを使うことは決定済みです。認証基盤実装、セッション、ページネーション等を選定後にOpenAPI定義へ具体化してください。
 
 ## 共通契約案
 
@@ -28,6 +28,21 @@
 | `GET /api/v1/me/orders` | 自分の取引一覧 | 必要 | 将来案 |
 | `GET /api/v1/me/notifications` | 通知一覧 | 必要 | 将来案 |
 | `POST /api/v1/reports` | 出品等を通報 | 必要 | 将来案 |
+
+## Google認証フロー案
+
+認証プロバイダーはGoogle OIDCのみです。以下はAPI境界案で、採用する認証ライブラリ/サービス決定後に正式なOpenAPI契約へ具体化します。
+
+| メソッド・パス | 用途 | 動作 |
+|---|---|---|
+| `GET /api/v1/auth/google/start` | Google認証を開始 | サーバーが `state`、`nonce`、PKCE verifier/challengeを作り、Googleへリダイレクト |
+| `GET /api/v1/auth/google/callback` | Googleからの復帰 | code/stateを検証し、サーバーがトークン交換・IDトークン検証。初回は会員作成し、アプリセッションCookieを設定 |
+| `GET /api/v1/me` | 現在の会員と状態を取得 | アプリセッションから会員を特定。Google tokenやユーザーIDをクライアント入力から採用しない |
+| `POST /api/v1/auth/logout` | アプリからログアウト | サーバーセッションを失効させ、Cookieを削除 |
+
+サーバーはIDトークンの署名、issuer、許可済みGoogle Client IDとのaudience一致、有効期限、nonceを検証します。`email_verified` が真でない場合は会員ログインを完了せず、`sub` をAuthIdentityの識別子にします。メールアドレス一致だけで別Googleアカウントの既存レコードを統合しません。認証後はGoogle IDトークンをアプリの長期セッションとして使わず、Secure/HttpOnly/SameSite属性とCSRF対策を備えたアプリセッションを使います。
+
+ログイン開始時の `returnTo` を受け付ける場合は、同一オリジンの許可パスに限定し、任意URLへのリダイレクトを拒否します。Client Secretとセッション秘密情報はサーバーのSecret Storeに置き、ログへ記録しません。
 
 ## 入札リクエスト案
 

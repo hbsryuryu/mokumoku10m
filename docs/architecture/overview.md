@@ -12,7 +12,7 @@
 | キャッシュ・ジョブ | Redis + ワーカー（必要時） | TBD |
 | 画像保存 | S3 互換オブジェクトストレージ | TBD |
 | 検索 | 当初は PostgreSQL 全文検索 | TBD |
-| 認証 | 実績のある認証基盤／ライブラリ | TBD |
+| 認証 | Google OIDCのみ。認証基盤製品は未選定 | [ADR-0004](ADR-0004-google-only-authentication.md) |
 | デプロイ | マネージド環境（staging / production 分離） | TBD |
 
 ## 構成図

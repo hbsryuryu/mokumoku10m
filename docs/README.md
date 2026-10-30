@@ -15,6 +15,7 @@
 ## 文書一覧
 
 - [MVP要件と受け入れ条件](product/mvp-requirements.md)
+- [オークションサイト仕様書](product/auction-site-spec.md): MVP全体の機能・非機能要件、フロー、受け入れ条件
 - [MVPスコープ](product/mvp-scope.md)
 - [オークション業務ルール](product/auction-rules.md)
 - [画面一覧](product/screens.md)
@@ -23,6 +24,8 @@
 - [ADR-0001: バックエンドフレームワーク](architecture/adr/0001-backend-framework.md)（提案中）
 - [ADR-0001: 静的フロントエンドプロトタイプ](architecture/ADR-0001-prototype-scope.md)（採用、プロトタイプ範囲）
 - [ADR-0002: 本番技術選定の保留](architecture/ADR-0002-production-stack-pending.md)（提案）
+- [ADR-0003: MVPオークションの入札・終了・出品変更ルール](architecture/ADR-0003-auction-operating-rules.md)（採用）
+- [ADR-0004: Google認証に一本化](architecture/ADR-0004-google-only-authentication.md)（採用）
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)、[初期セキュリティ方針](security/policy.md)
 - [ローカル運用手順](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)

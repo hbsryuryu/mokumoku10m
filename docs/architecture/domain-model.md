@@ -5,7 +5,7 @@
 | エンティティ | 概要 |
 |---|---|
 | `User` | 公開プロフィール、ステータス、権限 |
-| `AuthIdentity` | 認証 ID・認証プロバイダー |
+| `AuthIdentity` | 認証プロバイダーと外部subject。MVPではGoogle OIDCの `sub` を一意キーにする（[ADR-0004](ADR-0004-google-only-authentication.md)） |
 | `Listing` | 出品商品と公開状態 |
 | `ListingImage` | 画像の参照、表示順 |
 | `Category` | 商品カテゴリ |
