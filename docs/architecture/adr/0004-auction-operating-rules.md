@@ -1,6 +1,6 @@
 # ADR-0004: MVPオークションの入札・終了・出品変更ルール
 
-- 状態: 採用（MVPの業務ルール）
+- 状態: 一部置き換え。「最低入札増分」「同額入札」「終了直前の入札」は [ADR-0007](0007-align-with-yahoo-auctions.md)（Yahoo!オークションに合わせる）で置き換え。「出品の編集」「出品の取り下げ・停止」は引き続き有効
 - 日付: 2026-10-30
 - 備考: 当初 `docs/architecture/ADR-0003-auction-operating-rules.md` として追加。`adr/0003-production-stack-pending.md` と番号が重複していたため ADR-0004 に振り直し（内容は変更なし）
 - 決定者: プロダクトオーナーの依頼に基づき仕様化
