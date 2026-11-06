@@ -2,6 +2,7 @@
 
 > 出典: AGENTS.md 2.1 / 2.2。受け入れ条件は今後追記する。
 > 現在の静的プロトタイプで確認できる範囲と受け入れ条件は [`prototype-requirements.md`](prototype-requirements.md) を参照。
+> 要件・設計がまだない機能（管理者、マイページ、取引メッセージ、評価など）と優先順位は [`feature-backlog.md`](feature-backlog.md) を参照。
 
 ## MVP に含める機能
 
