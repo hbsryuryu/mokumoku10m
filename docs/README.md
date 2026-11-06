@@ -18,6 +18,7 @@
 
 ### product
 - [MVPスコープ](product/mvp-scope.md)：本番MVPの機能範囲
+- [未定義の機能一覧（バックログ）](product/feature-backlog.md)：要件・設計がまだない機能と優先順位（管理者、マイページ、取引メッセージ、評価など）
 - [プロトタイプ要件と受け入れ条件](product/prototype-requirements.md)：現在の静的プロトタイプの範囲
 - [オークションサイト仕様書](product/auction-site-spec.md)：本番MVPの要求仕様
 - [Yahoo!オークションとの仕様比較](product/yahoo-auctions-alignment.md)：参考サービスの仕様（確認日つき）と、めぐる市の扱い
