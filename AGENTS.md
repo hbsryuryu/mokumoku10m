@@ -53,7 +53,6 @@
 - 本人確認（KYC）が必要となる条件と出品制限
 - キャンセル、返品、返金、未払い、配送事故への対応
 - 禁止商品、年齢制限、通報・アカウント停止の基準
-- オークション終了時の延長有無、自動入札、同額入札の扱い
 - インフラのクラウド、監視サービス、メール送信事業者
 
 未決事項をエージェントが独断でプロダクト仕様として確定しないこと。必要なら仮定を明示し、ADR（Architecture Decision Record）に記録する。
@@ -68,7 +67,7 @@
 | UI | Tailwind CSS + コンポーネントライブラリ | 再利用可能なデザインシステム |
 | バックエンド | Python + FastAPI（モジュラーモノリス）。Hono はサブ候補（`docs/architecture/adr/0001-backend-framework.md`） | 初期はマイクロサービス化しない |
 | データベース | 開発初期は SQLite3、staging / production の前に PostgreSQL へ移行（`docs/architecture/adr/0006-database-sqlite-to-postgresql.md`） | 正規化、トランザクション、制約を活用 |
-| ORM / Migration | SQLAlchemy 2.x + Alembic を候補（ADR-0006。SQLite3 と PostgreSQL の両方で使える） | 移行ファイルをコード管理 |
+| ORM / Migration | SQLAlchemy 2.x + Alembic（ADR-0006。SQLite3 と PostgreSQL の両方で使える） | 移行ファイルをコード管理 |
 | キャッシュ・ジョブ | Redis + ワーカー（必要時） | 通知、期限処理、レート制限 |
 | 画像保存 | S3互換オブジェクトストレージ | 署名付きアップロード、変換、検査 |
 | 検索 | SQLite3 の間は `LIKE` の簡易検索、PostgreSQL 移行後に全文検索 | 規模に応じて検索基盤を分離 |

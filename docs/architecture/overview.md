@@ -8,7 +8,7 @@
 | UI | Tailwind CSS + コンポーネントライブラリ | TBD |
 | バックエンド | Python + FastAPI（モジュラーモノリス）。Hono はサブ候補 | **FastAPI に決定**（[ADR-0001](adr/0001-backend-framework.md)） |
 | データベース | 開発初期は SQLite3 → staging / production の前に PostgreSQL | **決定**（[ADR-0006](adr/0006-database-sqlite-to-postgresql.md)） |
-| ORM / Migration | SQLAlchemy 2.x + Alembic（SQLModel を使う場合も Alembic で管理） | 候補・合意待ち（[ADR-0006](adr/0006-database-sqlite-to-postgresql.md)） |
+| ORM / Migration | SQLAlchemy 2.x + Alembic | 決定（[ADR-0006](adr/0006-database-sqlite-to-postgresql.md)） |
 | キャッシュ・ジョブ | Redis + Python のワーカー（必要時） | TBD |
 | 画像保存 | S3 互換オブジェクトストレージ | TBD |
 | 検索 | SQLite3 の間は `LIKE` の簡易検索、PostgreSQL 移行後に全文検索 | [ADR-0006](adr/0006-database-sqlite-to-postgresql.md) |

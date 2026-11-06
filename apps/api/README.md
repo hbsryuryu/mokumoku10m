@@ -4,7 +4,7 @@
 
 - フレームワーク：FastAPI（[ADR-0001](../../docs/architecture/adr/0001-backend-framework.md)）
 - データベース：開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](../../docs/architecture/adr/0006-database-sqlite-to-postgresql.md)）
-- ORM / マイグレーション：SQLAlchemy 2.x + Alembic（ADR-0006 で合意待ち）
+- ORM / マイグレーション：SQLAlchemy 2.x + Alembic（ADR-0006）
 
 ## フォルダ構成
 

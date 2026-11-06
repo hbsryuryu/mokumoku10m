@@ -1,7 +1,7 @@
 # ADR-0006: データベースは SQLite3 で始め、PostgreSQL に移行する
 
-- 状態: 採用（SQLite3 → PostgreSQL の段階移行。ORM の選定は合意待ち）
-- 日付: 2026-10-31
+- 状態: 採用（SQLite3 → PostgreSQL の段階移行。ORM は SQLAlchemy 2.x + Alembic）
+- 日付: 2026-10-31（ORM の決定は 2026-11-06）
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
 - 関連: [ADR-0001](0001-backend-framework.md)（FastAPI）、[ADR-0003](0003-production-stack-pending.md)（本番スタック保留）、[ADR-0004](0004-auction-operating-rules.md)（入札の直列化）、[`../overview.md`](../overview.md)
 - 入札書込みの論理契約: [入札・終了処理のトランザクション仕様](../designs/auction-bid-transaction.md)
@@ -16,7 +16,7 @@ AGENTS.md 3章では、データベースの初期候補を PostgreSQL として
 1. **開発初期は SQLite3 を使う。** DB サーバーは不要で、ファイル1つで動く。
 2. **staging / production の前に PostgreSQL に移行する。** 移行するタイミングは「移行する条件」を参照。
 3. **2つの DB の違いを吸収するため、ORM とマイグレーションツールを使い、DB 固有の機能をアプリのコードに直接書かない。**
-   - **ORM の候補は SQLAlchemy 2.x + Alembic とする（この PR で合意したい論点）。** SQLModel も SQLAlchemy の上に作られているので、使う場合も Alembic でマイグレーションを管理する。
+   - **ORM は SQLAlchemy 2.x、マイグレーションは Alembic とする。** SQLModel は使わない。
    - 生の SQL を書く場合は、両方の DB で動く書き方に限る。
 
 ## SQLite3 で開発するときのルール
