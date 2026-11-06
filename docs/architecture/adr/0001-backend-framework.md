@@ -38,7 +38,7 @@ AGENTS.md 3章では、バックエンドの初期候補を「TypeScript + Node.
 
 ## 影響
 
-- **AGENTS.md 3章との差分**：バックエンドは「TypeScript + Node.js」から「Python + FastAPI」に変わる。ORM の初期候補（Prisma / Drizzle）は TypeScript 用なので、Python 向けに選び直す（候補: SQLAlchemy + Alembic、SQLModel。未決）。
+- **AGENTS.md 3章との差分**：バックエンドは「TypeScript + Node.js」から「Python + FastAPI」に変わる。ORM の初期候補（Prisma / Drizzle）は TypeScript 用なので、Python 向けに選び直す（[ADR-0006](0006-database-sqlite-to-postgresql.md) で SQLAlchemy 2.x + Alembic に決定）。
 - **フロントとの型共有**：FastAPI が出力する OpenAPI から TypeScript の型を生成する（ツールは未決）。
 - **認証（AUTH-001 / Google OIDC）**：Python のライブラリ（候補: Authlib）を使う。Google の `google-auth` にある `verify_oauth2_token` は `iss` を検証しないため、使う場合は `iss` を自前で確認する。
 - **ワーカー（終了処理・通知）**：Python で作る（ライブラリは未決）。
