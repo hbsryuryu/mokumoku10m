@@ -44,6 +44,10 @@
 
 ログイン開始時の `returnTo` を受け付ける場合は、同一オリジンの許可パスに限定し、任意URLへのリダイレクトを拒否します。Client Secretとセッション秘密情報はサーバーのSecret Storeに置き、ログへ記録しません。
 
+## 出品編集の競合契約案
+
+出品取得時に `version` を返し、編集要求には正の整数 `expectedVersion` を必須とする案。認証・所有者・編集可能状態を検証したうえで、DBの条件付き更新によりversion一致時だけ更新し、versionを増やす。不一致は `409 Conflict` / `VERSION_CONFLICT` を返す。利用者には再取得して変更内容を確認してもらい、古い本文を自動再送しない。詳細は[トランザクション仕様](../architecture/designs/auction-bid-transaction.md)を参照。入札APIにはこのversion条件を流用せず、悲観ロック下の検証と冪等性キーを用いる。
+
 ## 入札リクエスト案
 
 ```json
