@@ -20,6 +20,7 @@
 - [MVPスコープ](product/mvp-scope.md)：本番MVPの機能範囲
 - [プロトタイプ要件と受け入れ条件](product/prototype-requirements.md)：現在の静的プロトタイプの範囲
 - [オークションサイト仕様書](product/auction-site-spec.md)：本番MVPの要求仕様
+- [Yahoo!オークションとの仕様比較](product/yahoo-auctions-alignment.md)：参考サービスの仕様（確認日つき）と、めぐる市の扱い
 - [AUTH-001: Google ログイン（要件）](product/auth-001-google-login.md)：提案中
 - [オークション業務ルール](product/auction-rules.md)
 - [画面一覧](product/screens.md)
@@ -36,9 +37,10 @@
 | [ADR-0001](architecture/adr/0001-backend-framework.md) | バックエンドフレームワーク（FastAPI。Hono はサブ候補） | 採用 |
 | [ADR-0002](architecture/adr/0002-prototype-scope.md) | 最初の成果物を静的フロントエンドにする | 採用（プロトタイプ範囲） |
 | [ADR-0003](architecture/adr/0003-production-stack-pending.md) | 本番技術スタックと未決プロダクト事項を保留する | 提案 |
-| [ADR-0004](architecture/adr/0004-auction-operating-rules.md) | MVPオークションの入札・終了・出品変更ルール | 採用 |
+| [ADR-0004](architecture/adr/0004-auction-operating-rules.md) | MVPオークションの入札・終了・出品変更ルール | 一部置き換え（入札・終了は ADR-0007） |
 | [ADR-0005](architecture/adr/0005-google-only-authentication.md) | Google認証に一本化する | 採用 |
 | [ADR-0006](architecture/adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | 採用（ORM は SQLAlchemy 2.x + Alembic） |
+| [ADR-0007](architecture/adr/0007-align-with-yahoo-auctions.md) | オークションの仕様を Yahoo!オークションに合わせる | 採用（方針） |
 
 ### その他
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
