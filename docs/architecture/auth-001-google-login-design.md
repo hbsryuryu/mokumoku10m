@@ -22,13 +22,13 @@ sequenceDiagram
     participant S as バックエンド
     participant G as Google
     U->>W: 「Google でログイン」を押す
-    W->>S: GET /auth/google/start?return_to=/items/123
+    W->>S: GET /api/v1/auth/google/start?return_to=/items/123
     S->>S: state・nonce・PKCE を生成して一時保存
     S-->>W: 302 → Google の認可画面
     W->>G: 認可リクエスト（client_id, redirect_uri, scope, state, nonce, code_challenge）
     U->>G: アカウントを選んで同意
-    G-->>W: 302 → /auth/google/callback?code=...&state=...
-    W->>S: GET /auth/google/callback
+    G-->>W: 302 → /api/v1/auth/google/callback?code=...&state=...
+    W->>S: GET /api/v1/auth/google/callback
     S->>S: state を照合
     S->>G: code ＋ code_verifier でトークン交換
     G-->>S: ID トークン
@@ -42,11 +42,11 @@ sequenceDiagram
 
 | メソッド・パス | 役割 | 備考 |
 |---|---|---|
-| `GET /auth/google/start` | Google の認可画面へリダイレクト | `return_to` はサイト内のパスだけ許可（オープンリダイレクト対策） |
-| `GET /auth/google/callback` | Google から戻ってきたときの処理 | `state` 照合、トークン交換・検証、ユーザー作成・ログイン |
-| `POST /auth/logout` | ログアウト | CSRF 対策が必要 |
-| `GET /me` | ログイン中のユーザー情報 | 未ログインなら 401 |
-| `PATCH /me` | ニックネーム設定 | 初回設定と、その後の変更 |
+| `GET /api/v1/auth/google/start` | Google の認可画面へリダイレクト | `return_to` はサイト内のパスだけ許可（オープンリダイレクト対策） |
+| `GET /api/v1/auth/google/callback` | Google から戻ってきたときの処理 | `state` 照合、トークン交換・検証、ユーザー作成・ログイン |
+| `POST /api/v1/auth/logout` | ログアウト | CSRF 対策が必要 |
+| `GET /api/v1/me` | ログイン中のユーザー情報 | 未ログインなら 401 |
+| `PATCH /api/v1/me` | ニックネーム設定 | 初回設定と、その後の変更 |
 
 ## データモデル
 
@@ -127,7 +127,7 @@ AGENTS.md 4章の `User` / `AuthIdentity` を具体化し、`Session` を追加�
 | T-11 | 統合 | 利用停止ユーザーでログイン | セッションは作られず、理由が表示される |
 | T-12 | 統合 | ログイン中に利用停止にする | 次のリクエストから未ログイン扱いになる |
 | T-13 | 統合 | ログアウト後に、古いセッション Cookie を使う | 401 になる |
-| T-14 | セキュリティ | 別サイトからの `POST /auth/logout`（CSRF） | 拒否される |
+| T-14 | セキュリティ | 別サイトからの `POST /api/v1/auth/logout`（CSRF） | 拒否される |
 | T-15 | E2E | Google の画面でキャンセル（`error=access_denied`） | ログイン前の画面に戻り、案内メッセージが表示される |
 | T-16 | セキュリティ | ログの確認 | ID トークン・認可コード・セッション ID がログに出ていない |
 | T-17 | 統合 | ログインの開始を短時間に大量に実行 | レート制限で 429 になる |
