@@ -75,6 +75,7 @@ SQLite3 の DB ファイルは、Docker の named volume `api-data` の中（コ
 | 依存パッケージを追加したのに `ModuleNotFoundError` | `docker compose up --build` でイメージを作り直してください |
 | `alembic` で `UnicodeDecodeError: 'cp932'` | `alembic.ini` に日本語などの ASCII 以外の文字が入っています。Windows では cp932 で読まれるため、`alembic.ini` は ASCII 文字だけで書いてください |
 | DB を最初からやり直したい | `docker compose down -v` で volume ごと消してから起動し直してください |
+| 起動時のマイグレーション `0002` で `NOT NULL constraint failed` / `Cannot add a NOT NULL column` | 出品の行がある古い DB に、必須の列（開始価格・開催期間）を追加しようとしています。開発用の DB なので `docker compose down -v` で作り直してください |
 | 起動時に `UnsafeSettingsError: DEV_LOGIN_ENABLED=true は APP_ENV=local のときだけ使えます` | `APP_ENV` が `local` 以外なのに開発用ログインが有効になっています。`.env` の `APP_ENV=local` を確認してください（本番では `DEV_LOGIN_ENABLED` を入れない） |
 | `/api/v1/dev/login` が 404 になる | `APP_ENV=local` と `DEV_LOGIN_ENABLED=true` の両方が必要です。`docker compose up` で起動し直してください |
 | `/api/v1/me` が 401 になる | ログインしていないか、セッションの期限切れ・ログアウト済みです。開発用ログインでログインし直してください |

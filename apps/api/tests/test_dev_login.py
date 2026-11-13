@@ -13,7 +13,7 @@ from app.models import AuthIdentity, Session, User
 
 
 def login(client: TestClient, name: str = "seller1"):
-    return client.post("/api/v1/dev/login", json={"display_name": name})
+    return client.post("/api/v1/dev/login", json={"displayName": name})
 
 
 # --- 安全策 -------------------------------------------------------------------
@@ -61,7 +61,7 @@ def test_dev_login_creates_user_and_session(client, db):
 
     assert response.status_code == 200
     body = response.json()
-    assert body["display_name"] == "seller1"
+    assert body["displayName"] == "seller1"
     assert body["role"] == "member"
     cookie = response.headers["set-cookie"]
     assert "HttpOnly" in cookie
@@ -103,7 +103,7 @@ def test_me_requires_login(client):
     response = client.get("/api/v1/me")
 
     assert response.status_code == 401
-    assert response.json()["detail"]["code"] == "NOT_AUTHENTICATED"
+    assert response.json()["error"]["code"] == "NOT_AUTHENTICATED"
 
 
 def test_logout_revokes_session(client, db):
@@ -136,7 +136,7 @@ def test_suspended_user_is_logged_out_and_cannot_log_in(client, db):
     assert client.get("/api/v1/me").status_code == 401
     response = login(client, "bad_user")
     assert response.status_code == 403
-    assert response.json()["detail"]["code"] == "ACCOUNT_SUSPENDED"
+    assert response.json()["error"]["code"] == "ACCOUNT_SUSPENDED"
 
 
 @pytest.mark.parametrize("name", ["", "x" * 31])

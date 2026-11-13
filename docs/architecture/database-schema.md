@@ -39,15 +39,15 @@ erDiagram
 | `auth_identities` | ログイン手段（Google の `sub`、開発用ログイン） | AUTH-001 / AUTH-002 | ✅ 0001 |
 | `sessions` | ログインセッション | AUTH-001 / AUTH-002 | ✅ 0001 |
 | `categories` | カテゴリ（初期データ5件） | LST-004 | ✅ 0001 |
-| `listings` | 出品（商品情報） | LST-004 | ✅ 0001（API は次の PR） |
-| `auctions` | オークションの開催情報 | LST-004 / BID-001 / AUC-001 | ✅ 0001（API は次の PR） |
+| `listings` | 出品（商品情報と出品条件） | LST-004 | ✅ 0001・0002（API: [出品 API](../api/listings.md)） |
+| `auctions` | オークションの開催情報 | LST-004 / BID-001 / AUC-001 | ✅ 0001（公開・取り下げは出品 API。入札・終了は今後） |
 | `bids` | 入札（最高入札額） | BID-001 | 予定（入札の PR） |
 | `bid_requests` | 入札の冪等性キーと結果 | BID-001 | 予定（入札の PR） |
 | `orders` | 落札後の取引 | AUC-001 | 予定（終了処理の PR） |
 | `outbox_events` | 通知などの送信待ちイベント | AUC-001 / NTF | 予定 |
 | `audit_logs` | 管理操作の監査記録 | MOD-002 | 予定 |
 
-## 実装済みのテーブル（0001）
+## 実装済みのテーブル（0001・0002）
 
 ### `users`
 
@@ -102,7 +102,11 @@ erDiagram
 | `shipping_payer` | 文字列 | `seller` / `buyer`（送料負担） |
 | `shipping_method` | 文字列(80) | 配送方法の説明。1〜80文字 |
 | `status` | 文字列 | `draft` / `published` / `ended` / `suspended` / `cancelled`。既定値 `draft` |
-| `version` | 整数 | 楽観ロック用。1以上、初期値1（トランザクション設計「ロック方式の使い分け」） |
+| `start_price` | 整数 | 出品条件（0002）。1〜1,000万円 |
+| `buyout_price` | 整数 | 出品条件（0002）。任意。開始価格より高く、1,000万円以下 |
+| `auto_extension` | 真偽値 | 出品条件（0002）。既定値「あり」 |
+| `duration_hours` | 整数 | 出品条件（0002）。13〜179（13時間〜7日11時間）。公開時刻からの時間 |
+| `version` | 整数 | 楽観ロック用。1以上、初期値1。編集・公開・取り下げのたびに1増やす（トランザクション設計「ロック方式の使い分け」） |
 | `created_at` / `updated_at` / `published_at` | 日時(UTC) | |
 
 ### `auctions`
@@ -121,6 +125,7 @@ erDiagram
 | `end_reason` | 文字列 | `expired`（期限）/ `buyout`（即決）/ `early_end`（早期終了）/ `cancelled` |
 | `ended_at` / `created_at` | 日時(UTC) | |
 
+- **出品条件は二か所にある。** 下書きの間は `listings` の値を編集し、公開時に `auctions` へ写す。公開後は `auctions` の値が正（ADR-0004 の「公開後・入札なしの編集」を実装するときは両方を更新する）。
 - 現在の価格・最高額入札者・入札数は、このテーブルに持たせず `bids` から計算する案（トランザクション設計 11章の未決事項）。入札の PR で決める。
 
 ## 予定のテーブル（概要）
@@ -130,3 +135,12 @@ erDiagram
 | `bids` | `auction_id`、`bidder_id`、`max_amount`（本人以外に非公開）、`accepted_at` | 受付順を `id` で表すか、オークション内の連番を持つか |
 | `bid_requests` | `(auction_id, user_id, idempotency_key)` 一意、リクエストのハッシュ、結果 | キーの最大長・保存期間（トランザクション設計 11章） |
 | `orders` | `auction_id`（一意）、購入者、出品者、落札価格、商品情報のスナップショット、状態 | 状態遷移の許可条件（仕様書 5.7） |
+
+## ロック
+
+| 対象 | 方式 | 実装 |
+|---|---|---|
+| 下書きの編集・公開 | 楽観ロック（`listings.version` が一致したときだけ更新） | `app/listings/service.py` の `_apply_versioned_update` |
+| 取り下げ（今後：入札・終了処理・運営停止） | 悲観ロック。PostgreSQL は `SELECT ... FOR UPDATE`、SQLite3 は `BEGIN IMMEDIATE` | `app/locking.py` の `lock_auction` |
+
+- SQLite3 では、Python の sqlite3 の既定の動き（読み込みはトランザクションの外、書き込みの直前に `BEGIN`）を変えない。すべてのトランザクションを `BEGIN` で始めると、WAL では「読み込みで始めたトランザクションが、ほかの接続の書き込みのあとで書き込もうとする」と即座に `database is locked` になる（`tests/test_locking.py` で確認）。

@@ -29,6 +29,8 @@ def make_listing(db, seller: User, **overrides) -> Listing:
         condition="like_new",
         shipping_payer="seller",
         shipping_method="ゆうパケット",
+        start_price=1000,
+        duration_hours=72,
     )
     values.update(overrides)
     listing = Listing(**values)
@@ -75,6 +77,10 @@ def test_foreign_keys_are_enforced(db):
         {"condition": "broken"},
         {"shipping_payer": "nobody"},
         {"version": 0},
+        {"start_price": 0},
+        {"buyout_price": 1000},  # 開始価格と同じ
+        {"duration_hours": 12},  # 13時間未満
+        {"duration_hours": 7 * 24 + 12},  # 7日11時間を超える
     ],
 )
 def test_listing_constraints(db, overrides):
