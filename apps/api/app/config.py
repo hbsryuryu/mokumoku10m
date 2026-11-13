@@ -18,6 +18,8 @@ class Settings(BaseSettings):
 
     # Feature AUTH-002: 開発用ログイン。APP_ENV=local のときだけ有効にできる（ADR-0008）。
     dev_login_enabled: bool = False
+    # ローカル画面の配信元。Dockerでは /frontend を指定する。
+    frontend_directory: str | None = None
 
     # セッションの有効期間（時間）。仮の値（最後の操作からではなく、発行から30日）。
     # AUTH-001 の未決事項「セッションの有効期限」が決まったら見直す。

@@ -19,9 +19,13 @@ services:
       APP_ENV: ${APP_ENV:-local}
       # Feature AUTH-002: 開発用ログイン。APP_ENV=local のときだけ使える（ADR-0008）
       DEV_LOGIN_ENABLED: ${DEV_LOGIN_ENABLED:-true}
+      FRONTEND_DIRECTORY: /frontend
     volumes:
       # コードはフォルダごとマウントして、変更をすぐ反映する
       - ./apps/api:/app
+      - ./index.html:/frontend/index.html:ro
+      - ./app.js:/frontend/app.js:ro
+      - ./styles.css:/frontend/styles.css:ro
       # SQLite3 のファイルは Windows のフォルダに置かず named volume に置く（ファイルロックを安定させるため）
       - api-data:/data
 
