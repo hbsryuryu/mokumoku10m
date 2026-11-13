@@ -72,6 +72,7 @@ ADR は決め事の粒度で3階層に分ける。ファイルの場所と番号
 |---|---|---|---|
 | [ADR-0001](adr/0001-backend-framework.md) | バックエンドフレームワーク（FastAPI。Hono はサブ候補） | ADR-0003 | 採用 |
 | [ADR-0006](adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | ADR-0003 | 採用（ORM は SQLAlchemy 2.x + Alembic） |
+| [ADR-0010](adr/0010-web-frontend-nextjs.md) | Web フロントエンドは Next.js で作る | ADR-0003 | 採用（スタイリング等は最初の実装で決める） |
 
 **L3 仮決め**
 
