@@ -14,6 +14,7 @@
 | [`api/`](api/) | API仕様・共通契約 |
 | [`security/`](security/) | セキュリティ・プライバシー方針 |
 | [`runbooks/`](runbooks/) | ローカル確認・本番準備手順 |
+| [`testing/`](testing/) | テスト条件・期待結果・合否判定 |
 
 ## 文書一覧
 
@@ -52,6 +53,7 @@
 | [ADR-0009](architecture/adr/0009-fees.md) | 手数料は落札時のみ、落札価格の10%（税込）とする | 提案中 |
 
 ### その他
+- [オークションサービス テスト仕様書](testing/auction-test-cases.md)：正常系・異常系・境界値・競合・主要フローと仕様確認項目
 - [API仕様書](api/openapi.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)
 - [ローカル開発手順（バックエンド API）](runbooks/local-backend.md)、[ローカル運用手順（静的デモ）](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
