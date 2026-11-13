@@ -22,3 +22,34 @@ TBD
 ## モジュール境界
 
 `auth / users / listings / auctions / bids / orders / payments / notifications / moderation`
+
+## 領域別の方針
+
+- フロントエンド: SEO、アクセシビリティ、レスポンシブ設計
+- UI: 再利用可能なデザインシステム
+- データベース: 正規化、トランザクション、制約を活用
+- ORM / Migration: 移行ファイルをコード管理
+- キャッシュ・ジョブ: 通知、期限処理、レート制限
+- 画像保存: 署名付きアップロード、変換、検査
+- 検索: 規模に応じて検索基盤を分離
+- 認証: 独自の暗号・セッション実装を避ける
+
+## リポジトリ構成（将来案）
+
+現在の構成は [`README.md`](../../README.md) を参照。以下は例であり、既存の構成を無理に作り替えない。
+
+```text
+/
+├── apps/
+│   ├── web/                   # Webアプリ
+│   └── worker/                # 通知・終了処理等のワーカー
+├── packages/
+│   ├── domain/                # ドメインロジックと型
+│   ├── db/                    # スキーマ・Migration
+│   ├── ui/                    # 共通UI
+│   └── config/                # 共通設定
+├── docs/
+└── tests/
+    ├── integration/
+    └── e2e/
+```
