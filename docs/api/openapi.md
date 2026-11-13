@@ -4,6 +4,11 @@
 
 この文書はサーバーAPIのリソース境界、入出力、認証・認可、処理結果を定義する。実装状況はルートの [README](../../README.md)、実装計画は [バックログ](../product/feature-backlog.md) で管理する。未決事項があるAPIは、記載済みの要件と未決の詳細を区別して扱う。
 
+## 実装済み API の詳細
+
+- 出品：[`listings.md`](listings.md)（LST-004）
+- 入札：[`bids.md`](bids.md)（BID-001。HTTP ステータスと実装上の決め事）
+
 ## 共通契約
 
 - JSONはUTF-8。日時はUTCのRFC 3339、金額は小数でなく整数のJPY。

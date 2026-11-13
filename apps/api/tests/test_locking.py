@@ -42,6 +42,7 @@ def make_auction(db) -> Auction:
         starts_at=now,
         ends_at=now + timedelta(days=1),
         original_ends_at=now + timedelta(days=1),
+        current_price=1000,
     )
     db.add(auction)
     db.commit()

@@ -13,7 +13,8 @@ from sqlalchemy.orm import Session as DbSession
 from sqlalchemy.orm import joinedload
 
 from app.db import utcnow
-from app.errors import ApiError, not_found
+from app.bids.pricing import bid_increment
+from app.errors import ApiError, listing_not_found
 from app.listings.schemas import (
     AuctionOut,
     CategoryOut,
@@ -81,15 +82,15 @@ def ensure_category_exists(db: DbSession, category_id: int) -> None:
 
 
 def price_summary(auction: Auction) -> dict[str, int]:
-    """現在の価格・最低入札額・入札数。
-
-    TODO(BID-001): 入札（自動入札・入札単位、ADR-0007）を実装したら、入札から計算する。
-    今は入札がないので、現在の価格も最低入札額も開始価格。
-    """
+    """現在の価格・最低入札額・入札数（オークションの集計列から。計算は BID-001 の app/bids/pricing.py）。"""
+    if auction.bid_count == 0:
+        minimum = auction.start_price
+    else:
+        minimum = auction.current_price + bid_increment(auction.current_price)
     return {
-        "current_price_yen": auction.start_price,
-        "minimum_bid_yen": auction.start_price,
-        "bid_count": 0,
+        "current_price_yen": auction.current_price,
+        "minimum_bid_yen": minimum,
+        "bid_count": auction.bid_count,
     }
 
 
@@ -171,18 +172,18 @@ def get_visible_listing(db: DbSession, listing_id: int, viewer: User | None) -> 
     """見てよい出品を返す。下書き・取り下げ・運営停止は出品者本人だけが見られる。"""
     listing = load_listing(db, listing_id)
     if listing is None:
-        raise not_found("出品が見つかりません")
+        raise listing_not_found()
     is_owner = viewer is not None and viewer.id == listing.seller_id
     if listing.status not in PUBLIC_STATUSES and not is_owner:
         # 存在を知られないよう、権限がない場合も 404 にする（IDOR 対策）。
-        raise not_found("出品が見つかりません")
+        raise listing_not_found()
     return listing
 
 
 def get_own_listing(db: DbSession, listing_id: int, seller: User) -> Listing:
     listing = load_listing(db, listing_id)
     if listing is None or listing.seller_id != seller.id:
-        raise not_found("出品が見つかりません")
+        raise listing_not_found()
     return listing
 
 
@@ -214,6 +215,12 @@ def search_public_listings(
         )
     if sort == "newest":
         statement = statement.order_by(Listing.published_at.desc(), Listing.id.desc())
+    elif sort == "price_asc":
+        statement = statement.order_by(Auction.current_price.asc(), Listing.id.asc())
+    elif sort == "price_desc":
+        statement = statement.order_by(Auction.current_price.desc(), Listing.id.asc())
+    elif sort == "bids":
+        statement = statement.order_by(Auction.bid_count.desc(), Auction.ends_at.asc(), Listing.id.asc())
     else:  # ending: 終了が近い順
         statement = statement.order_by(Auction.ends_at.asc(), Listing.id.asc())
     # 1件多く取って、次のページがあるかを判定する。
@@ -334,6 +341,8 @@ def publish_listing(db: DbSession, seller: User, listing_id: int, expected_versi
             ends_at=ends_at,
             original_ends_at=ends_at,
             status="active",
+            current_price=listing.start_price,
+            bid_count=0,
         )
     )
     db.commit()
@@ -355,7 +364,7 @@ def withdraw_listing(db: DbSession, seller: User, listing_id: int, expected_vers
     if listing.version != expected_version:
         db.rollback()
         raise version_conflict(listing.version)
-    if price_summary(auction)["bid_count"] > 0:  # TODO(BID-001): 入札の実装後は実際の入札数を見る
+    if auction.bid_count > 0:
         db.rollback()
         raise ApiError(
             status.HTTP_409_CONFLICT, "HAS_BIDS", "入札がある出品は取り下げできません（早期終了は可能）"

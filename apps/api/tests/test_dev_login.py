@@ -103,7 +103,7 @@ def test_me_requires_login(client):
     response = client.get("/api/v1/me")
 
     assert response.status_code == 401
-    assert response.json()["error"]["code"] == "NOT_AUTHENTICATED"
+    assert response.json()["error"]["code"] == "UNAUTHENTICATED"
 
 
 def test_logout_revokes_session(client, db):

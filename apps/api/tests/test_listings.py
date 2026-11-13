@@ -93,7 +93,7 @@ def test_create_draft(seller, category_id):
 def test_create_requires_login(make_client, category_id):
     response = make_client().post("/api/v1/listings", json=draft_body(category_id))
     assert response.status_code == 401
-    assert response.json()["error"]["code"] == "NOT_AUTHENTICATED"
+    assert response.json()["error"]["code"] == "UNAUTHENTICATED"
 
 
 def test_create_requires_nickname(seller, category_id, db):

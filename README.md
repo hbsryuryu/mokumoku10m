@@ -11,7 +11,7 @@
 | 部分 | 状態 |
 |---|---|
 | フロントエンド | 静的なデモ（`index.html` / `styles.css` / `app.js`）。サーバーとはまだ接続していない |
-| バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me`、**出品**（下書き・公開・取り下げ・検索、[出品 API](docs/api/listings.md)）まで。入札・終了処理は次の PR から |
+| バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me`、**出品**（[出品 API](docs/api/listings.md)）、**入札**（自動入札・自動延長・即決、[入札 API](docs/api/bids.md)）まで。通常の終了処理・早期終了（AUC-001）は次の PR から |
 | データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)）。会員・セッション・カテゴリ・出品・オークションのテーブルまで（[テーブル設計](docs/architecture/database-schema.md)） |
 | 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）は未実装。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
 
@@ -64,6 +64,15 @@ Google ログインはまだないので、ローカルでは開発用ログイ�
 3. `POST /api/v1/listings` で下書きを作る（入力例は [出品 API](docs/api/listings.md)）
 4. `POST /api/v1/listings/{id}/publish` に `{"expectedVersion": 1}` を送って公開
 5. `GET /api/v1/listings` で一覧に出ることを確認（ログインしていなくても見られる）
+
+### 入札を試す
+
+1. 別の名前（例: `buyerA`）で開発用ログインし直す（出品者は自分の出品に入札できない）
+2. `POST /api/v1/listings/{id}/bids` に `{"amountYen": 700}` を送る。ヘッダー `Idempotency-Key` に任意の文字列（例: `try-1`）が必要
+3. さらに別の名前（例: `buyerB`）で `{"amountYen": 500}` を入札すると、自動入札で `buyerA` が最高額入札者のまま、現在の価格が 510円になる（`result: "outbid"`）
+4. 即決価格を設定した出品に、即決価格以上で入札すると `result: "won"` になり、取引が作られる
+
+詳しくは [入札 API](docs/api/bids.md) を参照してください。
 
 別の会員として試したいときは、別の名前でログインし直します。
 

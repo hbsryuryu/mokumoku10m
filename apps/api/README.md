@@ -23,9 +23,10 @@ apps/api/
 │   ├── errors.py        # 共通のエラー形式 {"error": {"code", "message", "details"}}
 │   ├── schemas.py       # API の入出力の共通設定（JSON は camelCase）
 │   ├── locking.py       # オークションの悲観ロック（SQLite3 と PostgreSQL の違いをここに閉じ込める）
-│   ├── models/          # テーブル定義（user.py：会員・認証・セッション、listing.py：カテゴリ・出品・オークション）
+│   ├── models/          # テーブル定義（user.py：会員・認証・セッション、listing.py：カテゴリ・出品・オークション、bid.py：入札・冪等性の記録、order.py：取引）
 │   ├── auth/            # セッション、ログイン中の会員の取り出し、/me・ログアウト、開発用ログイン
-│   └── listings/        # 出品 API（schemas.py：入出力、service.py：業務ルール、router.py：URL）
+│   ├── listings/        # 出品 API（schemas.py：入出力、service.py：業務ルール、router.py：URL）
+│   └── bids/            # 入札 API（pricing.py：入札単位・自動入札の計算、service.py：受付の手順、router.py：URL）
 └── tests/               # pytest のテスト（conftest.py がテスト専用の DB を用意する）
 ```
 

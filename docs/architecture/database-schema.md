@@ -41,9 +41,9 @@ erDiagram
 | `categories` | カテゴリ（初期データ5件） | LST-004 | ✅ 0001 |
 | `listings` | 出品（商品情報と出品条件） | LST-004 | ✅ 0001・0002（API: [出品 API](../api/listings.md)） |
 | `auctions` | オークションの開催情報 | LST-004 / BID-001 / AUC-001 | ✅ 0001（公開・取り下げは出品 API。入札・終了は今後） |
-| `bids` | 入札（最高入札額） | BID-001 | 予定（入札の PR） |
-| `bid_requests` | 入札の冪等性キーと結果 | BID-001 | 予定（入札の PR） |
-| `orders` | 落札後の取引 | AUC-001 | 予定（終了処理の PR） |
+| `bids` | 入札（最高入札額） | BID-001 | ✅ 0003（API: [入札 API](../api/bids.md)） |
+| `bid_requests` | 入札の冪等性キーと結果 | BID-001 | ✅ 0003 |
+| `orders` | 落札後の取引 | BID-001（即決）/ AUC-001（終了・早期終了） | ✅ 0003（即決で作成。終了処理は今後） |
 | `outbox_events` | 通知などの送信待ちイベント | AUC-001 / NTF | 予定 |
 | `audit_logs` | 管理操作の監査記録 | MOD-002 | 予定 |
 
@@ -126,15 +126,41 @@ erDiagram
 | `ended_at` / `created_at` | 日時(UTC) | |
 
 - **出品条件は二か所にある。** 下書きの間は `listings` の値を編集し、公開時に `auctions` へ写す。公開後は `auctions` の値が正（ADR-0004 の「公開後・入札なしの編集」を実装するときは両方を更新する）。
-- 現在の価格・最高額入札者・入札数は、このテーブルに持たせず `bids` から計算する案（トランザクション設計 11章の未決事項）。入札の PR で決める。
+- **集計列（0003）**：`current_price`（現在の価格。`start_price` 以上）・`highest_bidder_id`（最高額入札者。公開しない）・`bid_count`（入札数）。入札と同じトランザクションで、全入札から自動入札の計算をし直して更新する。正は `bids` の履歴（トランザクション設計 2章の不変条件3）。
 
-## 予定のテーブル（概要）
+## 実装済みのテーブル（0003）
 
-| テーブル | 主な列 | 決めること |
+### `bids`
+
+| 列 | 型 | 制約・説明 |
 |---|---|---|
-| `bids` | `auction_id`、`bidder_id`、`max_amount`（本人以外に非公開）、`accepted_at` | 受付順を `id` で表すか、オークション内の連番を持つか |
-| `bid_requests` | `(auction_id, user_id, idempotency_key)` 一意、リクエストのハッシュ、結果 | キーの最大長・保存期間（トランザクション設計 11章） |
-| `orders` | `auction_id`（一意）、購入者、出品者、落札価格、商品情報のスナップショット、状態 | 状態遷移の許可条件（仕様書 5.7） |
+| `id` | 整数 | 主キー。**受付順を表す**（単調増加） |
+| `auction_id` / `bidder_id` | 整数 | `auctions.id` / `users.id` |
+| `max_amount` | 整数 | 最高入札額。1〜1,000万円。**本人以外に見せない**（ADR-0007） |
+| `accepted_at` | 日時(UTC) | 受付時刻（ロック取得後） |
+
+- 追記のみ。通常は更新・削除しない（AGENTS.md）。
+
+### `bid_requests`
+
+| 列 | 型 | 制約・説明 |
+|---|---|---|
+| `auction_id` / `user_id` / `idempotency_key` | 整数 / 整数 / 文字列(64) | **3つの組み合わせで一意** |
+| `request_hash` | 文字列(64) | リクエスト本文の SHA-256。同じキーで本文が違えば `IDEMPOTENCY_KEY_REUSED` |
+| `status_code` / `response_body` | 整数 / テキスト(JSON) | 初回の応答。再送にはこれをそのまま返す（成功も業務上の拒否も） |
+| `bid_id` | 整数 | 受け付けた入札（拒否なら NULL） |
+
+### `orders`
+
+| 列 | 型 | 制約・説明 |
+|---|---|---|
+| `auction_id` | 整数 | **一意**（1オークションに1件。二重作成を DB で防ぐ） |
+| `listing_id` / `buyer_id` / `seller_id` | 整数 | `buyer_id <> seller_id`（CHECK） |
+| `amount` | 整数 | 落札価格（送料・手数料を含まない）。1〜1,000万円 |
+| `status` | 文字列 | `awaiting_payment` / `paid` / `shipped` / `delivered` / `completed` / `cancelled` / `disputed` / `refunded` |
+| `title` / `description` / `condition` / `shipping_payer` / `shipping_method` | | 取引時点のスナップショット |
+
+- 手数料（ADR-0009）は提案中のため、まだ列を持たない。
 
 ## ロック
 

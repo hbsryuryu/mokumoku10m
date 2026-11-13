@@ -24,7 +24,16 @@ from sqlalchemy import delete  # noqa: E402
 from app.config import Settings  # noqa: E402
 from app.db import SessionLocal  # noqa: E402
 from app.main import create_app  # noqa: E402
-from app.models import Auction, AuthIdentity, Listing, Session, User  # noqa: E402
+from app.models import (  # noqa: E402
+    Auction,
+    AuthIdentity,
+    Bid,
+    BidRequest,
+    Listing,
+    Order,
+    Session,
+    User,
+)
 
 API_DIR = Path(__file__).resolve().parents[1]
 
@@ -46,7 +55,7 @@ def clean_tables():
     yield
     with SessionLocal() as db:
         # 外部キーの依存の逆順に消す。カテゴリは初期データなので残す。
-        for model in (Auction, Listing, Session, AuthIdentity, User):
+        for model in (BidRequest, Order, Bid, Auction, Listing, Session, AuthIdentity, User):
             db.execute(delete(model))
         db.commit()
 
