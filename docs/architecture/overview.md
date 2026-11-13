@@ -4,8 +4,8 @@
 
 | 領域 | 初期候補 | 決定 |
 |---|---|---|
-| フロントエンド | Next.js + TypeScript | TBD |
-| UI | Tailwind CSS + コンポーネントライブラリ | TBD |
+| フロントエンド | Next.js + TypeScript（`apps/web/`）。`/api/*` は Next.js から FastAPI に転送し、ブラウザからは同じオリジンに見せる | **Next.js に決定**（[ADR-0010](../adr/0010-web-frontend-nextjs.md)） |
+| UI | Tailwind CSS + コンポーネントライブラリ | TBD（最初の Web 実装の PR で決める。ADR-0010） |
 | バックエンド | Python + FastAPI（モジュラーモノリス）。Hono はサブ候補 | **FastAPI に決定**（[ADR-0001](../adr/0001-backend-framework.md)） |
 | データベース | 開発初期は SQLite3 → staging / production の前に PostgreSQL | **決定**（[ADR-0006](../adr/0006-database-sqlite-to-postgresql.md)） |
 | ORM / Migration | SQLAlchemy 2.x + Alembic | 決定（[ADR-0006](../adr/0006-database-sqlite-to-postgresql.md)） |
