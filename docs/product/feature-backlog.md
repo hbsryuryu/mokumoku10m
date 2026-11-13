@@ -1,19 +1,19 @@
 # 未定義の機能一覧（バックログ）
 
 - 作成日: 2026-11-07
-- 目的: MVP やYahoo!オークション準拠（[ADR-0007](../architecture/adr/0007-align-with-yahoo-auctions.md)）に必要なのに、要件・設計がまだない機能を一覧にする。
+- 目的: MVP やYahoo!オークション準拠（[ADR-0007](../adr/0007-align-with-yahoo-auctions.md)）に必要なのに、要件・設計がまだない機能を一覧にする。
 - 機能ID: `ドメイン接頭辞-連番`（[AUTH-001](auth-001-google-login.md) と同じ形式）。接頭辞は AGENTS.md 8章のモジュール（`MOD`=moderation、`USR`=users、`ORD`=orders、`LST`=listings）。
 - 進め方: 優先順位の高いものから、1機能ずつ要件・設計（受け入れ条件とテストケースを含む）を書いて PR にする。書いたら下の表の「状態」を更新する。
 
 ## 一覧
 
-優先 0 は「出品→入札→落札」の基本の流れで、[ADR-0008](../architecture/adr/0008-mvp-implementation-provisional-decisions.md) の仮決めに基づいて実装を始めたもの。
+優先 0 は「出品→入札→落札」の基本の流れで、[ADR-0008](../adr/0008-mvp-implementation-provisional-decisions.md) の仮決めに基づいて実装を始めたもの。
 
 | 優先 | ID | 機能 | 今の状況 | 決める必要があること | 状態 |
 |---|---|---|---|---|---|
-| 0 | AUTH-002 | **開発用ログイン** | 仮決め済み（[ADR-0008](../architecture/adr/0008-mvp-implementation-provisional-decisions.md)） | — | 着手 |
+| 0 | AUTH-002 | **開発用ログイン** | 仮決め済み（[ADR-0008](../adr/0008-mvp-implementation-provisional-decisions.md)） | — | 着手 |
 | 0 | LST-004 | **出品（下書き・公開・編集・取り下げ・一覧・詳細）** | 入力項目は仮決め済み（ADR-0008）、編集・取り下げは ADR-0004 | テーブル定義 | 着手 |
-| 0 | BID-001 | **入札（自動入札・入札単位・自動延長・即決）** | ルールは ADR-0007、手順は [入札トランザクション設計](../architecture/designs/auction-bid-transaction.md) | — | 着手 |
+| 0 | BID-001 | **入札（自動入札・入札単位・自動延長・即決）** | ルールは ADR-0007、手順は [入札トランザクション設計](../architecture/auction-bid-transaction.md) | — | 着手 |
 | 0 | AUC-001 | **終了・落札（定期終了処理・早期終了・取引レコード作成）** | 動かし方は ADR-0008、手順は入札トランザクション設計 5章 | ワーカーのライブラリ（当面は API と同じプロセス） | 着手 |
 | 1 | MOD-001 | **管理者の作成と権限** | 未定義。`User.role`（`member` / `admin`）を持たせる設計だけある（[AUTH-001 設計](../architecture/auth-001-google-login-design.md)） | 最初の管理者の作り方（ログインは Google のみのため。例：環境変数に Google の `sub` を登録、管理用コマンドで昇格）、権限の分け方（閲覧のみ／出品停止／アカウント停止など）、管理者の操作の監査 | 未着手 |
 | 1 | MOD-002 | **管理画面・管理 API（通報審査、出品の非公開化、アカウント停止）** | 仕様書 5.9・6.4 に「やること」だけある。API 案（[`openapi.md`](../api/openapi.md)）に管理用 API が1本もない | `/api/v1/admin/...` の一覧、通報の状態遷移、画面の一覧・詳細・操作の流れ、審査基準（[未決事項](open-questions.md) #5） | 未着手 |
@@ -30,7 +30,7 @@
 
 | 優先 | 項目 | 今の状況 | 備考 |
 |---|---|---|---|
-| 5 | システム監視（エラー率、応答時間、ジョブの失敗） | 方針だけで、ツールは未決（[ADR-0003](../architecture/adr/0003-production-stack-pending.md)） | 公開前の準備（AGENTS.md 12章のフェーズ5）で決める |
+| 5 | システム監視（エラー率、応答時間、ジョブの失敗） | 方針だけで、ツールは未決（[ADR-0003](../adr/0003-production-stack-pending.md)） | 公開前の準備（AGENTS.md 12章のフェーズ5）で決める |
 | — | 利用規約・プライバシーポリシーのページ | 法務の確認待ち | 公開前に必要 |
 | — | 静的デモ（`app.js`）の入札ロジック | 古いルールのまま（初回入札「開始価格＋増分」、独自の増分表、自動入札なし） | ADR-0007 に合わせるコード修正の PR を別に出す |
 

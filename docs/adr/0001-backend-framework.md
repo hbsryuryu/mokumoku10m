@@ -43,7 +43,7 @@ AGENTS.md 3章では、バックエンドの初期候補を「TypeScript + Node.
 - **認証（AUTH-001 / Google OIDC）**：Python のライブラリ（候補: Authlib）を使う。Google の `google-auth` にある `verify_oauth2_token` は `iss` を検証しないため、使う場合は `iss` を自前で確認する。
 - **ワーカー（終了処理・通知）**：Python で作る（ライブラリは未決）。
 - **テスト**：pytest を基本にする（AGENTS.md 9章の入札競合テストを含む）。
-- **更新した文書**：`../overview.md`、`../../product/open-questions.md` #8、`0003-production-stack-pending.md`、`../auth-001-google-login-design.md`、`../../api/README.md`、`../../README.md`、`AGENTS.md` 3章の表。
+- **更新した文書**：`../architecture/overview.md`、`../product/open-questions.md` #8、`0003-production-stack-pending.md`、`../architecture/auth-001-google-login-design.md`、`../api/README.md`、`../README.md`、`AGENTS.md` 3章の表。
 
 ## 見直す条件
 

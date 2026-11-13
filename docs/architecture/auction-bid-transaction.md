@@ -2,7 +2,7 @@
 
 - 状態: 提案（DB実装前の論理仕様）
 - 対象: MVPの通常オークション
-- 関連: [オークション業務ルール](../../product/auction-rules.md)、[ADR-0004](../adr/0004-auction-operating-rules.md)、[ADR-0007](../adr/0007-align-with-yahoo-auctions.md)（入札単位・自動入札・自動延長・即決）、[ADR-0006](../adr/0006-database-sqlite-to-postgresql.md)、[API設計案](../../api/openapi.md)、[ドメインモデル](../domain-model.md)
+- 関連: [オークション業務ルール](../product/auction-rules.md)、[ADR-0004](../adr/0004-auction-operating-rules.md)、[ADR-0007](../adr/0007-align-with-yahoo-auctions.md)（入札単位・自動入札・自動延長・即決）、[ADR-0006](../adr/0006-database-sqlite-to-postgresql.md)、[API設計案](../api/openapi.md)、[ドメインモデル](domain-model.md)
 
 ## 1. 目的と適用範囲
 

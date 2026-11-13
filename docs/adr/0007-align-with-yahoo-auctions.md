@@ -4,7 +4,7 @@
 - 日付: 2026-11-06
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
 - 置き換え: [ADR-0004](0004-auction-operating-rules.md) のうち「最低入札増分」「同額入札」「終了直前の入札」。ADR-0004 の「出品の編集」「出品の取り下げ・停止」は引き続き有効
-- 関連: [`yahoo-auctions-alignment.md`](../../product/yahoo-auctions-alignment.md)（仕様の比較表）、[`auction-rules.md`](../../product/auction-rules.md)、[`auction-bid-transaction.md`](../designs/auction-bid-transaction.md)
+- 関連: [`yahoo-auctions-alignment.md`](../product/yahoo-auctions-alignment.md)（仕様の比較表）、[`auction-rules.md`](../product/auction-rules.md)、[`auction-bid-transaction.md`](../architecture/auction-bid-transaction.md)
 
 ## 背景
 
@@ -17,7 +17,7 @@
 
 - **オークションの仕様（入札・終了・出品のルール）は Yahoo!オークションに合わせる。**
 - 合わせるのは**ルールと利用体験**であり、**商標・ロゴ・画面デザイン・文章・画像は使わない**（AGENTS.md の方針どおり）。サービス名は「めぐる市」のまま。
-- Yahoo!オークションの仕様は変わることがあるため、参照した内容は確認日つきで [`yahoo-auctions-alignment.md`](../../product/yahoo-auctions-alignment.md) に記録し、実装前に再確認する。
+- Yahoo!オークションの仕様は変わることがあるため、参照した内容は確認日つきで [`yahoo-auctions-alignment.md`](../product/yahoo-auctions-alignment.md) に記録し、実装前に再確認する。
 - 公式ヘルプに書かれていない細部（同額の扱いなど）は、本プロジェクトで決めて明記する。
 
 ### 2. 入札単位（ADR-0004 の増分表を置き換え）
@@ -91,7 +91,7 @@
 
 - **MVP の範囲が広がる**：自動入札・自動延長・即決価格・早期終了が MVP に入る。AGENTS.md 2.1 / 2.2、`mvp-scope.md` を更新した。
 - **データモデル**：`Bid` に本人以外には見せない最高入札額を持たせる。`Auction` に自動延長の有無、即決価格、延長後の終了時刻、早期終了の記録を持たせる。
-- **入札処理**：[`auction-bid-transaction.md`](../designs/auction-bid-transaction.md) の最低額判定を、自動入札による価格計算に変えた。延長・即決も同じトランザクションで確定する。
+- **入札処理**：[`auction-bid-transaction.md`](../architecture/auction-bid-transaction.md) の最低額判定を、自動入札による価格計算に変えた。延長・即決も同じトランザクションで確定する。
 - **テスト**：入札単位の各境界、自動入札の価格計算（勝ち・負け・同額）、終了5分前の境界（延長あり・なし）、連続延長、即決、早期終了と入札の競合を追加する。
 - **静的デモ（`app.js`）**：まだ古いルールのまま。別の PR で合わせる。
 

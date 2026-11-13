@@ -4,7 +4,7 @@
 - 状態: 提案中（チーム確認待ち）
 - 要件: [`../product/auth-001-google-login.md`](../product/auth-001-google-login.md)
 - 作成日: 2026-10-30
-- 前提: バックエンドは FastAPI（[ADR-0001](adr/0001-backend-framework.md)。Hono はサブ候補）。設計自体はフレームワークに依存しない形で書いている。
+- 前提: バックエンドは FastAPI（[ADR-0001](../adr/0001-backend-framework.md)。Hono はサブ候補）。設計自体はフレームワークに依存しない形で書いている。
 - Google 側の仕様は、末尾の「付録：Google 側の仕様（2026-10-30 確認）」を参照。
 
 ## 方式
