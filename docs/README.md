@@ -1,6 +1,6 @@
 # ドキュメント案内
 
-このディレクトリには、オークションMVPの要件、設計判断、API案、セキュリティ方針、運用手順を記録します。現時点の実装は静的フロントエンドのプロトタイプであり、API・DB・認証・決済はありません。
+このディレクトリには、オークションMVPの要件、設計判断、API案、セキュリティ方針、運用手順を記録します。現在は静的フロントエンドのプロトタイプと、FastAPI・SQLite3 によるバックエンドの雛形（`/health` のみ）があります。フロントエンドとAPIは未接続で、認証・決済は未実装です。実装状況は [ルートのREADME](../README.md) を参照してください。
 
 全体方針は [`../AGENTS.md`](../AGENTS.md)、ブランチ・PR などの開発の進め方は [`../CONTRIBUTING.md`](../CONTRIBUTING.md) を参照してください。
 
@@ -9,7 +9,8 @@
 | ディレクトリ | 内容 |
 |---|---|
 | [`product/`](product/) | 要件・業務ルール・画面・未決事項 |
-| [`architecture/`](architecture/) | 全体構成・ドメインモデル・ADR（`architecture/adr/` に集約） |
+| [`architecture/`](architecture/) | 全体構成・ドメインモデル・各機能の詳細設計 |
+| [`adr/`](adr/) | 設計判断の履歴・テンプレート |
 | [`api/`](api/) | API仕様案（OpenAPI等） |
 | [`security/`](security/) | セキュリティ・プライバシー方針 |
 | [`runbooks/`](runbooks/) | ローカル確認・本番準備手順 |
@@ -30,9 +31,12 @@
 
 ### architecture
 - [全体構成](architecture/overview.md)、[ドメインモデル](architecture/domain-model.md)
-- [入札・終了処理のトランザクション仕様](architecture/designs/auction-bid-transaction.md)
+- [入札・終了処理のトランザクション仕様](architecture/auction-bid-transaction.md)
 - [AUTH-001: Google ログイン（設計）](architecture/auth-001-google-login-design.md)：提案中
-- ADR（[テンプレート](architecture/adr/template.md)）
+
+### adr
+
+設計判断の履歴（[テンプレート](adr/template.md)）。
 
 | 番号 | タイトル | 状態 |
 |---|---|---|
@@ -53,8 +57,9 @@
 
 ## 書き方ルール
 
+- 文書は原則として `docs/<分類>/<文書>.md` に置き、分類の下にさらにフォルダを作らない。計画文書は `product/`、詳細設計は `architecture/`、設計判断の履歴は `adr/` にまとめる。
 - 日本語で記録し、ファイル名は英小文字のケバブケースにする。
 - 未確定の内容は「未決」「TBD」「将来案」と明記し、確定仕様として実装しない。
-- 設計判断は `architecture/adr/NNNN-タイトル.md` に記録する。番号は既存の最大番号 +1 とし、作成前に `main` を最新化して重複がないか確認する。
+- 設計判断は `adr/NNNN-タイトル.md` に記録する。番号は既存の最大番号 +1 とし、作成前に `main` を最新化して重複がないか確認する。
 - 同じテーマの文書を新しく作る前に、既存の文書がないか確認し、あれば追記する。
 - 仕様やルールを変えたら、関連する文書も同じ PR で更新する。

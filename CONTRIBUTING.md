@@ -66,7 +66,7 @@ AI ツールで作成した変更も、人が内容を確認してからコミ�
 
 ## ADR（設計判断の記録）
 
-- `docs/architecture/adr/NNNN-タイトル.md` に作成する（[テンプレート](docs/architecture/adr/template.md)）。
+- `docs/adr/NNNN-タイトル.md` に作成する（[テンプレート](docs/adr/template.md)）。
 - 番号は既存の最大番号 +1。作成前に `main` を最新化し、他の PR と番号が重複していないか確認する。
 - 状態は「提案中 → 採用 / 却下」。採用はチームの合意を PR で確認してから変更する。
 

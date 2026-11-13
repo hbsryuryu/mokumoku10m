@@ -1,6 +1,6 @@
 # オークション業務ルール（MVP）
 
-> ルールは [ADR-0007](../architecture/adr/0007-align-with-yahoo-auctions.md)（Yahoo!オークションに合わせる）に従います。Yahoo!オークションとの比較は [`yahoo-auctions-alignment.md`](yahoo-auctions-alignment.md) を参照してください。未決事項は [`open-questions.md`](open-questions.md) を参照してください。現在の画面はブラウザ内だけで動くデモであり、正式な入札APIやDB処理はありません。
+> ルールは [ADR-0007](../adr/0007-align-with-yahoo-auctions.md)（Yahoo!オークションに合わせる）に従います。Yahoo!オークションとの比較は [`yahoo-auctions-alignment.md`](yahoo-auctions-alignment.md) を参照してください。未決事項は [`open-questions.md`](open-questions.md) を参照してください。現在の画面はブラウザ内だけで動くデモであり、正式な入札APIやDB処理はありません。
 
 ## 用語
 

@@ -1,7 +1,7 @@
 # プロトタイプ要件と受け入れ条件
 
 - 状態: プロトタイプ要件（本番MVPの完了宣言ではない）
-- 関連: 本番MVPの機能範囲は [`mvp-scope.md`](mvp-scope.md)、プロトタイプの位置づけは [ADR-0002](../architecture/adr/0002-prototype-scope.md)
+- 関連: 本番MVPの機能範囲は [`mvp-scope.md`](mvp-scope.md)、プロトタイプの位置づけは [ADR-0002](../adr/0002-prototype-scope.md)
 - 対象: `index.html` / `styles.css` / `app.js`
 
 ## 目的
@@ -65,4 +65,4 @@
 
 ## 未決事項
 
-予定開始時刻、カテゴリ体系、禁止商品と年齢制限、キャンセル・返品・未払い、手数料・税、KYC、決済業者、配送と匿名性は決まっていない。これらを実装時の暗黙の判断で確定しない。本番MVPの最低入札増分、同額入札、終了時延長なしは [ADR-0004](../architecture/adr/0004-auction-operating-rules.md) で決定済みだが、`app.js` のデモには反映していない。
+予定開始時刻、カテゴリ体系、禁止商品と年齢制限、キャンセル・返品・未払い、手数料・税、KYC、決済業者、配送と匿名性は決まっていない。これらを実装時の暗黙の判断で確定しない。本番MVPの最低入札増分、同額入札、終了時延長なしは [ADR-0004](../adr/0004-auction-operating-rules.md) で決定済みだが、`app.js` のデモには反映していない。

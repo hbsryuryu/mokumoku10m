@@ -9,7 +9,7 @@
 | 全文書・ADR 一覧 | `README.md` |
 | 要求仕様（権限、成功指標、機能、品質ゲート） | `product/auction-site-spec.md` |
 | スコープ、未決事項、計画 | `product/mvp-scope.md`、`product/open-questions.md`、`product/feature-backlog.md`、`product/roadmap.md` |
-| 入札、終了、出品編集 | `product/auction-rules.md`、`architecture/designs/auction-bid-transaction.md`、ADR-0007、ADR-0004（出品の編集・取り下げ）、`product/yahoo-auctions-alignment.md` |
+| 入札、終了、出品編集 | `product/auction-rules.md`、`architecture/auction-bid-transaction.md`、ADR-0007、ADR-0004（出品の編集・取り下げ）、`product/yahoo-auctions-alignment.md` |
 | 認証 | ADR-0005、`product/auth-001-google-login.md`、`architecture/auth-001-google-login-design.md` |
 | DB、エンティティ | `architecture/domain-model.md`、ADR-0006 |
 | 技術構成 | `architecture/overview.md` |

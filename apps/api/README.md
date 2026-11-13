@@ -2,8 +2,8 @@
 
 めぐる市のバックエンド API です。起動の基本手順はリポジトリ直下の [`README.md`](../../README.md)、詳しい手順とトラブル対応は [`docs/runbooks/local-backend.md`](../../docs/runbooks/local-backend.md) を参照してください。
 
-- フレームワーク：FastAPI（[ADR-0001](../../docs/architecture/adr/0001-backend-framework.md)）
-- データベース：開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](../../docs/architecture/adr/0006-database-sqlite-to-postgresql.md)）
+- フレームワーク：FastAPI（[ADR-0001](../../docs/adr/0001-backend-framework.md)）
+- データベース：開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](../../docs/adr/0006-database-sqlite-to-postgresql.md)）
 - ORM / マイグレーション：SQLAlchemy 2.x + Alembic（ADR-0006）
 
 ## フォルダ構成

@@ -4,7 +4,7 @@
 - 日付: 2026-10-30
 - 備考: 当初 `docs/architecture/ADR-0003-auction-operating-rules.md` として追加。`adr/0003-production-stack-pending.md` と番号が重複していたため ADR-0004 に振り直し（内容は変更なし）
 - 決定者: プロダクトオーナーの依頼に基づき仕様化
-- 関連: [`auction-rules.md`](../../product/auction-rules.md)、[`auction-site-spec.md`](../../product/auction-site-spec.md)
+- 関連: [`auction-rules.md`](../product/auction-rules.md)、[`auction-site-spec.md`](../product/auction-site-spec.md)
 
 ## 背景
 

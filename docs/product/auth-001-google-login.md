@@ -3,7 +3,7 @@
 - 機能ID: AUTH-001
 - 状態: 提案中（チーム確認待ち）
 - 作成日: 2026-10-30
-- 関連: AGENTS.md 2.1 #1・7章、[`mvp-scope.md`](mvp-scope.md) #1、[ADR-0001](../architecture/adr/0001-backend-framework.md)、設計は [`auth-001-google-login-design.md`](../architecture/auth-001-google-login-design.md)
+- 関連: AGENTS.md 2.1 #1・7章、[`mvp-scope.md`](mvp-scope.md) #1、[ADR-0001](../adr/0001-backend-framework.md)、設計は [`auth-001-google-login-design.md`](../architecture/auth-001-google-login-design.md)
 
 ## 背景・決定
 
