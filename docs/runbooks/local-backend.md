@@ -14,7 +14,7 @@
 Copy-Item .env.example .env
 ```
 
-`.env` の値は空のままでも起動できます。`.env` は Git にコミットしません（`.gitignore` 済み）。
+`.env` には `APP_ENV=local` と `DEV_LOGIN_ENABLED=true` が入っています（開発用ログインを使うため）。ほかの値は空のままで起動できます。`.env` は Git にコミットしません（`.gitignore` 済み）。
 
 ## 起動・停止
 
@@ -29,18 +29,35 @@ Copy-Item .env.example .env
 
 `--build` は `pyproject.toml`（依存パッケージ）を変えたときに必要です。Python のコードを変えただけなら、自動で再読み込みされます。
 
+起動するたびに `alembic upgrade head`（マイグレーションの適用）が自動で実行されます。新しいマイグレーションを取り込んだら、起動し直すだけでテーブルが更新されます。
+
 ## 動作確認
 
-- http://localhost:8000/health → `{"status":"ok","database":"sqlite"}`
-- http://localhost:8000/docs → API ドキュメント
+- http://localhost:8000/health → `{"status":"ok","database":"sqlite","env":"local"}`
+- http://localhost:8000/docs → API ドキュメント（ここから API を試せる）
+
+## 開発用ログイン（AUTH-002）
+
+ログインは Google のみ（ADR-0005）ですが、Google ログイン（AUTH-001）はまだ実装されていません。ローカルでは開発用ログインで会員になって、出品・入札などを試します（[ADR-0008](../adr/0008-mvp-implementation-provisional-decisions.md)）。
+
+1. http://localhost:8000/docs を開く
+2. `POST /api/v1/dev/login` で `{"display_name": "seller1"}` を送る → ログイン状態になる（Cookie `session` が保存される）
+3. `GET /api/v1/me` → ログイン中の会員が表示される
+4. `POST /api/v1/auth/logout` → ログアウト
+
+- 同じ表示名でログインすると、同じ会員になります。出品者と入札者を試すときは、`seller1` と `buyer1` のように名前を分けます。
+- 開発用ログインは `APP_ENV=local` かつ `DEV_LOGIN_ENABLED=true` のときだけ存在します。`APP_ENV` が `local` 以外で `DEV_LOGIN_ENABLED=true` にすると、**安全のためアプリが起動を拒否します。**
 
 ## テスト・マイグレーション
 
 ```powershell
 docker compose run --rm api pytest
 docker compose run --rm api alembic upgrade head
-docker compose run --rm api alembic revision --autogenerate -m "変更内容"
+docker compose run --rm api alembic revision --autogenerate --rev-id 0002 -m "add bids table"
 ```
+
+- テストは一時フォルダのテスト専用 DB を使うので、開発用の DB のデータは消えません。
+- テーブルの設計は [`database-schema.md`](../architecture/database-schema.md) を参照してください。
 
 ## データの置き場所
 
@@ -58,6 +75,9 @@ SQLite3 の DB ファイルは、Docker の named volume `api-data` の中（コ
 | 依存パッケージを追加したのに `ModuleNotFoundError` | `docker compose up --build` でイメージを作り直してください |
 | `alembic` で `UnicodeDecodeError: 'cp932'` | `alembic.ini` に日本語などの ASCII 以外の文字が入っています。Windows では cp932 で読まれるため、`alembic.ini` は ASCII 文字だけで書いてください |
 | DB を最初からやり直したい | `docker compose down -v` で volume ごと消してから起動し直してください |
+| 起動時に `UnsafeSettingsError: DEV_LOGIN_ENABLED=true は APP_ENV=local のときだけ使えます` | `APP_ENV` が `local` 以外なのに開発用ログインが有効になっています。`.env` の `APP_ENV=local` を確認してください（本番では `DEV_LOGIN_ENABLED` を入れない） |
+| `/api/v1/dev/login` が 404 になる | `APP_ENV=local` と `DEV_LOGIN_ENABLED=true` の両方が必要です。`docker compose up` で起動し直してください |
+| `/api/v1/me` が 401 になる | ログインしていないか、セッションの期限切れ・ログアウト済みです。開発用ログインでログインし直してください |
 
 ## PostgreSQL に移行するとき（将来）
 

@@ -2,13 +2,21 @@ from logging.config import fileConfig
 
 from alembic import context
 
-from app.db import Base, engine
+import app.models  # noqa: F401  モデルを読み込んで metadata に登録する
+from app.db import Base, UTCDateTime, engine
 
 config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
+
+
+def render_item(type_, obj, autogen_context):
+    """マイグレーションにアプリ独自の型を書き出さず、DB の型（DateTime）として書く。"""
+    if type_ == "type" and isinstance(obj, UTCDateTime):
+        return "sa.DateTime(timezone=True)"
+    return False
 
 
 def run_migrations_offline() -> None:
@@ -18,6 +26,7 @@ def run_migrations_offline() -> None:
         literal_binds=True,
         # ADR-0006: SQLite3 は ALTER TABLE の制限が多いため batch モードを使う。
         render_as_batch=True,
+        render_item=render_item,
     )
     with context.begin_transaction():
         context.run_migrations()
@@ -29,6 +38,7 @@ def run_migrations_online() -> None:
             connection=connection,
             target_metadata=target_metadata,
             render_as_batch=True,
+            render_item=render_item,
         )
         with context.begin_transaction():
             context.run_migrations()

@@ -11,9 +11,9 @@
 | 部分 | 状態 |
 |---|---|
 | フロントエンド | 静的なデモ（`index.html` / `styles.css` / `app.js`）。サーバーとはまだ接続していない |
-| バックエンド API | FastAPI の雛形（`apps/api/`）。今は `/health` だけ（[ADR-0001](docs/adr/0001-backend-framework.md)） |
-| データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)） |
-| 認証 | Google ログインの設計のみ（[ADR-0005](docs/adr/0005-google-only-authentication.md)、[AUTH-001](docs/architecture/auth-001-google-login-design.md)）。未実装 |
+| バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me` まで。出品・入札は次の PR から |
+| データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)）。会員・セッション・カテゴリ・出品・オークションのテーブルまで（[テーブル設計](docs/architecture/database-schema.md)） |
+| 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）は未実装。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
 
 ## ディレクトリ構成
 
@@ -35,17 +35,29 @@
 必要なもの：[Docker Desktop](https://www.docker.com/products/docker-desktop/)（起動しておく）
 
 ```powershell
-# 1. 環境変数のファイルを作る（最初の1回だけ。値は空のままでも起動できる）
+# 1. 環境変数のファイルを作る（最初の1回だけ）
 Copy-Item .env.example .env
 
 # 2. 起動する（初回はイメージのビルドに数分かかる）
+#    起動のたびに DB のマイグレーション（テーブル作成・更新）も自動で行う
 docker compose up --build
 ```
 
 ブラウザで次を開いて確認します。
 
-- http://localhost:8000/health → `{"status":"ok","database":"sqlite"}` と表示されれば成功
-- http://localhost:8000/docs → API ドキュメント（FastAPI が自動で作る画面）
+- http://localhost:8000/health → `{"status":"ok","database":"sqlite","env":"local"}` と表示されれば成功
+- http://localhost:8000/docs → API ドキュメント（FastAPI が自動で作る画面。ここから API を試せる）
+
+### 開発用ログインを試す
+
+Google ログインはまだないので、ローカルでは開発用ログインで会員になります（`APP_ENV=local` のときだけ使えます）。
+
+1. http://localhost:8000/docs を開く
+2. `POST /api/v1/dev/login` →「Try it out」→ `{"display_name": "seller1"}` を送る（同じ名前なら同じ会員になる）
+3. `GET /api/v1/me` を実行すると、ログイン中の会員が表示される
+4. `POST /api/v1/auth/logout` でログアウト
+
+別の会員として試したいときは、別の名前でログインし直します。
 
 止めるときは `Ctrl+C`、片付けるときは `docker compose down` を実行します。テストやマイグレーションの実行方法、トラブル対応は [`docs/runbooks/local-backend.md`](docs/runbooks/local-backend.md) を見てください。
 
