@@ -1,6 +1,6 @@
 # ローカル開発手順（バックエンド API）
 
-バックエンド API（`apps/api/`、FastAPI）を Docker Compose で動かす手順です。静的デモの手順は [`local-prototype.md`](local-prototype.md) を参照してください。
+バックエンド API（`apps/api/`、FastAPI）を Docker Compose で動かす手順です。画面も同じAPIサーバーから配信します。操作方法はルートのREADMEを参照してください。旧静的デモとの違いは [`local-prototype.md`](local-prototype.md) を参照してください。
 
 ## 前提
 
@@ -33,6 +33,7 @@ Copy-Item .env.example .env
 
 ## 動作確認
 
+- http://localhost:8000/ → API接続済みの画面（ログイン・出品・検索）
 - http://localhost:8000/health → `{"status":"ok","database":"sqlite","env":"local"}`
 - http://localhost:8000/docs → API ドキュメント（ここから API を試せる）
 
@@ -77,6 +78,7 @@ SQLite3 の DB ファイルは、Docker の named volume `api-data` の中（コ
 
 | 症状 | 原因と対処 |
 |---|---|
+| 起動直後に停止し `ModuleNotFoundError: No module named 'app'` が出る | Alembicからアプリを参照できていません。`apps/api/alembic.ini` の `prepend_sys_path = %(here)s` を確認し、`docker compose up -d --build` で再起動してください。DBの削除は不要です |
 | `error during connect ... docker daemon is not running` | Docker Desktop が起動していません。起動してから再実行してください |
 | `port is already allocated` / `ポートが使用中` | 8000番を別のプログラム（静的デモの `py -m http.server 8000` など）が使っています。止めるか、`.env` の `API_PORT=8001` のように変えてください |
 | 依存パッケージを追加したのに `ModuleNotFoundError` | `docker compose up --build` でイメージを作り直してください |
@@ -90,3 +92,22 @@ SQLite3 の DB ファイルは、Docker の named volume `api-data` の中（コ
 ## PostgreSQL に移行するとき（将来）
 
 ADR-0006 の「移行する条件」に当てはまったら、`compose.yaml` のコメントアウトしてある `db` サービスを有効にし、`DATABASE_URL` を PostgreSQL の URL に変えます。移行作業は別の PR で行い、この手順書も更新してください。
+
+## 画面接続の自動検証
+
+API・静的配信・接続元チェックは `docker compose exec -T api pytest -q` で確認します。
+ブラウザ検証は `tests/frontend-flow.cjs`（PlaywrightとEdgeが必要）です。既存DBを変更しないよう、一時DBのコンテナを起動します。
+
+```powershell
+docker compose run -d --no-deps --name mokumoku10m-frontend-check -p 127.0.0.1:8001:8000 -e DATABASE_URL=sqlite:////tmp/frontend-check.sqlite3 api
+# /health が応答するまで待つ
+Invoke-RestMethod http://127.0.0.1:8001/health
+npm install --prefix "$env:TEMP/mokumoku10m-browser-check" playwright --no-audit --no-fund
+$env:NODE_PATH = "$env:TEMP/mokumoku10m-browser-check/node_modules"
+$env:FRONTEND_TEST_URL = 'http://127.0.0.1:8001'
+node tests/frontend-flow.cjs
+docker stop mokumoku10m-frontend-check
+docker rm mokumoku10m-frontend-check
+```
+
+検証用Playwrightは一時フォルダへインストールし、アプリの実行依存には追加しません。テスト用DBはコンテナの `/tmp` に保存され、上記コンテナを削除すると消えます。開発用の `api-data` ボリュームは削除しません。
