@@ -1,6 +1,8 @@
 # ADR-0006: データベースは SQLite3 で始め、PostgreSQL に移行する
 
 - 状態: 採用（SQLite3 → PostgreSQL の段階移行。ORM は SQLAlchemy 2.x + Alembic）
+- 階層: L2 決定（技術）
+- 上位: [ADR-0003](0003-production-stack-pending.md)
 - 日付: 2026-10-31（ORM の決定は 2026-11-06）
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
 - 関連: [ADR-0001](0001-backend-framework.md)（FastAPI）、[ADR-0003](0003-production-stack-pending.md)（本番スタック保留）、[ADR-0004](0004-auction-operating-rules.md)（入札の直列化）、[`../architecture/overview.md`](../architecture/overview.md)
