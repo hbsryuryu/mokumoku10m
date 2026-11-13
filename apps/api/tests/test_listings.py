@@ -331,13 +331,15 @@ def test_search_shows_only_active_published(seller, make_client, category_id, db
     withdrawn = publish(seller, create_draft(seller, category_id, title="取り下げたかご"))
     seller.post(f"/api/v1/listings/{withdrawn['id']}/withdraw", json={"expectedVersion": withdrawn["version"]})
     expired = publish(seller, create_draft(seller, category_id, title="期限切れのかご"))
+    # 時刻は1回だけ取る（utcnow() を何度も呼ぶと値がずれて、ends_at < original_ends_at になりうる）
+    now = utcnow()
     db.execute(
         Auction.__table__.update()
         .where(Auction.listing_id == expired["id"])
         .values(
-            starts_at=utcnow() - timedelta(days=2),
-            ends_at=utcnow() - timedelta(minutes=1),
-            original_ends_at=utcnow() - timedelta(minutes=1),
+            starts_at=now - timedelta(days=2),
+            ends_at=now - timedelta(minutes=1),
+            original_ends_at=now - timedelta(minutes=1),
         )
     )
     db.commit()
