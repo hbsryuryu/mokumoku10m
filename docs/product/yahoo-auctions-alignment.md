@@ -1,6 +1,6 @@
 # Yahoo!オークションとの仕様比較
 
-- 状態: [ADR-0007](../architecture/adr/0007-align-with-yahoo-auctions.md) の根拠資料
+- 状態: [ADR-0007](../adr/0007-align-with-yahoo-auctions.md) の根拠資料
 - 確認日: **2026-11-06**（Yahoo! JAPAN ヘルプセンターの公式ヘルプを読んで確認）
 - 注意: Yahoo!オークションの仕様は変わることがある。実装前に、下の出典で再確認すること。
 

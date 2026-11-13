@@ -6,7 +6,7 @@
 
 - Docker Desktop をインストールし、起動しておく（Windows ではタスクバーにクジラのアイコンが出ていれば起動中）
 - コマンドはリポジトリ直下（`compose.yaml` がある場所）で実行する
-- DB は SQLite3（[ADR-0006](../architecture/adr/0006-database-sqlite-to-postgresql.md)）。DB サーバーのインストールは不要
+- DB は SQLite3（[ADR-0006](../adr/0006-database-sqlite-to-postgresql.md)）。DB サーバーのインストールは不要
 
 ## 初回の準備
 

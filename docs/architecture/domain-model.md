@@ -9,7 +9,7 @@
 | `Listing` | 出品商品と公開状態 |
 | `ListingImage` | 画像の参照、表示順 |
 | `Category` | 商品カテゴリ |
-| `Auction` | 開始時刻、終了時刻（自動延長で更新）、開始価格、即決価格（任意）、自動延長の有無、状態（[ADR-0007](adr/0007-align-with-yahoo-auctions.md)） |
+| `Auction` | 開始時刻、終了時刻（自動延長で更新）、開始価格、即決価格（任意）、自動延長の有無、状態（[ADR-0007](../adr/0007-align-with-yahoo-auctions.md)） |
 | `Bid` | 入札者、最高入札額（本人以外に非公開）、入札日時、受付順、受付結果 |
 | `WatchlistItem` | ユーザーと出品の対応 |
 | `Order` | 落札後の取引（購入者、出品者、確定金額、進行状態） |

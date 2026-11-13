@@ -11,9 +11,9 @@
 | 部分 | 状態 |
 |---|---|
 | フロントエンド | 静的なデモ（`index.html` / `styles.css` / `app.js`）。サーバーとはまだ接続していない |
-| バックエンド API | FastAPI の雛形（`apps/api/`）。今は `/health` だけ（[ADR-0001](docs/architecture/adr/0001-backend-framework.md)） |
-| データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/architecture/adr/0006-database-sqlite-to-postgresql.md)） |
-| 認証 | Google ログインの設計のみ（[ADR-0005](docs/architecture/adr/0005-google-only-authentication.md)、[AUTH-001](docs/architecture/auth-001-google-login-design.md)）。未実装 |
+| バックエンド API | FastAPI の雛形（`apps/api/`）。今は `/health` だけ（[ADR-0001](docs/adr/0001-backend-framework.md)） |
+| データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)） |
+| 認証 | Google ログインの設計のみ（[ADR-0005](docs/adr/0005-google-only-authentication.md)、[AUTH-001](docs/architecture/auth-001-google-login-design.md)）。未実装 |
 
 ## ディレクトリ構成
 

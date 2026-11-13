@@ -3,8 +3,8 @@
 - 状態: 採用（SQLite3 → PostgreSQL の段階移行。ORM は SQLAlchemy 2.x + Alembic）
 - 日付: 2026-10-31（ORM の決定は 2026-11-06）
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
-- 関連: [ADR-0001](0001-backend-framework.md)（FastAPI）、[ADR-0003](0003-production-stack-pending.md)（本番スタック保留）、[ADR-0004](0004-auction-operating-rules.md)（入札の直列化）、[`../overview.md`](../overview.md)
-- 入札書込みの論理契約: [入札・終了処理のトランザクション仕様](../designs/auction-bid-transaction.md)
+- 関連: [ADR-0001](0001-backend-framework.md)（FastAPI）、[ADR-0003](0003-production-stack-pending.md)（本番スタック保留）、[ADR-0004](0004-auction-operating-rules.md)（入札の直列化）、[`../architecture/overview.md`](../architecture/overview.md)
+- 入札書込みの論理契約: [入札・終了処理のトランザクション仕様](../architecture/auction-bid-transaction.md)
 
 ## 背景
 
@@ -55,7 +55,7 @@ PostgreSQL への移行を楽にするため、また SQLite3 の弱点で不具
 - **ローカル開発環境**：Docker Compose では、最初は DB コンテナなしで動かす。PostgreSQL のコンテナは、移行の準備ができたら追加する（コメントアウトや profile で用意しておいてもよい）。
 - **ワーカー（終了処理・通知）**：SQLite3 の間は、API と同じプロセスで動かすか、書き込みが重ならないようにする。
 - **データ**：開発初期のデータは移行しない（作り直す）前提。production の前に移行するので、本番データの移行は発生しない。
-- **更新した文書**：`AGENTS.md` 3章の表、`../overview.md`、`0003-production-stack-pending.md`、`../../README.md`。
+- **更新した文書**：`AGENTS.md` 3章の表、`../architecture/overview.md`、`0003-production-stack-pending.md`、`../README.md`。
 
 ## 見直す条件
 

@@ -46,7 +46,7 @@
 
 ## 出品編集の競合契約案
 
-出品取得時に `version` を返し、編集要求には正の整数 `expectedVersion` を必須とする案。認証・所有者・編集可能状態を検証したうえで、DBの条件付き更新によりversion一致時だけ更新し、versionを増やす。不一致は `409 Conflict` / `VERSION_CONFLICT` を返す。利用者には再取得して変更内容を確認してもらい、古い本文を自動再送しない。詳細は[トランザクション仕様](../architecture/designs/auction-bid-transaction.md)を参照。入札APIにはこのversion条件を流用せず、悲観ロック下の検証と冪等性キーを用いる。
+出品取得時に `version` を返し、編集要求には正の整数 `expectedVersion` を必須とする案。認証・所有者・編集可能状態を検証したうえで、DBの条件付き更新によりversion一致時だけ更新し、versionを増やす。不一致は `409 Conflict` / `VERSION_CONFLICT` を返す。利用者には再取得して変更内容を確認してもらい、古い本文を自動再送しない。詳細は[トランザクション仕様](../architecture/auction-bid-transaction.md)を参照。入札APIにはこのversion条件を流用せず、悲観ロック下の検証と冪等性キーを用いる。
 
 ## 入札リクエスト案
 
@@ -56,7 +56,7 @@
 }
 ```
 
-サーバーは認証ユーザーから入札者を決め、トランザクション内で対象出品・オークション行をロックまたは同等の直列化を行う。サーバー時刻、公開状態、出品者本人でないこと、整数JPYと設定上限、最低入札額（自動入札・入札単位、[ADR-0007](../architecture/adr/0007-align-with-yahoo-auctions.md)）を確認してから入札履歴を追記する。`amountYen` は最高入札額として扱う。`amountYen` はJavaScript安全整数かつ採用するDB型の範囲内で検証する。ロック順、冪等性、終了処理との競合、再試行の詳細は[入札・終了処理のトランザクション仕様](../architecture/designs/auction-bid-transaction.md)に従う。
+サーバーは認証ユーザーから入札者を決め、トランザクション内で対象出品・オークション行をロックまたは同等の直列化を行う。サーバー時刻、公開状態、出品者本人でないこと、整数JPYと設定上限、最低入札額（自動入札・入札単位、[ADR-0007](../adr/0007-align-with-yahoo-auctions.md)）を確認してから入札履歴を追記する。`amountYen` は最高入札額として扱う。`amountYen` はJavaScript安全整数かつ採用するDB型の範囲内で検証する。ロック順、冪等性、終了処理との競合、再試行の詳細は[入札・終了処理のトランザクション仕様](../architecture/auction-bid-transaction.md)に従う。
 
 成功レスポンス案:
 
