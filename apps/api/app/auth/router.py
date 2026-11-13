@@ -1,7 +1,6 @@
 """ログイン中の会員の情報とログアウト（AUTH-001 / AUTH-002 共通）。"""
 
 from fastapi import APIRouter, Depends, Response, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session as DbSession
 
 from app.auth.deps import get_current_session, get_current_user
@@ -9,11 +8,12 @@ from app.auth.sessions import clear_session_cookie
 from app.config import Settings, get_settings
 from app.db import get_db, utcnow
 from app.models import Session, User
+from app.schemas import ApiModel
 
 router = APIRouter(prefix="/api/v1", tags=["auth"])
 
 
-class MeResponse(BaseModel):
+class MeResponse(ApiModel):
     id: int
     display_name: str | None
     role: str

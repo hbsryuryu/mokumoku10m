@@ -5,8 +5,8 @@ APP_ENV=local かつ DEV_LOGIN_ENABLED=true のときだけ、main.py がこの�
 それ以外の環境では URL 自体が存在しない（404）。
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
-from pydantic import BaseModel, Field
+from fastapi import APIRouter, Depends, Response, status
+from pydantic import Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
 
@@ -14,12 +14,14 @@ from app.auth.router import MeResponse, to_me
 from app.auth.sessions import create_session, set_session_cookie
 from app.config import Settings, get_settings
 from app.db import get_db, utcnow
+from app.errors import ApiError
 from app.models import AuthIdentity, User
+from app.schemas import ApiModel
 
 router = APIRouter(prefix="/api/v1/dev", tags=["dev (local only)"])
 
 
-class DevLoginRequest(BaseModel):
+class DevLoginRequest(ApiModel):
     display_name: str = Field(min_length=1, max_length=30, examples=["seller1"])
 
 
@@ -50,10 +52,7 @@ def dev_login(
 
     if not user.is_active:
         # Google ログインと同じく、利用停止中の会員にはセッションを発行しない。
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail={"code": "ACCOUNT_SUSPENDED", "message": "この会員は利用停止中です"},
-        )
+        raise ApiError(status.HTTP_403_FORBIDDEN, "ACCOUNT_SUSPENDED", "この会員は利用停止中です")
 
     identity.last_login_at = utcnow()
     token = create_session(db, user, settings)

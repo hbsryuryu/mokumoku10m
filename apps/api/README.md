@@ -20,8 +20,12 @@ apps/api/
 │   ├── main.py          # FastAPI のアプリ本体（create_app で組み立てる）
 │   ├── config.py        # 環境変数の読み込みと、危険な設定の起動前チェック
 │   ├── db.py            # DB 接続、UTC 日時の型、制約の命名規則
+│   ├── errors.py        # 共通のエラー形式 {"error": {"code", "message", "details"}}
+│   ├── schemas.py       # API の入出力の共通設定（JSON は camelCase）
+│   ├── locking.py       # オークションの悲観ロック（SQLite3 と PostgreSQL の違いをここに閉じ込める）
 │   ├── models/          # テーブル定義（user.py：会員・認証・セッション、listing.py：カテゴリ・出品・オークション）
-│   └── auth/            # セッション、ログイン中の会員の取り出し、/me・ログアウト、開発用ログイン
+│   ├── auth/            # セッション、ログイン中の会員の取り出し、/me・ログアウト、開発用ログイン
+│   └── listings/        # 出品 API（schemas.py：入出力、service.py：業務ルール、router.py：URL）
 └── tests/               # pytest のテスト（conftest.py がテスト専用の DB を用意する）
 ```
 
@@ -83,4 +87,8 @@ uvicorn app.main:app --reload   # http://localhost:8000 で起動
 - 入札を受け付けるときのロックは、SQLite3 と PostgreSQL の違いを吸収する関数1か所にまとめる。
 - マイグレーションは必ず Alembic で作り、PR に含める。マイグレーションの中でアプリのコード（`app.*`）を import しない。
 - 日時の列は `app.db.UTCDateTime` を使う（タイムゾーンのない日時は保存時にエラーになる）。
-- ログインが必要な API は `Depends(get_current_user)`（`app/auth/deps.py`）で会員を受け取る。ログイン方式（Google / 開発用）を意識しない。
+- ログインが必要な API は `Depends(get_current_user)`（`app/auth/deps.py`）で会員を受け取る。ログイン方式（Google / 開発用）を意識しない。ゲストも使える API は `get_optional_user`。
+- エラーは `app.errors.ApiError(status, code, message, details)` を raise する。`HTTPException` は使わない（形式がそろわないため）。
+- JSON の入出力のモデルは `app.schemas.ApiModel` を継承する（Python は snake_case、JSON は camelCase）。
+- 同じオークションの状態を変える処理（取り下げ・入札・終了・運営停止）は、最初に `app.locking.lock_auction` でロックを取ってから状態を確認する。
+- 権限のない対象には 404 を返す（存在を知られないため）。

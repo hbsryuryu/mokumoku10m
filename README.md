@@ -11,7 +11,7 @@
 | 部分 | 状態 |
 |---|---|
 | フロントエンド | 静的なデモ（`index.html` / `styles.css` / `app.js`）。サーバーとはまだ接続していない |
-| バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me` まで。出品・入札は次の PR から |
+| バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me`、**出品**（下書き・公開・取り下げ・検索、[出品 API](docs/api/listings.md)）まで。入札・終了処理は次の PR から |
 | データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)）。会員・セッション・カテゴリ・出品・オークションのテーブルまで（[テーブル設計](docs/architecture/database-schema.md)） |
 | 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）は未実装。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
 
@@ -56,6 +56,14 @@ Google ログインはまだないので、ローカルでは開発用ログイ�
 2. `POST /api/v1/dev/login` →「Try it out」→ `{"display_name": "seller1"}` を送る（同じ名前なら同じ会員になる）
 3. `GET /api/v1/me` を実行すると、ログイン中の会員が表示される
 4. `POST /api/v1/auth/logout` でログアウト
+
+### 出品を試す
+
+1. 開発用ログインで `seller1` としてログイン
+2. `GET /api/v1/categories` でカテゴリの ID を確認
+3. `POST /api/v1/listings` で下書きを作る（入力例は [出品 API](docs/api/listings.md)）
+4. `POST /api/v1/listings/{id}/publish` に `{"expectedVersion": 1}` を送って公開
+5. `GET /api/v1/listings` で一覧に出ることを確認（ログインしていなくても見られる）
 
 別の会員として試したいときは、別の名前でログインし直します。
 

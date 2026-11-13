@@ -66,6 +66,10 @@ def _create_engine(url: str) -> Engine:
             cursor.execute("PRAGMA foreign_keys = ON")
             cursor.execute("PRAGMA journal_mode = WAL")
             cursor.close()
+            # 注意: Python の sqlite3 の既定の動き（読み込みはトランザクションの外、書き込みの直前に BEGIN）を
+            # 変えないこと。すべてのトランザクションを BEGIN で始めると、WAL では「読み込みで始めた
+            # トランザクションが、ほかの接続の書き込みのあとで書き込もうとする」と即座に
+            # `database is locked` になる。書き込みの予約（BEGIN IMMEDIATE）は app.locking で行う。
 
         return engine
     return create_engine(url, pool_pre_ping=True)

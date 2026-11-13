@@ -17,6 +17,9 @@ TITLE_MAX = 60
 DESCRIPTION_MAX = 500
 SHIPPING_METHOD_MAX = 80
 PRICE_MAX = 10_000_000
+# ADR-0007: 終了日時は公開から13時間後〜7日11時間後、1時間単位
+DURATION_MIN_HOURS = 13
+DURATION_MAX_HOURS = 7 * 24 + 11
 
 CONDITIONS = ("new", "like_new", "some_wear", "worn")  # 表示名は CONDITION_LABELS
 CONDITION_LABELS = {
@@ -58,6 +61,15 @@ class Listing(Base):
         CheckConstraint(f"status IN {LISTING_STATUSES}", name="status"),
         # 楽観ロック用（auction-bid-transaction.md「ロック方式の使い分け」）
         CheckConstraint("version >= 1", name="version_positive"),
+        # 出品条件（0002 で追加）。公開時に auctions へ写す。
+        CheckConstraint(f"start_price BETWEEN 1 AND {PRICE_MAX}", name="start_price_range"),
+        CheckConstraint(
+            f"buyout_price IS NULL OR (buyout_price > start_price AND buyout_price <= {PRICE_MAX})",
+            name="buyout_price_range",
+        ),
+        CheckConstraint(
+            f"duration_hours BETWEEN {DURATION_MIN_HOURS} AND {DURATION_MAX_HOURS}", name="duration_hours_range"
+        ),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -68,6 +80,11 @@ class Listing(Base):
     condition: Mapped[str] = mapped_column(String(16))
     shipping_payer: Mapped[str] = mapped_column(String(16))
     shipping_method: Mapped[str] = mapped_column(String(SHIPPING_METHOD_MAX))
+    # 出品条件（下書きで編集し、公開時に Auction へ写す。公開後の値は Auction が正）
+    start_price: Mapped[int] = mapped_column(Integer)
+    buyout_price: Mapped[int | None] = mapped_column(Integer)
+    auto_extension: Mapped[bool] = mapped_column(Boolean, default=True)
+    duration_hours: Mapped[int] = mapped_column(Integer)
     status: Mapped[str] = mapped_column(String(16), default="draft", index=True)
     version: Mapped[int] = mapped_column(Integer, default=1)
     created_at: Mapped[datetime] = mapped_column(UTCDateTime, default=utcnow)
