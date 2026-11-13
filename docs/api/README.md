@@ -1,6 +1,6 @@
 # API 仕様
 
-OpenAPI 定義をここに置く予定。バックエンドは FastAPI に決定した（[ADR-0001](../adr/0001-backend-framework.md)）ため、OpenAPI 定義は FastAPI のコードから自動生成し、フロントの TypeScript 型もそこから生成する方針（ツールは未決）。設計案は [`openapi.md`](openapi.md) を参照。
+OpenAPI 定義をここに置く予定。バックエンドは FastAPI に決定した（[ADR-0001](../adr/0001-backend-framework.md)）ため、OpenAPI 定義は FastAPI のコードから自動生成し、フロントの TypeScript 型もそこから生成する方針（ツールは未決）。API契約は [API仕様書](openapi.md) を参照。文書のレビュー状態と未決事項は仕様書に記載する。
 
 ## 共通方針（AGENTS.md 8章）
 
