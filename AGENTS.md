@@ -53,8 +53,9 @@
 
 ## 3. 技術スタック
 
-- 決定済み：FastAPI（ADR-0001）、SQLite3 から staging / production の前に PostgreSQL へ移行（ADR-0006）、SQLAlchemy 2.x + Alembic（ADR-0006）、Google OIDC（ADR-0005）。
-- それ以外（Next.js + TypeScript、Tailwind CSS、Redis、S3 互換ストレージ等）は候補であり、採用済みではない。
+- 決定済み：Next.js + TypeScript（[ADR-0010](docs/adr/0010-web-frontend-nextjs.md)）、FastAPI（ADR-0001）、SQLite3 から staging / production の前に PostgreSQL へ移行（ADR-0006）、SQLAlchemy 2.x + Alembic（ADR-0006）、Google OIDC（ADR-0005）。
+- Web フロントエンドは `apps/web/` に置き、Next.js の rewrites で `/api/*` を FastAPI に転送する。認証は FastAPI のセッションを使い、Docker Compose の `web` サービスで API とともに起動する（ADR-0010）。
+- Tailwind CSS、UI コンポーネントライブラリ、型生成・テストツール、Redis、S3 互換ストレージ等は未決。フロントエンドのスタイリング・型生成・テスト・Lint・型チェックの詳細は、最初の Web 実装 PR で決めて記録する（ADR-0010）。
 - 初期はモジュラーモノリスとし、マイクロサービス化しない。
 - 使用中の技術スタックを最初に確認し、既存実装を尊重する。
 
