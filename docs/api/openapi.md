@@ -21,13 +21,21 @@
 | `PATCH /api/v1/listings/{listingId}` | 所有者による編集 | 必要 | 将来案・編集可能状態は未決 |
 | `POST /api/v1/listings/{listingId}/publish` | 入力検証後に公開 | 必要 | 将来案 |
 | `GET /api/v1/listings/{listingId}/bids` | 入札履歴 | 方針未決 | 個人情報表示設計が必要 |
-| `POST /api/v1/listings/{listingId}/bids` | 入札を原子的に受付 | 必要 | 将来案 |
+| `POST /api/v1/listings/{listingId}/bids` | 入札を原子的に受付 | 必要 | 将来案。`amountYen` は最高入札額。即決価格以上なら即落札、最高額入札者の再入札は最高入札額の引き上げとして扱う（ADR-0007）。専用の API は作らない |
+| `POST /api/v1/listings/{listingId}/end-early` | 出品者による早期終了 | 必要（出品者本人） | 将来案（ADR-0007） |
+| `POST /api/v1/listings/{listingId}/withdraw` | 出品者による取り下げ（入札がない場合のみ） | 必要（出品者本人） | 将来案（ADR-0004） |
 | `GET /api/v1/me/watchlist` | 自分のウォッチ一覧 | 必要 | 将来案 |
 | `PUT /api/v1/me/watchlist/{listingId}` | ウォッチ追加（冪等） | 必要 | 将来案 |
 | `DELETE /api/v1/me/watchlist/{listingId}` | ウォッチ解除 | 必要 | 将来案 |
 | `GET /api/v1/me/orders` | 自分の取引一覧 | 必要 | 将来案 |
 | `GET /api/v1/me/notifications` | 通知一覧 | 必要 | 将来案 |
 | `POST /api/v1/reports` | 出品等を通報 | 必要 | 将来案 |
+
+## 開発用ログイン（AUTH-002）
+
+| メソッド・パス | 用途 | 動作 |
+|---|---|---|
+| `POST /api/v1/dev/login` | 開発用の会員でログイン | `APP_ENV=local` かつ `DEV_LOGIN_ENABLED=true` のときだけ存在する。Google ログインと同じアプリセッションを発行する（[ADR-0008](../architecture/adr/0008-mvp-implementation-provisional-decisions.md)） |
 
 ## Google認証フロー案
 

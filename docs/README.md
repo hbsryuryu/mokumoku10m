@@ -43,6 +43,7 @@
 | [ADR-0005](architecture/adr/0005-google-only-authentication.md) | Google認証に一本化する | 採用 |
 | [ADR-0006](architecture/adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | 採用（ORM は SQLAlchemy 2.x + Alembic） |
 | [ADR-0007](architecture/adr/0007-align-with-yahoo-auctions.md) | オークションの仕様を Yahoo!オークションに合わせる | 採用（方針） |
+| [ADR-0008](architecture/adr/0008-mvp-implementation-provisional-decisions.md) | 出品・入札・落札の実装を始めるための仮決め | 採用（仮決め） |
 
 ### その他
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
