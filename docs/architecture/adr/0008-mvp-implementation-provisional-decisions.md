@@ -1,6 +1,8 @@
 # ADR-0008: 出品・入札・落札の実装を始めるための仮決め
 
 - 状態: 採用（**仮決め**。実装しながら見直す）
+- 階層: L3 仮決め
+- 上位: [ADR-0004](0004-auction-operating-rules.md)、[ADR-0005](0005-google-only-authentication.md)、[ADR-0006](0006-database-sqlite-to-postgresql.md)、[ADR-0007](0007-align-with-yahoo-auctions.md)
 - 日付: 2026-11-13
 - 決定者: hbsryuryu（チームでの確認は PR で行う）
 - 関連: [ADR-0004](0004-auction-operating-rules.md)（出品の編集・取り下げ）、[ADR-0005](0005-google-only-authentication.md)（Google 認証）、[ADR-0006](0006-database-sqlite-to-postgresql.md)（DB）、[ADR-0007](0007-align-with-yahoo-auctions.md)（Yahoo!オークション準拠）、[`auction-site-spec.md`](../../product/auction-site-spec.md)、[`roadmap.md`](../../product/roadmap.md)
