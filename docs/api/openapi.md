@@ -8,6 +8,7 @@
 
 - 出品：[`listings.md`](listings.md)（LST-004）
 - 入札：[`bids.md`](bids.md)（BID-001。HTTP ステータスと実装上の決め事）
+- 終了処理・早期終了・自分の取引一覧：[`auctions.md`](auctions.md)（AUC-001）
 
 ## 共通契約
 
@@ -170,6 +171,8 @@
 エラーコード: `UNAUTHENTICATED`, `ACCOUNT_SUSPENDED`, `LISTING_NOT_FOUND`, `AUCTION_NOT_ACTIVE`, `SELLER_CANNOT_BID`, `BID_TOO_LOW`, `BID_LIMIT_EXCEEDED`, `IDEMPOTENCY_KEY_REUSED`。同時入札で先行入札が確定した場合、後続に新しい最低額を返して再入力を促す。
 
 ## 終了処理（内部コマンド）
+
+実装：[`auctions.md`](auctions.md)（定期実行と `python -m app.jobs.finalize`）。
 
 ワーカーは終了候補を列挙しても、候補抽出時刻だけで落札を確定しない。各対象についてDB状態と時刻を再確認し、終了状態・最高入札者・注文をトランザクションで一度だけ確定する。通知はOutbox等でコミット後に送信し、重複・失敗を再処理可能にする。
 

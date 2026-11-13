@@ -23,6 +23,9 @@ class Settings(BaseSettings):
     # AUTH-001 の未決事項「セッションの有効期限」が決まったら見直す。
     session_ttl_hours: int = 24 * 30
 
+    # Feature AUC-001: 終了処理を API サーバーの中で定期実行する間隔（秒）。0 で止める（ADR-0008）。
+    finalizer_interval_seconds: int = 30
+
     @property
     def is_local(self) -> bool:
         return self.app_env == "local"
