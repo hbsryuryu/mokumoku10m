@@ -24,7 +24,7 @@ from app.listings.schemas import (
     ListingUpdate,
     SellerOut,
 )
-from app.locking import lock_auction
+from app.locking import lock_auction_with_listing
 from app.models import Auction, Category, Listing, User
 from app.models.listing import CONDITION_LABELS
 
@@ -356,7 +356,7 @@ def withdraw_listing(db: DbSession, seller: User, listing_id: int, expected_vers
         raise not_editable(listing.status)
 
     # 入札と同時に取り下げられないよう、オークションのロックを取ってから状態を確認し直す。
-    auction = lock_auction(db, listing.auction.id)
+    auction, _ = lock_auction_with_listing(db, listing.auction.id)
     listing = load_listing(db, listing_id)
     if listing.status != "published" or auction.status != "active":
         db.rollback()

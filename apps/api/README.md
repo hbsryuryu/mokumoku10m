@@ -26,7 +26,9 @@ apps/api/
 │   ├── models/          # テーブル定義（user.py：会員・認証・セッション、listing.py：カテゴリ・出品・オークション、bid.py：入札・冪等性の記録、order.py：取引）
 │   ├── auth/            # セッション、ログイン中の会員の取り出し、/me・ログアウト、開発用ログイン
 │   ├── listings/        # 出品 API（schemas.py：入出力、service.py：業務ルール、router.py：URL）
-│   └── bids/            # 入札 API（pricing.py：入札単位・自動入札の計算、service.py：受付の手順、router.py：URL）
+│   ├── bids/            # 入札 API（pricing.py：入札単位・自動入札の計算、service.py：受付の手順、router.py：URL）
+│   ├── auctions/        # 終了処理・早期終了・自分の取引一覧（service.py：終了の判定、router.py：URL）
+│   └── jobs/            # 定期実行・手動実行する処理（finalize.py：終了処理。python -m app.jobs.finalize）
 └── tests/               # pytest のテスト（conftest.py がテスト専用の DB を用意する）
 ```
 
@@ -75,6 +77,7 @@ uvicorn app.main:app --reload   # http://localhost:8000 で起動
 | `APP_ENV` | 実行環境。`local` のときだけ開発用の機能を使える | Docker：`local`／Docker なし：`production`（安全のため） |
 | `DEV_LOGIN_ENABLED` | 開発用ログイン（AUTH-002）。`APP_ENV=local` 以外で `true` にすると起動を拒否する | Docker：`true`／Docker なし：`false` |
 | `SESSION_TTL_HOURS` | ログインセッションの有効期間（時間） | `720`（30日、仮の値） |
+| `FINALIZER_INTERVAL_SECONDS` | 終了処理を API サーバーの中で実行する間隔（秒）。`0` で止める | `30` |
 | `GOOGLE_CLIENT_ID` など | Google ログイン（AUTH-001）用。まだ使っていない | なし |
 
 空の値（`DEV_LOGIN_ENABLED=` など）は「未指定」として扱い、既定値を使います。

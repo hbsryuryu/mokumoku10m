@@ -14,6 +14,8 @@ _TMP_DIR = tempfile.mkdtemp(prefix="mokumoku-test-")
 os.environ["DATABASE_URL"] = f"sqlite:///{Path(_TMP_DIR) / 'test.sqlite3'}"
 os.environ["APP_ENV"] = "local"
 os.environ["DEV_LOGIN_ENABLED"] = "true"
+# 終了処理の定期実行は止め、テストでは run_once などを直接呼ぶ（タイミングに依存しないため）
+os.environ["FINALIZER_INTERVAL_SECONDS"] = "0"
 
 import pytest  # noqa: E402
 from alembic import command  # noqa: E402
@@ -62,7 +64,7 @@ def clean_tables():
 
 @pytest.fixture
 def local_settings() -> Settings:
-    return Settings(app_env="local", dev_login_enabled=True)
+    return Settings(app_env="local", dev_login_enabled=True, finalizer_interval_seconds=0)
 
 
 @pytest.fixture

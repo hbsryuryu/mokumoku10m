@@ -60,6 +60,13 @@ docker compose run --rm api alembic revision --autogenerate --rev-id 0002 -m "ad
 - テストは一時フォルダのテスト専用 DB を使うので、開発用の DB のデータは消えません。
 - テーブルの設計は [`database-schema.md`](../architecture/database-schema.md) を参照してください。
 
+## 終了処理（AUC-001）
+
+- API サーバーの起動中、30秒ごとに終了時刻を過ぎたオークションを確定する。ログに `[app.jobs.finalize] 終了処理: {...}` と出る。
+- 手動で実行する：`docker compose run --rm api python -m app.jobs.finalize`
+- 止める：`.env` に `FINALIZER_INTERVAL_SECONDS=0`
+- 何度実行しても、同じオークションの取引は1件しか作られない。
+
 ## データの置き場所
 
 SQLite3 の DB ファイルは、Docker の named volume `api-data` の中（コンテナ内の `/data/app.sqlite3`）にあります。
