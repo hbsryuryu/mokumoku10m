@@ -26,7 +26,7 @@ from sqlalchemy.orm import Session as DbSession
 from app.bids.pricing import AcceptedBid, compute_price, minimum_bid_for
 from app.db import utcnow
 from app.errors import ApiError, error_body, listing_not_found
-from app.locking import lock_auction
+from app.locking import lock_auction_with_listing
 from app.models import Auction, Bid, BidRequest, Listing, Order, User
 from app.models.bid import IDEMPOTENCY_KEY_MAX
 from app.models.listing import PRICE_MAX
@@ -94,8 +94,7 @@ def place_bid(
     bidder_id = bidder.id
 
     # 1. ロック（ここから先は、同じオークションへのほかの入札・終了処理・取り下げと直列になる）
-    auction = lock_auction(db, auction_id)
-    listing = db.get(Listing, listing_id, populate_existing=True)
+    auction, listing = lock_auction_with_listing(db, auction_id)
     req_hash = request_hash(amount_yen)
 
     # 2. 冪等性：同じキーの記録があれば、保存した結果をそのまま返す

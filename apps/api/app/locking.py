@@ -13,7 +13,7 @@ SQLite3 と PostgreSQL のロックの違いは、この関数1か所に閉じ�
 from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
 
-from app.models import Auction
+from app.models import Auction, Listing
 
 
 class LockOrderError(RuntimeError):
@@ -44,3 +44,19 @@ def lock_auction(db: DbSession, auction_id: int) -> Auction | None:
     if db.get_bind().dialect.name != "sqlite":
         statement = statement.with_for_update()
     return db.scalar(statement)
+
+
+def lock_auction_with_listing(db: DbSession, auction_id: int) -> tuple[Auction, Listing] | None:
+    """オークションと出品を `Auction -> Listing` の順にロックして、両方の最新の状態を返す。
+
+    トランザクション設計 5章のロック順。入札・終了処理・早期終了・取り下げで使う。
+    """
+    auction = lock_auction(db, auction_id)
+    if auction is None:
+        return None
+    statement = (
+        select(Listing).where(Listing.id == auction.listing_id).execution_options(populate_existing=True)
+    )
+    if db.get_bind().dialect.name != "sqlite":
+        statement = statement.with_for_update()
+    return auction, db.scalar(statement)
