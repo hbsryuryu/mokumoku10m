@@ -40,14 +40,15 @@
 
 | 番号 | タイトル | 状態 |
 |---|---|---|
-| [ADR-0001](adr/0001-backend-framework.md) | バックエンドフレームワーク（FastAPI。Hono はサブ候補） | 採用 |
-| [ADR-0002](adr/0002-prototype-scope.md) | 最初の成果物を静的フロントエンドにする | 採用（プロトタイプ範囲） |
-| [ADR-0003](adr/0003-production-stack-pending.md) | 本番技術スタックと未決プロダクト事項を保留する | 提案 |
-| [ADR-0004](adr/0004-auction-operating-rules.md) | MVPオークションの入札・終了・出品変更ルール | 一部置き換え（入札・終了は ADR-0007） |
-| [ADR-0005](adr/0005-google-only-authentication.md) | Google認証に一本化する | 採用 |
-| [ADR-0006](adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | 採用（ORM は SQLAlchemy 2.x + Alembic） |
-| [ADR-0007](adr/0007-align-with-yahoo-auctions.md) | オークションの仕様を Yahoo!オークションに合わせる | 採用（方針） |
-| [ADR-0008](adr/0008-mvp-implementation-provisional-decisions.md) | 出品・入札・落札の実装を始めるための仮決め | 採用（仮決め） |
+| [ADR-0001](architecture/adr/0001-backend-framework.md) | バックエンドフレームワーク（FastAPI。Hono はサブ候補） | 採用 |
+| [ADR-0002](architecture/adr/0002-prototype-scope.md) | 最初の成果物を静的フロントエンドにする | 採用（プロトタイプ範囲） |
+| [ADR-0003](architecture/adr/0003-production-stack-pending.md) | 本番技術スタックと未決プロダクト事項を保留する | 提案 |
+| [ADR-0004](architecture/adr/0004-auction-operating-rules.md) | MVPオークションの入札・終了・出品変更ルール | 一部置き換え（入札・終了は ADR-0007） |
+| [ADR-0005](architecture/adr/0005-google-only-authentication.md) | Google認証に一本化する | 採用 |
+| [ADR-0006](architecture/adr/0006-database-sqlite-to-postgresql.md) | データベースは SQLite3 で始め、PostgreSQL に移行する | 採用（ORM は SQLAlchemy 2.x + Alembic） |
+| [ADR-0007](architecture/adr/0007-align-with-yahoo-auctions.md) | オークションの仕様を Yahoo!オークションに合わせる | 採用（方針） |
+| [ADR-0008](architecture/adr/0008-mvp-implementation-provisional-decisions.md) | 出品・入札・落札の実装を始めるための仮決め | 採用（仮決め） |
+| [ADR-0009](architecture/adr/0009-fees.md) | 手数料は落札時のみ、落札価格の10%（税込）とする | 提案中 |
 
 ### その他
 - [API設計案](api/openapi.md)、[API文書案内](api/README.md)
