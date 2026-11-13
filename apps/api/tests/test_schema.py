@@ -105,6 +105,7 @@ def make_auction(listing, **overrides) -> Auction:
         starts_at=now,
         ends_at=now + timedelta(days=3),
         original_ends_at=now + timedelta(days=3),
+        current_price=1000,
     )
     values.update(overrides)
     return Auction(**values)

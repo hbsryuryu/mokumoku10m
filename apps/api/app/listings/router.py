@@ -34,7 +34,10 @@ def list_categories(db: DbSession = Depends(get_db)):
 def search_listings(
     q: str | None = Query(None, max_length=100, description="キーワード（タイトル・説明の部分一致）"),
     category_id: int | None = Query(None, alias="categoryId"),
-    sort: Literal["ending", "newest"] = Query("ending", description="ending=終了が近い順、newest=新着順"),
+    sort: Literal["ending", "newest", "price_asc", "price_desc", "bids"] = Query(
+        "ending",
+        description="ending=終了が近い順、newest=新着順、price_asc/price_desc=現在の価格の安い順/高い順、bids=入札数の多い順",
+    ),
     limit: int = Limit,
     offset: int = Offset,
     db: DbSession = Depends(get_db),

@@ -32,12 +32,17 @@ def error_body(code: str, message: str, details: dict[str, Any] | None = None) -
 
 # よく使うエラー
 def not_authenticated() -> ApiError:
-    return ApiError(status.HTTP_401_UNAUTHORIZED, "NOT_AUTHENTICATED", "ログインしてください")
+    # コード名は API 仕様書（docs/api/openapi.md）に合わせる。
+    return ApiError(status.HTTP_401_UNAUTHORIZED, "UNAUTHENTICATED", "ログインしてください")
 
 
-def not_found(message: str = "見つかりません") -> ApiError:
+def not_found(message: str = "見つかりません", code: str = "NOT_FOUND") -> ApiError:
     # 他人の下書きなど「存在を知られたくないもの」にも 404 を返す（IDOR 対策）。
-    return ApiError(status.HTTP_404_NOT_FOUND, "NOT_FOUND", message)
+    return ApiError(status.HTTP_404_NOT_FOUND, code, message)
+
+
+def listing_not_found() -> ApiError:
+    return not_found("出品が見つかりません", "LISTING_NOT_FOUND")
 
 
 def install_error_handlers(app: FastAPI) -> None:

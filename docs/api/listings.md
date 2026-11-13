@@ -98,7 +98,7 @@ stateDiagram-v2
 
 - 公開中で、入札がない出品だけ取り下げられる（ADR-0004）。出品とオークションの状態は `cancelled` になり、ほかの人からは見えなくなる。
 - 入札との競合を防ぐため、**オークションの悲観ロック**（`app/locking.py`）を取ってから状態を確認する。
-- 入札がある場合は 409 `HAS_BIDS`（入札の実装後に有効になる）。
+- 入札がある場合は 409 `HAS_BIDS`（早期終了は AUC-001 で追加予定）。
 
 ## 検索 `GET /api/v1/listings`
 
@@ -106,7 +106,7 @@ stateDiagram-v2
 |---|---|
 | `q` | キーワード（タイトル・説明の部分一致、最大100文字）。`%` や `_` も文字として扱う |
 | `categoryId` | カテゴリで絞り込み |
-| `sort` | `ending`（終了が近い順、既定）/ `newest`（新着順） |
+| `sort` | `ending`（終了が近い順、既定）/ `newest`（新着順）/ `price_asc`・`price_desc`（現在の価格の安い順・高い順）/ `bids`（入札数の多い順） |
 | `limit` / `offset` | 1ページの件数（1〜50、既定20）と開始位置 |
 
 ```json
@@ -126,7 +126,7 @@ stateDiagram-v2
 ```
 
 - 公開中（`published`）で、オークションが開催中かつ終了時刻前のものだけ。
-- 検索は当面 `LIKE`（ADR-0006）。価格順・入札数順の並び替えは、入札（BID-001）の実装後に追加する。
+- 検索は当面 `LIKE`（ADR-0006）。価格・入札数の並び替えは、オークションの集計列（`current_price`・`bid_count`、BID-001）を使う。
 - ページ送りは当面 `limit` / `offset`。API 仕様書の「カーソル方式等」は、件数が増えたら見直す。
 
 ## 出品の詳細（各 API の返り値）
@@ -151,15 +151,15 @@ stateDiagram-v2
 ```
 
 - `auction` は公開前は `null`。
-- `currentPriceYen`・`minimumBidYen`・`bidCount` は、入札がない今は「開始価格・開始価格・0」。入札（BID-001）の実装で、自動入札と入札単位（ADR-0007）から計算するようになる。
+- `currentPriceYen`・`minimumBidYen`・`bidCount` は、自動入札と入札単位（ADR-0007）で計算した値（[入札 API](bids.md)）。入札がなければ「開始価格・開始価格・0」。最高額入札者・最高入札額は返さない。
 
 ## エラーコード
 
 | HTTP | `code` | 意味 |
 |---|---|---|
-| 401 | `NOT_AUTHENTICATED` | ログインしていない |
+| 401 | `UNAUTHENTICATED` | ログインしていない（API 仕様書のコード名に合わせた） |
 | 403 | `NICKNAME_REQUIRED` | 表示名（ニックネーム）が未設定 |
-| 404 | `NOT_FOUND` | 出品がない、または見る権限がない |
+| 404 | `LISTING_NOT_FOUND` | 出品がない、または見る権限がない（存在しない URL は `NOT_FOUND`） |
 | 409 | `VERSION_CONFLICT` | `expectedVersion` が古い（ほかで更新された） |
 | 409 | `LISTING_NOT_EDITABLE` | その状態ではできない操作（公開済みの編集・二重公開など） |
 | 409 | `HAS_BIDS` | 入札がある出品は取り下げできない |

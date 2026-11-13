@@ -112,6 +112,11 @@ class Auction(Base):
         CheckConstraint(
             f"end_reason IS NULL OR end_reason IN {AUCTION_END_REASONS}", name="end_reason"
         ),
+        # 集計列（0003）。入札と同じトランザクションで更新する。正は bids の履歴。
+        CheckConstraint(
+            f"current_price >= start_price AND current_price <= {PRICE_MAX}", name="current_price_range"
+        ),
+        CheckConstraint("bid_count >= 0", name="bid_count_non_negative"),
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -124,6 +129,10 @@ class Auction(Base):
     # 自動延長で更新される終了時刻。延長前の値は original_ends_at に残す。
     ends_at: Mapped[datetime] = mapped_column(UTCDateTime, index=True)
     original_ends_at: Mapped[datetime] = mapped_column(UTCDateTime)
+    # 集計列（0003）：自動入札で計算した現在の価格・最高額入札者・入札数（ADR-0007、BID-001）
+    current_price: Mapped[int] = mapped_column(Integer)
+    highest_bidder_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    bid_count: Mapped[int] = mapped_column(Integer, default=0)
     status: Mapped[str] = mapped_column(String(16), default="active", index=True)
     end_reason: Mapped[str | None] = mapped_column(String(16))
     ended_at: Mapped[datetime | None] = mapped_column(UTCDateTime)
