@@ -1,5 +1,7 @@
 # ドメインモデル
 
+> テーブル・列・制約の具体的な設計は [`database-schema.md`](database-schema.md) を参照。
+
 > 出典: AGENTS.md 4章。ER 図・属性の詳細は今後追記する。
 
 | エンティティ | 概要 |

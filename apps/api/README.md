@@ -15,12 +15,14 @@ apps/api/
 ├── alembic.ini          # Alembic の設定（Windows で読めるよう ASCII 文字だけで書く）
 ├── alembic/             # マイグレーション
 │   ├── env.py           # 接続先は app.config から読む。SQLite3 用に batch モード
-│   └── versions/        # マイグレーションファイル（まだなし）
+│   └── versions/        # マイグレーションファイル（0001, 0002 … の連番）
 ├── app/
-│   ├── main.py          # FastAPI のアプリ本体（今は /health のみ）
-│   ├── config.py        # 環境変数の読み込み
-│   └── db.py            # DB 接続（SQLite3 の PRAGMA 設定を含む）
-└── tests/               # pytest のテスト
+│   ├── main.py          # FastAPI のアプリ本体（create_app で組み立てる）
+│   ├── config.py        # 環境変数の読み込みと、危険な設定の起動前チェック
+│   ├── db.py            # DB 接続、UTC 日時の型、制約の命名規則
+│   ├── models/          # テーブル定義（user.py：会員・認証・セッション、listing.py：カテゴリ・出品・オークション）
+│   └── auth/            # セッション、ログイン中の会員の取り出し、/me・ログアウト、開発用ログイン
+└── tests/               # pytest のテスト（conftest.py がテスト専用の DB を用意する）
 ```
 
 ## よく使うコマンド（Docker Compose）
@@ -34,9 +36,11 @@ docker compose run --rm api pytest
 # マイグレーションを適用する
 docker compose run --rm api alembic upgrade head
 
-# モデルを変えたあと、マイグレーションファイルを自動生成する
-docker compose run --rm api alembic revision --autogenerate -m "変更内容"
+# モデルを変えたあと、マイグレーションファイルを自動生成する（--rev-id は次の連番）
+docker compose run --rm api alembic revision --autogenerate --rev-id 0002 -m "add bids table"
 ```
+
+自動生成したマイグレーションは必ず中身を確認し、PR に含めてください。テストは Alembic でテーブルを作るので、マイグレーションの間違いはテストで分かります。
 
 ## Docker を使わずに動かす場合
 
@@ -47,7 +51,12 @@ py -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
 
-pytest                      # テスト
+pytest                      # テスト（テスト専用の一時 DB を使う）
+
+# ローカル開発環境として動かす（指定しないと本番扱いになり、開発用ログインが使えない）
+$env:APP_ENV = "local"
+$env:DEV_LOGIN_ENABLED = "true"
+alembic upgrade head            # テーブルを作る
 uvicorn app.main:app --reload   # http://localhost:8000 で起動
 ```
 
@@ -58,7 +67,12 @@ uvicorn app.main:app --reload   # http://localhost:8000 で起動
 | 名前 | 意味 | 既定値 |
 |---|---|---|
 | `DATABASE_URL` | DB の接続先（SQLAlchemy の URL 形式） | Docker：`sqlite:////data/app.sqlite3`／Docker なし：`sqlite:///./app.sqlite3` |
+| `APP_ENV` | 実行環境。`local` のときだけ開発用の機能を使える | Docker：`local`／Docker なし：`production`（安全のため） |
+| `DEV_LOGIN_ENABLED` | 開発用ログイン（AUTH-002）。`APP_ENV=local` 以外で `true` にすると起動を拒否する | Docker：`true`／Docker なし：`false` |
+| `SESSION_TTL_HOURS` | ログインセッションの有効期間（時間） | `720`（30日、仮の値） |
 | `GOOGLE_CLIENT_ID` など | Google ログイン（AUTH-001）用。まだ使っていない | なし |
+
+空の値（`DEV_LOGIN_ENABLED=` など）は「未指定」として扱い、既定値を使います。
 
 見本はリポジトリ直下の [`.env.example`](../../.env.example) にあります。秘密情報は `.env` に書き、コミットしないでください。
 
@@ -67,4 +81,6 @@ uvicorn app.main:app --reload   # http://localhost:8000 で起動
 - DB 固有の機能をアプリのコードに直接書かない。SQLAlchemy を通して書く。
 - 金額は整数（円）、日時は UTC で保存する。
 - 入札を受け付けるときのロックは、SQLite3 と PostgreSQL の違いを吸収する関数1か所にまとめる。
-- マイグレーションは必ず Alembic で作り、PR に含める。
+- マイグレーションは必ず Alembic で作り、PR に含める。マイグレーションの中でアプリのコード（`app.*`）を import しない。
+- 日時の列は `app.db.UTCDateTime` を使う（タイムゾーンのない日時は保存時にエラーになる）。
+- ログインが必要な API は `Depends(get_current_user)`（`app/auth/deps.py`）で会員を受け取る。ログイン方式（Google / 開発用）を意識しない。

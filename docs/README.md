@@ -31,6 +31,7 @@
 
 ### architecture
 - [全体構成](architecture/overview.md)、[ドメインモデル](architecture/domain-model.md)
+- [データベースのテーブル設計](architecture/database-schema.md)：テーブル・列・制約と実装状況
 - [入札・終了処理のトランザクション仕様](architecture/auction-bid-transaction.md)
 - [AUTH-001: Google ログイン（設計）](architecture/auth-001-google-login-design.md)：提案中
 
