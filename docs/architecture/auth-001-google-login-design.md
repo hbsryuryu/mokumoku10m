@@ -151,3 +151,19 @@ AGENTS.md 4章の `User` / `AuthIdentity` を具体化し、`Session` を追加�
 | 更新トークン | 「テスト中」かつ外部ユーザーのアプリでは7日で失効する（基本のスコープだけなら対象外）。1アカウント・1クライアントあたり100個まで | [Using OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) |
 | 公開・審査 | 「本番環境」にするには、名前やロゴの表示のために審査が必要になる場合がある | [OAuth app state overview](https://developers.google.com/identity/protocols/oauth2/production-readiness/overview) |
 
+
+## AUTH-001の実装詳細
+
+- OAuth認可コード交換はAuthlib（1.7以上2未満、BSD-3-Clause）、HTTP通信はHTTPX、JWT検証はjoserfcを使用する。独自JWT検証を避け、既存セッションの仕組みを再利用する。Authlib/HTTPXの互換性・更新時のテストを保守対象とする。
+- Googleの認可・トークン・JWKSの取得先は固定する。署名アルゴリズムはRS256のみ許可し、iss・aud・exp・iat・sub・nonce・emailを必須検証。email_verifiedは真偽値trueのみ許可し、複数audience時のazpも確認する。
+- stateのSHA-256、ブラウザ照合用乱数のSHA-256、nonce、PKCE verifier、サイト内の戻り先、有効期限をOAuthAttemptに保存する。期限は10分。ブラウザにはHttpOnly/SameSite=Laxの照合Cookieだけを保存し、本番はSecure・__Host-接頭辞を付ける。
+- callbackはブラウザを照合後、期限内の要求を条件付きDELETEしてコミットする。削除件数1件だけが続行でき、ネットワーク処理の前に一回限りの消費を確定する。キャンセル・失敗時も再利用できず、開始操作からやり直す。期限切れの行は次の開始操作で削除する。
+- Googleのsubだけで会員を識別する。同時初回作成はAuthIdentity一意制約とSAVEPOINTで重複・孤立会員を防ぐ。メール一致による統合は行わない。
+- 初回User.display_nameはnullとし、Next.jsの `/login?setup=1` でニックネームを設定する。`PATCH /api/v1/me` はログイン必須、前後空白を除いて1〜30文字。Googleの氏名・写真を保存しない。
+- Googleログイン時も既存と同じアプリセッションを発行し、ブラウザの以前のセッションを失効する。有効期間は既存のSESSION_TTL_HOURS（仮値720時間）のままで、正式な期限の未決事項は維持する。
+- 戻り先オリジンはWEB_ORIGINの固定値。任意のHostやX-Forwarded-Hostから構成しない。callbackのホストと画面のホストは一致させ、本番はHTTPSのみ許可する。
+- 認証の開始・callbackは接続元ごとに合計20回/分を上限とする。現在は単一APIプロセス内の制限であり、複数プロセス・本番では共有ストアまたは信頼できる入口で制限を設計する。
+- Google認証有効時は環境を問わず更新要求のOriginを確認する。uvicornのGoogle認証アクセスログはクエリを削除し、認可コード・state・トークンを記録しない。
+- 状態確認は `GET /api/v1/auth/options`（Google・開発用ログインの有効/無効のみ、no-store）。Google障害・拒否は固定のエラー種別で画面に戻し、例外本文を返さない。
+
+この節は実装上の選択を記録する。文書のチーム確認待ち状態や、未決の運用事項を採用済みへ変更するものではない。

@@ -1,6 +1,7 @@
 """ログイン中の会員の情報とログアウト（AUTH-001 / AUTH-002 共通）。"""
 
 from fastapi import APIRouter, Depends, Response, status
+from pydantic import Field, field_validator
 from sqlalchemy.orm import Session as DbSession
 
 from app.auth.deps import get_current_session, get_current_user
@@ -29,6 +30,23 @@ def read_me(user: User = Depends(get_current_user)) -> MeResponse:
     return to_me(user)
 
 
+class NicknameRequest(ApiModel):
+    display_name: str = Field(min_length=1, max_length=30)
+
+    @field_validator("display_name", mode="before")
+    @classmethod
+    def trim_name(cls, value):
+        return value.strip() if isinstance(value, str) else value
+
+
+@router.patch("/me", response_model=MeResponse)
+def update_me(body: NicknameRequest, user: User = Depends(get_current_user),
+              db: DbSession = Depends(get_db)):
+    user.display_name = body.display_name
+    db.commit()
+    return to_me(user)
+
+
 @router.post("/auth/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(
     response: Response,
@@ -37,8 +55,7 @@ def logout(
     settings: Settings = Depends(get_settings),
 ) -> Response:
     """サーバー側のセッションを無効化し、Cookie を消す。"""
-    # TODO(AUTH-001): Google ログインの実装時に、Origin ヘッダーの確認による CSRF 対策（設計 T-14）を追加する。
-    # 現在は Cookie の SameSite=Lax で、別サイトからの POST に Cookie が送られないことに頼っている。
+    # Originチェックはmain.py、CookieはSameSite=Laxで保護する。
     session.revoked_at = utcnow()
     db.commit()
     response.status_code = status.HTTP_204_NO_CONTENT

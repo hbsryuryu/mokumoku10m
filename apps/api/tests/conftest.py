@@ -16,6 +16,8 @@ os.environ["APP_ENV"] = "local"
 os.environ["DEV_LOGIN_ENABLED"] = "true"
 # 終了処理の定期実行は止め、テストでは run_once などを直接呼ぶ（タイミングに依存しないため）
 os.environ["FINALIZER_INTERVAL_SECONDS"] = "0"
+for _key in ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REDIRECT_URI"):
+    os.environ[_key] = ""
 
 import pytest  # noqa: E402
 from alembic import command  # noqa: E402
@@ -33,6 +35,7 @@ from app.models import (  # noqa: E402
     BidRequest,
     Listing,
     Order,
+    OAuthAttempt,
     Session,
     User,
 )
@@ -57,7 +60,7 @@ def clean_tables():
     yield
     with SessionLocal() as db:
         # 外部キーの依存の逆順に消す。カテゴリは初期データなので残す。
-        for model in (BidRequest, Order, Bid, Auction, Listing, Session, AuthIdentity, User):
+        for model in (OAuthAttempt, BidRequest, Order, Bid, Auction, Listing, Session, AuthIdentity, User):
             db.execute(delete(model))
         db.commit()
 

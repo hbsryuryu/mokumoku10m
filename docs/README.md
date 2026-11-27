@@ -87,6 +87,7 @@ ADR は決め事の粒度で3階層に分ける。ファイルの場所と番号
 - ADR-0008 は認証・出品・終了処理の仮決めが1本に入っている。正式に決めた項目から、領域ごとの L2 の ADR で置き換える。
 
 ### その他
+- [Googleログインの設定・確認・復旧](runbooks/google-login.md)
 - [オークションサービス テスト仕様書](testing/auction-test-cases.md)：正常系・異常系・境界値・競合・主要フローと仕様確認項目
 - [API仕様書](api/openapi.md)、[出品 API](api/listings.md)、[入札 API](api/bids.md)、[終了処理・早期終了](api/auctions.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)

@@ -170,3 +170,9 @@ erDiagram
 | 取り下げ（今後：入札・終了処理・運営停止） | 悲観ロック。PostgreSQL は `SELECT ... FOR UPDATE`、SQLite3 は `BEGIN IMMEDIATE` | `app/locking.py` の `lock_auction` |
 
 - SQLite3 では、Python の sqlite3 の既定の動き（読み込みはトランザクションの外、書き込みの直前に `BEGIN`）を変えない。すべてのトランザクションを `BEGIN` で始めると、WAL では「読み込みで始めたトランザクションが、ほかの接続の書き込みのあとで書き込もうとする」と即座に `database is locked` になる（`tests/test_locking.py` で確認）。
+
+## OAuthAttempt（migration 0004）
+
+Google認証途中の一時データ。`state_hash`（String64、主キー）、`browser_hash`（String64）、`nonce`・`verifier`（String128）、`return_path`（String2048）、`expires_at`（UTC、索引）を持つ。全列NOT NULL、会員への外部キーは持たない。state・ブラウザ照合乱数はSHA-256で保存する。nonceとPKCE verifierは認証処理のため短時間保存し、アクセスを制限する。
+
+10分以内に正しいブラウザからのcallbackで条件付きDELETEし、削除件数1の処理だけを認証へ進める。期限切れは新規認証開始時に掃除する。既存データは変更しない。ロールバックは追加テーブルのみ削除し、進行中の認証はやり直しとなる。会員・セッション・入札・注文は削除しない。

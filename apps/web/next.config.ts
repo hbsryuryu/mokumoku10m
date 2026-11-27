@@ -6,6 +6,8 @@ import type { NextConfig } from "next";
 const apiOrigin = process.env.API_ORIGIN ?? "http://localhost:8000";
 
 const nextConfig: NextConfig = {
+  // Googleからの認可コードやstateを開発サーバーのアクセスログへ出さない。
+  logging: { incomingRequests: { ignore: [/\/api\/v1\/auth\/google/] } },
   async rewrites() {
     return [{ source: "/api/:path*", destination: `${apiOrigin}/api/:path*` }];
   },
