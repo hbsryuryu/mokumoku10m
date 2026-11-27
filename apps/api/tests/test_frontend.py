@@ -41,3 +41,18 @@ def test_local_browser_writes_require_same_origin(client):
         "/api/v1/dev/login", json=body, headers={"Origin": "http://testserver"},
     ).status_code == 200
     assert client.get("/api/v1/me").status_code == 200
+
+
+def test_configured_web_origin_is_allowed():
+    """Next.js（apps/web）から /api/* を転送したときのブラウザの Origin を、設定で許可できる（ADR-0010）。"""
+    client = TestClient(create_app(Settings(
+        app_env="local", dev_login_enabled=True, allowed_origins="http://localhost:3000, http://127.0.0.1:3000/",
+    )))
+    for origin in ("http://localhost:3000", "http://127.0.0.1:3000"):
+        response = client.post(
+            "/api/v1/dev/login", json={"displayName": "web-user"}, headers={"Origin": origin}
+        )
+        assert response.status_code == 200, origin
+    other = client.post("/api/v1/dev/login", json={"displayName": "x"}, headers={"Origin": "http://localhost:4000"})
+    assert other.status_code == 403
+    assert other.json()["error"]["code"] == "ORIGIN_NOT_ALLOWED"

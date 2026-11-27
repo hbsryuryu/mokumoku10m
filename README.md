@@ -10,7 +10,7 @@
 
 | 部分 | 状態 |
 |---|---|
-| フロントエンド | HTML/CSS/JavaScript。APIと同じURLで配信し、ログイン・検索・出品をバックエンドに接続 |
+| フロントエンド | **Next.js**（`apps/web/`、[ADR-0010](docs/adr/0010-web-frontend-nextjs.md)・[ADR-0011](docs/adr/0011-web-implementation-provisional-decisions.md)）。http://localhost:3000 で、ログイン・出品・入札・落札・マイページが使える（[画面の手順](docs/runbooks/local-web.md)）。旧来の静的デモ（`index.html` など）も http://localhost:8000/ で動く |
 | バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me`、**出品**（[出品 API](docs/api/listings.md)）、**入札**（自動入札・自動延長・即決、[入札 API](docs/api/bids.md)）、**終了・落札**（30秒ごとの終了処理・早期終了・取引一覧、[終了処理](docs/api/auctions.md)）まで。**出品 → 入札 → 落札が API で一周する** |
 | データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)）。会員・セッション・カテゴリ・出品・オークションのテーブルまで（[テーブル設計](docs/architecture/database-schema.md)） |
 | 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）は未実装。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
@@ -25,12 +25,17 @@
 ├── compose.yaml           # ローカル開発用の Docker Compose 設定
 ├── .env.example           # 環境変数の見本（コピーして .env を作る）
 ├── apps/
-│   └── api/               # バックエンド API（FastAPI）→ apps/api/README.md
+│   ├── api/               # バックエンド API（FastAPI）→ apps/api/README.md
+│   └── web/               # Web 画面（Next.js）→ apps/web/README.md
 ├── docs/                  # 要件・設計・ADR・運用手順 → docs/README.md
-└── index.html, styles.css, app.js   # 静的デモ（将来 apps/web/ に移す候補）
+└── index.html, styles.css, app.js   # 静的デモ（デザインの元。Next.js の画面に置き換え中）
 ```
 
-## ローカル開発の始め方（バックエンド API）
+## ローカル開発の始め方
+
+`docker compose up --build` で、**画面（http://localhost:3000）と API（http://localhost:8000）がいっしょに起動**します。画面で一周（ログイン → 出品 → 入札 → 落札）を試す手順は [`docs/runbooks/local-web.md`](docs/runbooks/local-web.md) を見てください。以下は API の詳しい始め方です。
+
+### バックエンド API
 
 必要なもの：[Docker Desktop](https://www.docker.com/products/docker-desktop/)（起動しておく）
 

@@ -72,7 +72,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         async def check_local_origin(request: Request, call_next):
             origin = request.headers.get("origin")
             if request.method in {"POST", "PATCH", "PUT", "DELETE"} and origin:
-                if origin != str(request.base_url).rstrip("/"):
+                allowed = {str(request.base_url).rstrip("/")} | settings.allowed_origin_set
+                if origin.rstrip("/") not in allowed:
                     return JSONResponse(
                         status_code=403,
                         content={"error": {"code": "ORIGIN_NOT_ALLOWED",
