@@ -5,6 +5,7 @@
 | 手順書 | 内容 |
 |---|---|
 | [`local-backend.md`](local-backend.md) | バックエンド API（FastAPI）を Docker Compose でローカル起動する |
+| [`local-web.md`](local-web.md) | Web 画面（Next.js）を起動し、ログイン → 出品 → 入札 → 落札を試す |
 | [`local-prototype.md`](local-prototype.md) | 静的デモをローカルで確認する |
 | [`production-readiness.md`](production-readiness.md) | 本番公開前の確認事項 |
 

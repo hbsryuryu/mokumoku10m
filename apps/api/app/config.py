@@ -21,6 +21,15 @@ class Settings(BaseSettings):
     # ローカル画面の配信元。Dockerでは /frontend を指定する。
     frontend_directory: str | None = None
 
+    # ローカルの Origin チェックで、API 自身に加えて許可する接続元（カンマ区切り）。
+    # Next.js（apps/web、ADR-0010）の開発サーバーから /api/* を転送するときに、ブラウザの Origin
+    # （例: http://localhost:3000）がそのまま届くため、ここで許可する。
+    allowed_origins: str = ""
+
+    @property
+    def allowed_origin_set(self) -> set[str]:
+        return {o.strip().rstrip("/") for o in self.allowed_origins.split(",") if o.strip()}
+
     # セッションの有効期間（時間）。仮の値（最後の操作からではなく、発行から30日）。
     # AUTH-001 の未決事項「セッションの有効期限」が決まったら見直す。
     session_ttl_hours: int = 24 * 30

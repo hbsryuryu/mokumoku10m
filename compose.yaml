@@ -1,5 +1,6 @@
 # ローカル開発用の Docker Compose 設定
-# 使い方はリポジトリ直下の README.md と docs/runbooks/local-backend.md を参照。
+# 使い方はリポジトリ直下の README.md、docs/runbooks/local-backend.md・local-web.md を参照。
+# 画面（Next.js）: http://localhost:3000 、API: http://localhost:8000
 
 services:
   api:
@@ -20,6 +21,8 @@ services:
       # Feature AUTH-002: 開発用ログイン。APP_ENV=local のときだけ使える（ADR-0008）
       DEV_LOGIN_ENABLED: ${DEV_LOGIN_ENABLED:-true}
       FRONTEND_DIRECTORY: /frontend
+      # Next.js（web サービス）から /api/* を転送したときのブラウザの Origin を許可する（ADR-0010）
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:${WEB_PORT:-3000}}
     volumes:
       # コードはフォルダごとマウントして、変更をすぐ反映する
       - ./apps/api:/app
@@ -28,6 +31,29 @@ services:
       - ./styles.css:/frontend/styles.css:ro
       # SQLite3 のファイルは Windows のフォルダに置かず named volume に置く（ファイルロックを安定させるため）
       - api-data:/data
+
+  # Web フロントエンド（Next.js、ADR-0010）。開発モードで起動し、コードの変更を自動で反映する。
+  web:
+    image: node:22-slim
+    working_dir: /app
+    # node_modules はコンテナの中（named volume）に入れる。Windows の node_modules とは別物なので混ぜない。
+    # --webpack：Next.js 16 の既定（Turbopack）は、Windows のフォルダをマウントしたときにファイルの変更を
+    # 検知できず、保存しても画面に反映されない。webpack は WATCHPACK_POLLING で定期的に確認できる（ADR-0011）。
+    command: sh -c "npm ci --no-audit --no-fund && npm run dev -- --webpack --hostname 0.0.0.0 --port 3000"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      # /api/* の転送先（apps/web/next.config.ts）。コンテナ間では api サービスの名前で届く
+      API_ORIGIN: http://api:8000
+      # Windows のフォルダをマウントすると変更が通知されないので、定期的に確認させる（webpack のときに効く）
+      WATCHPACK_POLLING: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - ./apps/web:/app
+      - web-node-modules:/app/node_modules
+      - web-next:/app/.next
+    depends_on:
+      - api
 
   # ADR-0006: PostgreSQL に移行するときに有効にする（今は使わない）
   # db:
@@ -41,4 +67,6 @@ services:
 
 volumes:
   api-data:
+  web-node-modules:
+  web-next:
   # db-data:

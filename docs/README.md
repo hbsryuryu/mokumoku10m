@@ -79,6 +79,7 @@ ADR は決め事の粒度で3階層に分ける。ファイルの場所と番号
 | 番号 | タイトル | 上位 | 状態 |
 |---|---|---|---|
 | [ADR-0008](adr/0008-mvp-implementation-provisional-decisions.md) | 出品・入札・落札の実装を始めるための仮決め | ADR-0004、0005、0006、0007 | 採用（仮決め） |
+| [ADR-0011](adr/0011-web-implementation-provisional-decisions.md) | Web フロントエンド（Next.js）の最初の実装での仮決め（スタイリング・型・テスト） | ADR-0010 | 採用（仮決め） |
 
 **今後の整理候補**（採用済みの ADR は書き換えず、新しい ADR で置き換える）
 
@@ -89,7 +90,7 @@ ADR は決め事の粒度で3階層に分ける。ファイルの場所と番号
 - [オークションサービス テスト仕様書](testing/auction-test-cases.md)：正常系・異常系・境界値・競合・主要フローと仕様確認項目
 - [API仕様書](api/openapi.md)、[出品 API](api/listings.md)、[入札 API](api/bids.md)、[終了処理・早期終了](api/auctions.md)、[API文書案内](api/README.md)
 - [セキュリティ・プライバシー方針](security/security-and-privacy.md)
-- [ローカル開発手順（バックエンド API）](runbooks/local-backend.md)、[ローカル運用手順（静的デモ）](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
+- [ローカル開発手順（バックエンド API）](runbooks/local-backend.md)、[ローカル開発手順（Web 画面・Next.js）](runbooks/local-web.md)、[ローカル運用手順（静的デモ）](runbooks/local-prototype.md)、[本番準備](runbooks/production-readiness.md)、[運用文書案内](runbooks/README.md)
 
 ## 書き方ルール
 
