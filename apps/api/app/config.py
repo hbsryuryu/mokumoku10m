@@ -1,5 +1,7 @@
 from functools import lru_cache
+from urllib.parse import urlsplit
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -18,6 +20,14 @@ class Settings(BaseSettings):
 
     # Feature AUTH-002: 開発用ログイン。APP_ENV=local のときだけ有効にできる（ADR-0008）。
     dev_login_enabled: bool = False
+    google_client_id: str = ""
+    google_client_secret: str = Field(default="", repr=False)
+    google_redirect_uri: str = ""
+    web_origin: str = "http://localhost:3000"
+
+    @property
+    def google_enabled(self) -> bool:
+        return bool(self.google_client_id and self.google_client_secret and self.google_redirect_uri)
     # ローカル画面の配信元。Dockerでは /frontend を指定する。
     frontend_directory: str | None = None
 
@@ -63,6 +73,19 @@ def validate_settings(settings: Settings) -> None:
             "DEV_LOGIN_ENABLED=true は APP_ENV=local のときだけ使えます"
             f"（現在の APP_ENV={settings.app_env!r}）。"
         )
+    if settings.google_enabled:
+        for value in (settings.web_origin, settings.google_redirect_uri):
+            parsed = urlsplit(value)
+            local_http = settings.is_local and parsed.scheme == "http" and parsed.hostname in {"localhost", "127.0.0.1"}
+            if (not parsed.netloc or parsed.username or parsed.password or parsed.query or parsed.fragment
+                    or (parsed.scheme != "https" and not local_http)):
+                raise UnsafeSettingsError("Google認証のURL設定が不正です（本番はHTTPS必須）")
+        if urlsplit(settings.web_origin).path not in {"", "/"}:
+            raise UnsafeSettingsError("WEB_ORIGINにはパスを含めないでください")
+        if urlsplit(settings.google_redirect_uri).path != "/api/v1/auth/google/callback":
+            raise UnsafeSettingsError("GOOGLE_REDIRECT_URIのパスが認証APIと一致しません")
+        if urlsplit(settings.web_origin).hostname != urlsplit(settings.google_redirect_uri).hostname:
+            raise UnsafeSettingsError("Google認証の戻り先と画面は同じホスト名にしてください")
 
 
 @lru_cache

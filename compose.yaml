@@ -21,6 +21,7 @@ services:
       # Feature AUTH-002: 開発用ログイン。APP_ENV=local のときだけ使える（ADR-0008）
       DEV_LOGIN_ENABLED: ${DEV_LOGIN_ENABLED:-true}
       FRONTEND_DIRECTORY: /frontend
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:${WEB_PORT:-3000}}
       # Next.js（web サービス）から /api/* を転送したときのブラウザの Origin を許可する（ADR-0010）
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:${WEB_PORT:-3000}}
     volumes:

@@ -179,3 +179,14 @@
 ## 未決事項
 
 セッション有効期限、CSRF対策方式、レート制限値、公開入札履歴での匿名化、ページサイズ、検索仕様、画像署名アップロード、注文・決済API、管理者API、バージョニング方針は未決。決済APIを追加するのは決済ADRと運用準備の承認後に限る。
+
+## Google認証とニックネーム
+
+- `GET /api/v1/auth/options`: `googleEnabled`・`devLoginEnabled` の真偽値のみ返す（no-store、秘密情報なし）。
+- `GET /api/v1/auth/google/start?return_to=/me`: state・nonce・PKCEを発行し、Googleへ302。設定不足は503、過剰要求は429。return_toはサイト内の安全なパスだけを使い、不正値は `/` に置き換える。
+- `GET /api/v1/auth/google/callback`: ブラウザとの照合・一回限りのstate消費・Googleトークン検証を行い、アプリセッションCookieを発行してWEB_ORIGINへ302。初回の公開名未設定会員は `/login?setup=1&next=...` へ戻す。
+- callbackの拒否・期限切れ・Google障害は `/login?authError=failed`、キャンセルは `cancelled`、停止会員は `suspended`。例外やトークンを画面に返さない。認証操作は接続元ごと20回/分、stateは10分かつ一回限り。
+- `PATCH /api/v1/me`: 本人の公開ニックネームを保存。本文は `{ "displayName": "ニックネーム" }`。前後空白を除いて1〜30文字、成功は200でGET /meと同じ会員情報。未認証401、無効入力422。別会員を指定するIDやGoogleプロフィールを受け付けない。
+- ログアウトは既存のアプリセッションを失効し、Googleアカウント自体をログアウトしない。Google会員と開発用会員を自動統合しない。
+
+詳細は [認証設計](../architecture/auth-001-google-login-design.md) と [設定・復旧手順](../runbooks/google-login.md) を参照する。

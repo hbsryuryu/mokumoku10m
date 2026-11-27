@@ -2,6 +2,7 @@
 
 from app.models.bid import Bid, BidRequest
 from app.models.listing import Auction, Category, Listing
+from app.models.oauth import OAuthAttempt
 from app.models.order import Order
 from app.models.user import AuthIdentity, Session, User
 
@@ -13,6 +14,7 @@ __all__ = [
     "Category",
     "Listing",
     "Order",
+    "OAuthAttempt",
     "Session",
     "User",
 ]

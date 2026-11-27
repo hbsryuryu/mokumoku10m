@@ -2,13 +2,14 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
+from urllib.parse import unquote
 
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy import text
 
 from app.auctions import router as auctions_router
-from app.auth import dev_login
+from app.auth import dev_login, google
 from app.auth import router as auth_router
 from app.bids import router as bids_router
 from app.config import Settings, get_settings, validate_settings
@@ -21,6 +22,15 @@ from app.listings import router as listings_router
 def configure_logging() -> None:
     """アプリ（app.*）のログを INFO 以上で標準エラーに出す（uvicorn のログと並べて見るため）。"""
     app_logger = logging.getLogger("app")
+    class RedactAuthQuery(logging.Filter):
+        def filter(self, record):
+            if isinstance(record.args, tuple) and len(record.args) == 5:
+                args = list(record.args)
+                if isinstance(args[2], str) and "/auth/google" in unquote(args[2]):
+                    args[2] = args[2].split("?", 1)[0]
+                    record.args = tuple(args)
+            return True
+    logging.getLogger("uvicorn.access").addFilter(RedactAuthQuery())
     if not app_logger.handlers:
         handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter("%(levelname)s:     [%(name)s] %(message)s"))
@@ -60,6 +70,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     install_error_handlers(app)
     app.include_router(auth_router.router)
+    app.include_router(google.router)
     app.include_router(listings_router.router)  # Feature LST-004
     app.include_router(bids_router.router)  # Feature BID-001
     app.include_router(auctions_router.router)  # Feature AUC-001
@@ -67,12 +78,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # Feature AUTH-002: APP_ENV=local のときだけここに来る（validate_settings で保証）。
         app.include_router(dev_login.router)
 
-    if settings.is_local:
+    if settings.is_local or settings.google_enabled:
         @app.middleware("http")
         async def check_local_origin(request: Request, call_next):
             origin = request.headers.get("origin")
             if request.method in {"POST", "PATCH", "PUT", "DELETE"} and origin:
-                allowed = {str(request.base_url).rstrip("/")} | settings.allowed_origin_set
+                allowed = {str(request.base_url).rstrip("/"), settings.web_origin.rstrip("/")} | settings.allowed_origin_set
                 if origin.rstrip("/") not in allowed:
                     return JSONResponse(
                         status_code=403,
@@ -81,6 +92,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                     )
             return await call_next(request)
 
+    if settings.is_local:
         frontend = (
             Path(settings.frontend_directory)
             if settings.frontend_directory

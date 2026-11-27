@@ -13,7 +13,7 @@
 | フロントエンド | **Next.js**（`apps/web/`、[ADR-0010](docs/adr/0010-web-frontend-nextjs.md)・[ADR-0011](docs/adr/0011-web-implementation-provisional-decisions.md)）。http://localhost:3000 で、ログイン・出品・入札・落札・マイページが使える（[画面の手順](docs/runbooks/local-web.md)）。旧来の静的デモ（`index.html` など）も http://localhost:8000/ で動く |
 | バックエンド API | FastAPI（`apps/api/`、[ADR-0001](docs/adr/0001-backend-framework.md)）。開発用ログイン・ログアウト・`/me`、**出品**（[出品 API](docs/api/listings.md)）、**入札**（自動入札・自動延長・即決、[入札 API](docs/api/bids.md)）、**終了・落札**（30秒ごとの終了処理・早期終了・取引一覧、[終了処理](docs/api/auctions.md)）まで。**出品 → 入札 → 落札が API で一周する** |
 | データベース | 開発初期は SQLite3、本番前に PostgreSQL へ移行（[ADR-0006](docs/adr/0006-database-sqlite-to-postgresql.md)）。会員・セッション・カテゴリ・出品・オークションのテーブルまで（[テーブル設計](docs/architecture/database-schema.md)） |
-| 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）は未実装。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
+| 認証 | **Google ログインのみ**（[ADR-0005](docs/adr/0005-google-only-authentication.md)）。Google ログイン（AUTH-001）はOAuthクライアント設定で有効化。ローカル開発では **開発用ログイン**（AUTH-002、[ADR-0008](docs/adr/0008-mvp-implementation-provisional-decisions.md)）を使う |
 
 ## ディレクトリ構成
 
@@ -55,7 +55,7 @@ docker compose up --build
 
 ### 開発用ログインを試す
 
-Google ログインはまだないので、ローカルでは開発用ログインで会員になります（`APP_ENV=local` のときだけ使えます）。
+Googleの設定なしで試す場合は、ローカルの開発用ログインで会員になります（`APP_ENV=local` のときだけ使えます）。
 
 1. http://localhost:8000/docs を開く
 2. `POST /api/v1/dev/login` →「Try it out」→ `{"display_name": "seller1"}` を送る（同じ名前なら同じ会員になる）
@@ -109,4 +109,12 @@ Google ログインはまだないので、ローカルでは開発用ログイ�
 
 ## 次の実装段階
 
-MVPの本番相当化には、Google OIDCログインの実装、DBスキーマとマイグレーション、出品画像の検査付きアップロード、入札の原子性と競合テスト、終了処理と冪等な取引作成、通知Outbox、通報・運営監査、運用監視・バックアップ、法務・決済・本人確認設計が必要です。決済を伴う本番公開は、これらの運用準備が整うまで行いません。
+MVPの本番相当化には、Google OIDCログインの本番運用準備、DBスキーマとマイグレーション、出品画像の検査付きアップロード、入札の原子性と競合テスト、終了処理と冪等な取引作成、通知Outbox、通報・運営監査、運用監視・バックアップ、法務・決済・本人確認設計が必要です。決済を伴う本番公開は、これらの運用準備が整うまで行いません。
+
+## Googleログインを使う
+
+ルートの `.env` に `GOOGLE_CLIENT_ID`・`GOOGLE_CLIENT_SECRET`・`GOOGLE_REDIRECT_URI` を設定し、`docker compose up -d --build` 後に http://localhost:3000/login を開いて「Googleでログイン」を選びます。初回は公開ニックネームを設定します。Googleの氏名・写真は公開しません。
+
+現在のGoogle側の戻り先は `http://localhost:8000/api/v1/auth/google/callback` のままで使えます。画面は3000番、コールバックは8000番ですが、同じ `localhost` のCookieを共有します。`127.0.0.1` と `localhost` は混ぜないでください。認証後の戻り先は `WEB_ORIGIN`（既定は `http://localhost:3000`）です。
+
+開発用ログインで作成した会員とGoogleの会員は別です。表示名やメールの一致で統合せず、既存の出品は元の会員に残ります。運用・復旧手順は [Google認証手順](docs/runbooks/google-login.md) を参照してください。
