@@ -16,6 +16,7 @@ ADR-0010 と AGENTS.md（#55）で、「スタイリング・型の生成・テ�
 |---|---|---|
 | バージョン | Next.js 16.4.6、React 19.3.1、TypeScript 5.9.3（`package.json` で固定し、`package-lock.json` をコミット） | 2026-11-27 時点の安定版。TypeScript は 7.0 が出たばかりで Next.js の対応が不明なため 5 系の最新にした |
 | Node.js | 22（Docker は `node:22-slim`。`next` の要件は 20.9 以上） | 手元の Node.js（22.14）と合わせる |
+| 開発サーバー | Docker では `next dev --webpack`（手元で直接動かすときは既定の Turbopack でよい） | Windows のフォルダをマウントした Docker では、Turbopack がファイルの変更を検知できず、保存しても画面に反映されなかった。webpack は `WATCHPACK_POLLING=true` で定期的に確認でき、約6秒で反映されることを確認した |
 | ルーター | App Router（`app/`） | Next.js の標準。公開ページをサーバー側で描画できる（ADR-0010） |
 | スタイリング | **静的デモの `styles.css` をそのまま `app/globals.css` に移し、足りない分だけ追記する**。Tailwind CSS は**採用しない（今は）** | デザインがクラス名ベースの CSS でできており、そのまま使うのが見た目を再現する一番確実な方法。Tailwind への書き直しは作業量が大きく、見た目がずれやすい |
 | API の型 | `apps/web/lib/types.ts` に**手書き**する | API がまだ少ない。OpenAPI からの生成（候補: openapi-typescript）は、API が増えて手書きの食い違いが問題になったら導入する |

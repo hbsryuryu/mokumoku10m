@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    // globals.css の scroll-behavior: smooth を Next.js に伝える（ページ移動時は通常のスクロールにする）
+    <html lang="ja" data-scroll-behavior="smooth">
       <head>
         {/* 静的デモと同じフォント（Google Fonts）。 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

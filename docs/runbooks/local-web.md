@@ -12,7 +12,7 @@ docker compose up --build     # API と画面がいっしょに起動する
 - 画面：http://localhost:3000
 - API：http://localhost:8000（API の確認画面は http://localhost:8000/docs）
 - 初回は `web` サービスが `npm ci` で依存パッケージを入れるので、数分かかります（`docker compose logs -f web` で様子を見られます）。
-- コードを保存すると、自動で画面に反映されます。
+- コードを保存すると、数秒（約6秒）で自動で画面に反映されます。Docker では Windows のフォルダの変更を定期的に確認しているため、少し時間がかかります（`next dev --webpack`、ADR-0011）。
 
 ## 一周を試す（ログイン → 出品 → 入札 → 落札）
 
@@ -40,6 +40,10 @@ npm run dev                                 # http://localhost:3000
 
 API 側の `ALLOWED_ORIGINS` に `http://localhost:3000` が必要です（Docker では自動で設定されます。Docker なしで API を動かすときは `$env:ALLOWED_ORIGINS = "http://localhost:3000"`）。
 
+## E2E（ブラウザで一周）を回す
+
+`apps/web/e2e/flow.cjs` の先頭のコメントの手順で実行します（Playwright は一時的に入れる。Windows の Edge を使う）。商品名に実行ごとの印を付けるので、開発用の DB にデータが残っていても何度でも回せます。
+
 ## 確認コマンド
 
 ```powershell
@@ -56,5 +60,5 @@ npm run build       # 本番用のビルド（型チェックも行う）
 | ログイン・出品・入札で「許可されていない接続元です」（`ORIGIN_NOT_ALLOWED`） | API の `ALLOWED_ORIGINS` に画面の URL（例: `http://localhost:3000`）が入っていません。`WEB_PORT` を変えた場合は `ALLOWED_ORIGINS` も合わせてください |
 | ログインで「開発用ログインが無効です」 | API の `APP_ENV=local` と `DEV_LOGIN_ENABLED=true` が必要です（`local-backend.md`） |
 | `port is already allocated`（3000番） | ほかのプログラムが 3000 番を使っています。`.env` の `WEB_PORT=3001` のように変えてください |
-| コードを変えても画面が変わらない | `docker compose restart web`。それでも直らなければ `docker compose down` のあと `docker volume rm github_and_code_web-next` で Next.js のキャッシュを消す |
+| コードを変えても画面が変わらない（10秒以上待っても） | `docker compose restart web`。それでも直らなければ `docker compose down` のあと `docker volume rm github_and_code_web-next` で Next.js のキャッシュを消す |
 | `web` が `npm ci` で失敗する | `apps/web/package-lock.json` が `package.json` と合っていません。手元で `npm install` してロックファイルを更新し、コミットしてください |

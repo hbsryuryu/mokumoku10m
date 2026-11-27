@@ -9,6 +9,8 @@
 const { chromium } = require("playwright");
 
 const WEB = process.env.WEB_URL || "http://localhost:3000";
+// 開発用の DB はデータが残るので、実行ごとに商品名を変えて区別する
+const RUN = Date.now().toString(36);
 const log = (...a) => console.log("✔", ...a);
 const errors = [];
 
@@ -66,7 +68,7 @@ async function bid(page, url, amount, expectText) {
     const b = await newUser(browser, "buyerB");
 
     // 1. 即決：B が即決価格以上で入札 → 落札
-    const url1 = await sell(seller, { title: "E2E白釉の花器", start: 1000, buyout: 6000 });
+    const url1 = await sell(seller, { title: `E2E白釉の花器-${RUN}`, start: 1000, buyout: 6000 });
     await bid(a, url1, 2000, "あなたが最高額入札者です");
     await bid(b, url1, 1500, "ほかの方の最高入札額のほうが高い");
     // 自動入札：A 2000、B 1500 → 現在の価格 1,600円
@@ -82,7 +84,7 @@ async function bid(page, url, amount, expectText) {
     log("出品者側：落札されました と表示");
 
     // 2. 早期終了：A 3000、B 2500 → 出品者が早期終了 → A が 2,600円で落札
-    const url2 = await sell(seller, { title: "E2E木の椅子", start: 1000 });
+    const url2 = await sell(seller, { title: `E2E木の椅子-${RUN}`, start: 1000 });
     await bid(a, url2, 3000, "あなたが最高額入札者です");
     await bid(b, url2, 2500, "ほかの方の最高入札額のほうが高い");
     seller.once("dialog", (d) => d.accept());
@@ -93,12 +95,12 @@ async function bid(page, url, amount, expectText) {
     await a.goto(url2);
     await a.getByText(/あなたが ¥2,600 で落札しました/).waitFor();
     await a.goto(`${WEB}/me`);
-    await a.getByRole("cell", { name: "E2E木の椅子" }).waitFor();
+    await a.getByRole("cell", { name: `E2E木の椅子-${RUN}` }).waitFor();
     await a.getByText("落札した").first().waitFor();
     log("A のマイページの取引に表示");
 
     // 3. 自分の出品には入札できない
-    const url3 = await sell(seller, { title: "E2E自分の出品", start: 500 });
+    const url3 = await sell(seller, { title: `E2E自分の出品-${RUN}`, start: 500 });
     if (await seller.getByLabel(/最高入札額/).count()) throw new Error("出品者に入札欄が出ている");
     log("出品者には入札欄が出ない");
 
@@ -113,8 +115,8 @@ async function bid(page, url, amount, expectText) {
     log("古い金額での入札はサーバーが拒否し、最低入札額 ¥510 を案内・入力欄に反映");
 
     // 5. ゲストの一覧・検索・未ログインの案内
-    await guest.goto(`${WEB}/?q=E2E%E8%87%AA%E5%88%86`);
-    await guest.getByText("E2E自分の出品").waitFor();
+    await guest.goto(`${WEB}/?q=${encodeURIComponent(`E2E自分の出品-${RUN}`)}`);
+    await guest.locator(".product-title", { hasText: `E2E自分の出品-${RUN}` }).waitFor();
     await guest.goto(url3);
     await guest.getByText("入札するにはログインしてください").waitFor();
     log("ゲスト：検索・詳細・ログインの案内");
